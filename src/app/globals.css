@@ -8,3 +8,7 @@ body {
   width: 100vw;
   background: rgb(205, 205, 205);
 }
+
+.node {
+  @apply mb-3 flex h-[20px] w-[150px] cursor-grab items-center justify-center rounded-xl border bg-white p-5;
+}
