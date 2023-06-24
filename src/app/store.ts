@@ -19,7 +19,9 @@ interface Store {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  // eslint-disable-next-line no-unused-vars
   updateNode: (id: string, data: object) => void;
+  // eslint-disable-next-line no-unused-vars
   createNode: (type: any, position: any) => void;
 }
 
