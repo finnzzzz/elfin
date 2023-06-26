@@ -20,7 +20,7 @@ export default function Home() {
     console.log('add');
   };
 
-  const deleteScript = (id) => {
+  const deleteScript = (id: string) => {
     asyncDeleteWorkflow(id);
     console.log('delete');
   };
