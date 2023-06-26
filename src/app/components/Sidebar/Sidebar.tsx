@@ -6,7 +6,7 @@ import { signInWithPopup, signOut } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Sidebar = () => {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const login = async () => {
     await signInWithPopup(auth, authProvider);
