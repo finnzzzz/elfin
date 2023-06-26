@@ -2,12 +2,10 @@
   "extends": [
     "next",
     "next/core-web-vitals",
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime",
-    "plugin:react-hooks/recommended"
+    "eslint:recommended"
   ],
   "rules":{
-    "no-var":"error"
+    "no-var":"error",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   }
 }

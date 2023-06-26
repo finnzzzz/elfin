@@ -1,6 +1,7 @@
 'use client';
-
+// ---------------------------------------React
 import { useState, useRef, useCallback } from 'react';
+// ---------------------------------------React-Flow
 import ReactFlow, {
   Background,
   ReactFlowProvider,
@@ -9,17 +10,20 @@ import ReactFlow, {
   ReactFlowInstance,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-
+// ---------------------------------------Zustand
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
-
+// ---------------------------------------Components
 import Toolbox from './Toolbox';
+// ---------------------------------------NodesInterface
 import ClickEvent from '../nodes/ClickEvent';
 import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
+// ---------------------------------------FirebaseFunction
+import asyncAddWorkflow from '../api/workflowData/asyncAddWorkflow';
+import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 
 // ----------------------------------------------------------
-
 const selector = (store: any) => ({
   nodes: store.nodes,
   edges: store.edges,
@@ -35,7 +39,7 @@ const flowKey = 'demo-flow';
 
 type a = ReactFlowInstance;
 
-const Edit = () => {
+const EditPage = ({ id }) => {
   const store = useStore(selector, shallow);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
@@ -68,15 +72,49 @@ const Edit = () => {
     [reactFlowInstance, store]
   );
 
-  const onSave = useCallback(() => {
+  const onSave = useCallback(async () => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
       localStorage.setItem(flowKey, JSON.stringify(flow));
-      console.log(reactFlowInstance.toObject());
+
+      //儲存到firestore
+      const addedRes = await asyncAddWorkflow({ flow });
+
+      console.log('addedRes', addedRes);
+      console.log('save', reactFlowInstance.toObject());
     }
   }, [reactFlowInstance]);
 
-  const onRestore = () => {};
+  const onRestore = useCallback(() => {
+    // const restoreFlow = async () => {
+    //   const flow = JSON.parse(localStorage.getItem(flowKey));
+    //   if (flow) {
+    //     const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+    //     setNodes(flow.nodes || []);
+    //     setEdges(flow.edges || []);
+    //     setViewport({ x, y, zoom });
+    //   }
+    // };
+    // restoreFlow();
+    console.log('restore');
+  }, []);
+
+  const onUpdate = useCallback(
+    async (id) => {
+      if (reactFlowInstance) {
+        const flow = reactFlowInstance.toObject();
+        localStorage.setItem(flowKey, JSON.stringify(flow));
+
+        //儲存到firestore
+        const addedRes = await asyncUpdateWorkflow(id, { flow });
+
+        console.log('addedRes', addedRes);
+        console.log(reactFlowInstance.toObject());
+      }
+      console.log('update');
+    },
+    [reactFlowInstance]
+  );
 
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
@@ -100,6 +138,14 @@ const Edit = () => {
               <button className=' mr-2 border border-blue-500' onClick={onSave}>
                 save
               </button>
+              <button
+                className=' mr-2 border border-blue-500'
+                onClick={() => {
+                  onUpdate(id);
+                }}
+              >
+                update
+              </button>
               <button className='border border-blue-500' onClick={onRestore}>
                 restore
               </button>
@@ -112,4 +158,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditPage;

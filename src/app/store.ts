@@ -16,18 +16,35 @@ import {
 interface Store {
   nodes: Node[];
   edges: Edge[];
+  viewport: {};
+  setNodes: (_nodes: Node[]) => void;
+  setEdges: (_edges: Edge[]) => void;
+  setViewport: (_viewport: {}) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  // eslint-disable-next-line no-unused-vars
-  updateNode: (id: string, data: object) => void;
-  // eslint-disable-next-line no-unused-vars
-  createNode: (type: any, position: any) => void;
+  updateNode: (_nodeId: string, _data: object) => void;
+  createNode: (_type: any, _position: any) => void;
 }
 
 const useStore = create<Store>((set, get) => ({
   nodes: [],
   edges: [],
+  viewport: {},
+
+
+
+  setNodes: (nodes) => {
+    set({ nodes: nodes });
+  },
+
+  setEdges: (edges) => {
+    set({ edges });
+  },
+
+  setViewport: (viewport) => {
+    set({ viewport });
+  },
 
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -47,11 +64,11 @@ const useStore = create<Store>((set, get) => ({
     });
   },
 
-  updateNode: (id, data) => {
-    console.log(id, data);
+  updateNode: (nodeId, data) => {
+    console.log(nodeId, data);
     set({
       nodes: get().nodes.map((node) =>
-        node.id === id ? { ...node, data: { ...node.data, ...data } } : node
+        node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
       ),
     });
   },
@@ -63,21 +80,18 @@ const useStore = create<Store>((set, get) => ({
         const data = {};
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
-        console.log('store.nodes:', get().edges);
         break;
       }
       case 'trigger': {
         const data = {};
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
-        console.log('store.nodes:', get().nodes);
         break;
       }
       case 'delay': {
         const data = {};
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
-        console.log('store.nodes:', get().nodes);
         break;
       }
       default:
