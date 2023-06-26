@@ -35,12 +35,12 @@ const Toolbox = ({ nodes }: ToolBoxProps) => {
       >
         delay
       </div>
-      {nodes.map((node) => (
+      {nodes?.map((node) => (
         <div key={node.id}>
           Node {node.id} <br /> x: {node.position.x.toFixed(2)}, y:{' '}
           {node.position.y.toFixed(2)}
           <br />
-          type:{node.type}, data:{node.data.label}
+          type:{node.type}, data_CSS:{node.data?.CSS}
         </div>
       ))}
     </aside>
