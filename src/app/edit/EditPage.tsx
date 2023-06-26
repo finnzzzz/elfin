@@ -21,7 +21,6 @@ import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
 // ---------------------------------------FirebaseFunction
 import asyncAddWorkflow from '../api/workflowData/asyncAddWorkflow';
-import asyncSetWorkflow from '../api/workflowData/asyncSetWorkflow';
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 
 // ----------------------------------------------------------
