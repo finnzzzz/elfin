@@ -18,7 +18,7 @@ function ClickEvent({ id, isConnectable }: ClickEventProps) {
   const { setCSS } = useStore(selector(id), shallow);
 
   const nodes = useStore((state) => state.nodes);
-  const CSSValue = nodes?.filter((item) => item.id == id)[0].data.CSS;
+  const CSSValue = nodes?.filter((item) => item.id == id)[0]?.data?.CSS;
 
   console.log(CSSValue);
 
