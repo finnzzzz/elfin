@@ -1,0 +1,10 @@
+{
+  "name": "vite-extension",
+  "description": "extension",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "extension",
+    "default_popup": "index.html"
+  }
+}
