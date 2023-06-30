@@ -8,6 +8,7 @@ import ReactFlow, {
   Controls,
   Panel,
   ReactFlowInstance,
+  getOutgoers,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
@@ -72,33 +73,6 @@ const EditPage = ({ id }) => {
     [reactFlowInstance, store]
   );
 
-  const onSave = useCallback(async () => {
-    if (reactFlowInstance) {
-      const flow = reactFlowInstance.toObject();
-      localStorage.setItem(flowKey, JSON.stringify(flow));
-
-      //儲存到firestore
-      const addedRes = await asyncAddWorkflow({ flow });
-
-      console.log('addedRes', addedRes);
-      console.log('save', reactFlowInstance.toObject());
-    }
-  }, [reactFlowInstance]);
-
-  const onRestore = useCallback(() => {
-    // const restoreFlow = async () => {
-    //   const flow = JSON.parse(localStorage.getItem(flowKey));
-    //   if (flow) {
-    //     const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-    //     setNodes(flow.nodes || []);
-    //     setEdges(flow.edges || []);
-    //     setViewport({ x, y, zoom });
-    //   }
-    // };
-    // restoreFlow();
-    console.log('restore');
-  }, []);
-
   const onUpdate = useCallback(
     async (id) => {
       if (reactFlowInstance) {
@@ -116,6 +90,44 @@ const EditPage = ({ id }) => {
     [reactFlowInstance]
   );
 
+  let stack: any[] = [];
+
+  // const getall = (node) => {
+  //   const list = [];
+  //   while (node.length > 0) {
+  //     const nextnode = getOutgoers(node[0], store.nodes, store.edges);
+  //     list.push(nextnode[0]);
+  //     getall(nextnode);
+  //   }
+  //   console.log(list);
+  // };
+
+  const nodeClick = (some, node) => {
+    console.log('node', node);
+    let childnode = getOutgoers(node, store.nodes, store.edges);
+    console.log('childnode', childnode);
+    const allFlow = reactFlowInstance.toObject();
+    const successors = [];
+    console.log(allFlow);
+
+    function traverse(node) {
+      const nextNode = getOutgoers(node, store.nodes, store.edges);
+      // console.log('nextNodeeeee', nextNode);
+      if (nextNode.length > 0) {
+        successors.push(nextNode[0]);
+        traverse(nextNode[0]);
+      }
+    }
+
+    const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
+    console.log('trigger', trigger);
+
+    if (trigger) {
+      traverse(trigger);
+    }
+
+    console.log('successors', successors);
+  };
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
       <ReactFlowProvider>
@@ -131,13 +143,10 @@ const EditPage = ({ id }) => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            // fitView
+            onNodeClick={nodeClick}
           >
             <Controls />
             <Panel position='top-right'>
-              <button className=' mr-2 border border-blue-500' onClick={onSave}>
-                save
-              </button>
               <button
                 className=' mr-2 border border-blue-500'
                 onClick={() => {
@@ -146,8 +155,13 @@ const EditPage = ({ id }) => {
               >
                 update
               </button>
-              <button className='border border-blue-500' onClick={onRestore}>
-                restore
+              <button
+                className='border border-blue-500'
+                onClick={() => {
+                  console.log('123');
+                }}
+              >
+                test
               </button>
             </Panel>
             <Background />
