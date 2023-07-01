@@ -1,8 +1,8 @@
-import { serverTimestamp, updateDoc } from 'firebase/firestore';
-import getDocRef from './utils/getDocRef';
+import { serverTimestamp, updateDoc, doc } from 'firebase/firestore';
+import { db } from '@/app/lib/firebase';
 
-const asyncUpdateWorkflow = async (id = '', payload = {}) => {
-  const workflowRef = getDocRef(id);
+const asyncUpdateWorkflow = async (uid, id = '', payload = {}) => {
+  const workflowRef = doc(db, 'users', uid, 'scripts', id);
   const updateData = {
     saveTime: serverTimestamp(),
     ...payload,
