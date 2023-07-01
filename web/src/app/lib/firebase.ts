@@ -3,6 +3,7 @@ import { collection, getFirestore } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 export const WORKFLOW_COLLECTION_NAME = 'workflowtest';
+export const USER_COLLECTION_NAME = 'users';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBIUKY_6VUG5IqEEUaMmkQOWcAOCpGPWFg',
@@ -17,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 export const workflowCollectionDocRef = collection(db, WORKFLOW_COLLECTION_NAME);
+export const userCollectionDocRef = collection(db, USER_COLLECTION_NAME);
 export const auth = getAuth(app);
 export const authProvider = new GoogleAuthProvider();
 

@@ -8,11 +8,12 @@ import ReactFlow, {
   Controls,
   Panel,
   ReactFlowInstance,
-  getOutgoers,
+  // getOutgoers,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
 import useStore from '../store';
+import user_useStore from '../user_store';
 import { shallow } from 'zustand/shallow';
 // ---------------------------------------Components
 import Toolbox from './Toolbox';
@@ -21,7 +22,6 @@ import ClickEvent from '../nodes/ClickEvent';
 import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
 // ---------------------------------------FirebaseFunction
-import asyncAddWorkflow from '../api/workflowData/asyncAddWorkflow';
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 
 // ----------------------------------------------------------
@@ -42,6 +42,7 @@ type a = ReactFlowInstance;
 
 const EditPage = ({ id }) => {
   const store = useStore(selector, shallow);
+  const userInfo = user_useStore((state) => state.userInfo);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<a | null>(null);
@@ -74,13 +75,13 @@ const EditPage = ({ id }) => {
   );
 
   const onUpdate = useCallback(
-    async (id) => {
+    async (uid, id) => {
       if (reactFlowInstance) {
         const flow = reactFlowInstance.toObject();
         localStorage.setItem(flowKey, JSON.stringify(flow));
 
         //儲存到firestore
-        const addedRes = await asyncUpdateWorkflow(id, { flow });
+        const addedRes = await asyncUpdateWorkflow(uid, id, { flow });
 
         console.log('addedRes', addedRes);
         console.log(reactFlowInstance.toObject());
@@ -90,44 +91,32 @@ const EditPage = ({ id }) => {
     [reactFlowInstance]
   );
 
-  let stack: any[] = [];
+  // const nodeClick = (some, node) => {
+  //   console.log('node', node);
+  //   let childnode = getOutgoers(node, store.nodes, store.edges);
+  //   console.log('childnode', childnode);
+  //   const allFlow = reactFlowInstance.toObject();
+  //   const successors = [];
+  //   console.log(allFlow);
 
-  // const getall = (node) => {
-  //   const list = [];
-  //   while (node.length > 0) {
-  //     const nextnode = getOutgoers(node[0], store.nodes, store.edges);
-  //     list.push(nextnode[0]);
-  //     getall(nextnode);
+  //   function traverse(node) {
+  //     const nextNode = getOutgoers(node, store.nodes, store.edges);
+  //     // console.log('nextNodeeeee', nextNode);
+  //     if (nextNode.length > 0) {
+  //       successors.push(nextNode[0]);
+  //       traverse(nextNode[0]);
+  //     }
   //   }
-  //   console.log(list);
+
+    // const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
+    // console.log('trigger', trigger);
+
+    // if (trigger) {
+    //   traverse(trigger);
+    // }
+
+    // console.log('successors', successors);
   // };
-
-  const nodeClick = (some, node) => {
-    console.log('node', node);
-    let childnode = getOutgoers(node, store.nodes, store.edges);
-    console.log('childnode', childnode);
-    const allFlow = reactFlowInstance.toObject();
-    const successors = [];
-    console.log(allFlow);
-
-    function traverse(node) {
-      const nextNode = getOutgoers(node, store.nodes, store.edges);
-      // console.log('nextNodeeeee', nextNode);
-      if (nextNode.length > 0) {
-        successors.push(nextNode[0]);
-        traverse(nextNode[0]);
-      }
-    }
-
-    const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
-    console.log('trigger', trigger);
-
-    if (trigger) {
-      traverse(trigger);
-    }
-
-    console.log('successors', successors);
-  };
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
       <ReactFlowProvider>
@@ -143,14 +132,14 @@ const EditPage = ({ id }) => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            onNodeClick={nodeClick}
+            // onNodeClick={nodeClick}
           >
             <Controls />
             <Panel position='top-right'>
               <button
                 className=' mr-2 border border-blue-500'
                 onClick={() => {
-                  onUpdate(id);
+                  onUpdate(userInfo.userUid, id);
                 }}
               >
                 update

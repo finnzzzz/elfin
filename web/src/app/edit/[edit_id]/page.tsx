@@ -8,26 +8,41 @@ import { doc, getDoc } from 'firebase/firestore';
 import EditPage from '../EditPage';
 // ---------------------------------------Zustand
 import useStore from '@/app/store';
+import user_useStore from '@/app/user_store';
 
 // ---------------------------------------types
 interface EditProps {
   params: { edit_id: string };
+}
+
+interface IWorkflow {
+  flow: object;
+  id: string;
+  name: '';
+  saveTime: string;
 }
 // ---------------------------------------
 
 const Edit = ({ params }: EditProps) => {
   //獲取網址中的id
   const { edit_id } = params;
-  const [workflow, setWorkflow] = useState('');
+  const [workflow, setWorkflow] = useState<IWorkflow>({
+    flow: {},
+    id: '',
+    name: '',
+    saveTime: '',
+  });
   const [date, setDate] = useState('');
   const setNodes = useStore((state) => state.setNodes);
   const setEdges = useStore((state) => state.setEdges);
   const setViewport = useStore((state) => state.setViewport);
 
+  const userInfo = user_useStore((state) => state.userInfo);
+
   //用獲取到的id去獲取firestore上的資料，只在首次沒有資料的時候
   const data = async () => {
-    if (workflow.length == 0) {
-      const docRef = doc(db, 'workflowtest', edit_id);
+    if (workflow.id == '') {
+      const docRef = doc(db, 'users', userInfo.userUid, 'scripts', edit_id);
       const docSnap = await getDoc(docRef);
       setWorkflow(docSnap.data());
       setDate(new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString());
