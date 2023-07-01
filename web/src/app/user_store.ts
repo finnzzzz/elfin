@@ -60,9 +60,9 @@ interface Store {
 const useStore = create<Store>()(
   devtools((set) => ({
     userInfo: {
-      userName: 'qq',
-      userUid: '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1',
-      isLogin: true,
+      userName: 'none',
+      userUid: '0000',
+      isLogin: false,
     },
 
     test1: 'test1',
