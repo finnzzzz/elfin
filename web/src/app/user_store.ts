@@ -9,7 +9,7 @@ type UserInfo = {
 
 interface Store {
   userInfo: UserInfo;
-  login: (name: string, uid: string) => void;
+  login: (_name: string, _uid: string) => void;
   logout: () => void;
   test1: string;
   test2: string;
