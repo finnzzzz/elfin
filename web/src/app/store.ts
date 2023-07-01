@@ -2,7 +2,6 @@ import { applyNodeChanges, applyEdgeChanges } from 'reactflow';
 import { create } from 'zustand';
 
 import {
-  Connection,
   Edge,
   EdgeChange,
   Node,
@@ -11,6 +10,7 @@ import {
   OnNodesChange,
   OnEdgesChange,
   OnConnect,
+  Connection,
 } from 'reactflow';
 
 interface Store {
@@ -31,8 +31,6 @@ const useStore = create<Store>((set, get) => ({
   nodes: [],
   edges: [],
   viewport: {},
-
-
 
   setNodes: (nodes) => {
     set({ nodes: nodes });
