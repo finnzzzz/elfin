@@ -91,31 +91,31 @@ const EditPage = ({ id }) => {
     [reactFlowInstance]
   );
 
-  const nodeClick = (some, node) => {
-    console.log('node', node);
-    let childnode = getOutgoers(node, store.nodes, store.edges);
-    console.log('childnode', childnode);
-    const allFlow = reactFlowInstance.toObject();
-    const successors = [];
-    console.log(allFlow);
+  // const nodeClick = (some, node) => {
+  //   console.log('node', node);
+  //   let childnode = getOutgoers(node, store.nodes, store.edges);
+  //   console.log('childnode', childnode);
+  //   const allFlow = reactFlowInstance.toObject();
+  //   const successors = [];
+  //   console.log(allFlow);
 
-    function traverse(node) {
-      const nextNode = getOutgoers(node, store.nodes, store.edges);
-      // console.log('nextNodeeeee', nextNode);
-      if (nextNode.length > 0) {
-        successors.push(nextNode[0]);
-        traverse(nextNode[0]);
-      }
-    }
+  //   function traverse(node) {
+  //     const nextNode = getOutgoers(node, store.nodes, store.edges);
+  //     // console.log('nextNodeeeee', nextNode);
+  //     if (nextNode.length > 0) {
+  //       successors.push(nextNode[0]);
+  //       traverse(nextNode[0]);
+  //     }
+  //   }
 
-    const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
-    console.log('trigger', trigger);
+    // const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
+    // console.log('trigger', trigger);
 
-    if (trigger) {
-      traverse(trigger);
-    }
+    // if (trigger) {
+    //   traverse(trigger);
+    // }
 
-    console.log('successors', successors);
+    // console.log('successors', successors);
   };
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
