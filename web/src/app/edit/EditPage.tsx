@@ -116,7 +116,7 @@ const EditPage = ({ id }) => {
     // }
 
     // console.log('successors', successors);
-  };
+  // };
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
       <ReactFlowProvider>
