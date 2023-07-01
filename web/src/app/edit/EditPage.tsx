@@ -13,6 +13,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
 import useStore from '../store';
+import user_useStore from '../user_store';
 import { shallow } from 'zustand/shallow';
 // ---------------------------------------Components
 import Toolbox from './Toolbox';
@@ -21,7 +22,6 @@ import ClickEvent from '../nodes/ClickEvent';
 import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
 // ---------------------------------------FirebaseFunction
-import asyncAddWorkflow from '../api/workflowData/asyncAddWorkflow';
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 
 // ----------------------------------------------------------
@@ -42,6 +42,7 @@ type a = ReactFlowInstance;
 
 const EditPage = ({ id }) => {
   const store = useStore(selector, shallow);
+  const userInfo = user_useStore((state) => state.userInfo);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<a | null>(null);
@@ -74,13 +75,13 @@ const EditPage = ({ id }) => {
   );
 
   const onUpdate = useCallback(
-    async (id) => {
+    async (uid, id) => {
       if (reactFlowInstance) {
         const flow = reactFlowInstance.toObject();
         localStorage.setItem(flowKey, JSON.stringify(flow));
 
         //儲存到firestore
-        const addedRes = await asyncUpdateWorkflow(id, { flow });
+        const addedRes = await asyncUpdateWorkflow(uid, id, { flow });
 
         console.log('addedRes', addedRes);
         console.log(reactFlowInstance.toObject());
@@ -89,18 +90,6 @@ const EditPage = ({ id }) => {
     },
     [reactFlowInstance]
   );
-
-  let stack: any[] = [];
-
-  // const getall = (node) => {
-  //   const list = [];
-  //   while (node.length > 0) {
-  //     const nextnode = getOutgoers(node[0], store.nodes, store.edges);
-  //     list.push(nextnode[0]);
-  //     getall(nextnode);
-  //   }
-  //   console.log(list);
-  // };
 
   const nodeClick = (some, node) => {
     console.log('node', node);
@@ -143,14 +132,14 @@ const EditPage = ({ id }) => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            onNodeClick={nodeClick}
+            // onNodeClick={nodeClick}
           >
             <Controls />
             <Panel position='top-right'>
               <button
                 className=' mr-2 border border-blue-500'
                 onClick={() => {
-                  onUpdate(id);
+                  onUpdate(userInfo.userUid, id);
                 }}
               >
                 update
