@@ -8,7 +8,7 @@ import ReactFlow, {
   Controls,
   Panel,
   ReactFlowInstance,
-  getOutgoers,
+  // getOutgoers,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
