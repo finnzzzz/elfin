@@ -44,7 +44,7 @@ const Edit = ({ params }: EditProps) => {
     if (workflow.id == '') {
       const docRef = doc(db, 'users', userInfo.userUid, 'scripts', edit_id);
       const docSnap = await getDoc(docRef);
-      setWorkflow(docSnap.data());
+      setWorkflow(docSnap.data() as IWorkflow);
       setDate(new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString());
       // console.log(docSnap.data());
       setNodes(docSnap.data()?.flow?.nodes);
