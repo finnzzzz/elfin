@@ -15,7 +15,10 @@ interface DelayEventProps {
 }
 
 const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
+  const nodes = useStore((state) => state.nodes);
+
   const { setDelayTime } = useStore(selector(id), shallow);
+  const DelayTime = nodes?.filter((item) => item.id == id)[0]?.data?.DelayTime;
 
   return (
     <div className='h-[80px] rounded-md border border-blue-600 bg-white p-2'>
@@ -27,15 +30,11 @@ const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
           id='text'
           name='text'
           onChange={setDelayTime}
+          value={DelayTime}
           className='nodrag rounded-sm border border-blue-300'
         />
       </div>
-      <Handle
-        type='source'
-        position={Position.Right}
-        id='delay'
-        isConnectable={isConnectable}
-      />
+      <Handle type='source' position={Position.Right} id='delay' isConnectable={isConnectable} />
     </div>
   );
 };
