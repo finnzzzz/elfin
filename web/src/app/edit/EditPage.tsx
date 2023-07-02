@@ -21,6 +21,9 @@ import Toolbox from './Toolbox';
 import ClickEvent from '../nodes/ClickEvent';
 import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
+import InputEvent from '../nodes/InputEvent';
+import NewTabEvent from '../nodes/NewTabEvent';
+
 // ---------------------------------------FirebaseFunction
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 
@@ -34,13 +37,23 @@ const selector = (store: any) => ({
   createNode: store.createNode,
 });
 
-const nodeTypes = { trigger: TriggerEvent, click: ClickEvent, delay: DelayEvent };
+const nodeTypes = {
+  trigger: TriggerEvent,
+  click: ClickEvent,
+  delay: DelayEvent,
+  inputCustom: InputEvent,
+  newTab: NewTabEvent,
+};
 
 const flowKey = 'demo-flow';
 
 type a = ReactFlowInstance;
 
-const EditPage = ({ id }) => {
+interface EditPageProps {
+  id: string;
+}
+
+const EditPage = ({ id }: EditPageProps) => {
   const store = useStore(selector, shallow);
   const userInfo = user_useStore((state) => state.userInfo);
 
@@ -75,7 +88,7 @@ const EditPage = ({ id }) => {
   );
 
   const onUpdate = useCallback(
-    async (uid, id) => {
+    async (uid: string, id: string) => {
       if (reactFlowInstance) {
         const flow = reactFlowInstance.toObject();
         localStorage.setItem(flowKey, JSON.stringify(flow));
@@ -108,14 +121,14 @@ const EditPage = ({ id }) => {
   //     }
   //   }
 
-    // const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
-    // console.log('trigger', trigger);
+  // const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
+  // console.log('trigger', trigger);
 
-    // if (trigger) {
-    //   traverse(trigger);
-    // }
+  // if (trigger) {
+  //   traverse(trigger);
+  // }
 
-    // console.log('successors', successors);
+  // console.log('successors', successors);
   // };
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
