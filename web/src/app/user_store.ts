@@ -11,12 +11,6 @@ interface Store {
   userInfo: UserInfo;
   login: (_name: string, _uid: string) => void;
   logout: () => void;
-  test1: string;
-  test2: string;
-  test3: string;
-
-  setTest1: () => void;
-  setTest2: () => void;
 }
 
 // const useStore = create<Store>()(
@@ -65,10 +59,6 @@ const useStore = create<Store>()(
       isLogin: false,
     },
 
-    test1: 'test1',
-    test2: 'test2',
-    test3: 'test3',
-
     login: (name, uid) => {
       set({
         userInfo: {
@@ -88,13 +78,6 @@ const useStore = create<Store>()(
           isLogin: false,
         },
       }));
-    },
-
-    setTest1: () => {
-      set((state) => ({ ...state, test1: '1111' }));
-    },
-    setTest2: () => {
-      set((state) => ({ ...state, test2: '222222' }));
     },
   }))
 );
