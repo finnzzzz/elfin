@@ -11,20 +11,21 @@ import {
   OnEdgesChange,
   OnConnect,
   Connection,
+  XYPosition,
 } from 'reactflow';
 
 interface Store {
   nodes: Node[];
   edges: Edge[];
-  viewport: {};
-  setNodes: (_nodes: Node[]) => void;
-  setEdges: (_edges: Edge[]) => void;
-  setViewport: (_viewport: {}) => void;
+  viewport: object;
+  setNodes: (nodes: Node[]) => void;
+  setEdges: (edges: Edge[]) => void;
+  setViewport: (viewport: object) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  updateNode: (_nodeId: string, _data: object) => void;
-  createNode: (_type: any, _position: any) => void;
+  updateNode: (nodeId: string, data: object) => void;
+  createNode: (type: string, position: XYPosition) => void;
 }
 
 const useStore = create<Store>((set, get) => ({
@@ -87,6 +88,18 @@ const useStore = create<Store>((set, get) => ({
         break;
       }
       case 'delay': {
+        const data = {};
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'inputCustom': {
+        const data = {};
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'newTab': {
         const data = {};
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });

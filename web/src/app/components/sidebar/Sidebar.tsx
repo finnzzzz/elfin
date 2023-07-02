@@ -21,7 +21,7 @@ const Sidebar = () => {
     const userInfo = await signInWithPopup(auth, authProvider);
     console.log(user);
     console.log(userInfo.user.uid);
-    await asyncSetUser(userInfo.user.uid, userInfo.user.displayName);
+    await asyncSetUser(userInfo.user.uid, userInfo.user.displayName!);
 
     login(userInfo.user.displayName!, userInfo.user.uid!);
   };
