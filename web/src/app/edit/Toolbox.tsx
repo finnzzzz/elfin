@@ -35,10 +35,23 @@ const Toolbox = ({ nodes }: ToolBoxProps) => {
       >
         delay
       </div>
+      <div
+        className='node border-violet-500'
+        onDragStart={(event) => onDragStart(event, 'inputCustom')}
+        draggable
+      >
+        Input
+      </div>
+      <div
+        className='node border-rose-500'
+        onDragStart={(event) => onDragStart(event, 'newTab')}
+        draggable
+      >
+        NewTab
+      </div>
       {nodes?.map((node) => (
         <div key={node.id}>
-          Node {node.id} <br /> x: {node.position.x.toFixed(2)}, y:{' '}
-          {node.position.y.toFixed(2)}
+          Node {node.id} <br /> x: {node.position.x.toFixed(2)}, y: {node.position.y.toFixed(2)}
           <br />
           type:{node.type}, data_CSS:{node.data?.CSS}
         </div>
