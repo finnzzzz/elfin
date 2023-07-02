@@ -18,6 +18,7 @@
     "reactflow": "^11.7.4"
   },
   "devDependencies": {
+    "@crxjs/vite-plugin": "^1.0.14",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
