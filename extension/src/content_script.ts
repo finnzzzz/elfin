@@ -21,7 +21,7 @@ function getNextItem(obj, index) {
   if (typeof obj[index] !== 'undefined') {
     if (obj[index].type == 'click') {
       clickEvent(obj, index);
-      console.log('click');
+      console.log('click 執行順序:', index);
     }
 
     // if (obj[index].type == 'wait') {
@@ -33,10 +33,10 @@ function getNextItem(obj, index) {
     //   saveEvent(obj, index);
     // }
 
-    // if (obj[index].type == 'enter') {
-    //   enterEvent(obj, index);
-    //   console.log('enter');
-    // }
+    if (obj[index].type == 'inputCustom') {
+      enterEvent(obj, index);
+      console.log('enter 執行順序:', index);
+    }
   } else {
     //send a return ...
     console.log('run complete');
@@ -56,13 +56,14 @@ function getNextItem(obj, index) {
 
 function clickEvent(obj, index) {
   const item = obj[index];
-  const element = document.querySelector(`.${item.CSS}`);
+  const element = document.querySelector(`.${item.Data.CSS}`);
   console.log('element', element);
-  if (element) {
+  if (element instanceof HTMLSelectElement) {
     console.log(element);
     element.click();
+    getNextItem(obj, index + 1);
   }
-  getNextItem(obj, index + 1);
+  alert(`no ${item.Data.CSS} element`);
 }
 
 // function saveEvent(obj, index) {
@@ -72,8 +73,41 @@ function clickEvent(obj, index) {
 //   window.ScraperExt.push(value);
 //   getNextItem(obj, index + 1);
 // }
-// function enterEvent(obj, index) {
-//   var item = obj[index];
-//   var value = (document.querySelector(`.${item.one}`).value = item.two);
-//   getNextItem(obj, index + 1);
-// }
+function enterEvent(obj, index) {
+  const item = obj[index];
+  const element = document.querySelector(`.${item.Data.CSS}`);
+  const value = (document.querySelector(`.${item.Data.CSS}`).value = item.Data.Value);
+
+  switch (item.Data.Type) {
+    case 'text':
+      if (element instanceof HTMLInputElement) {
+        element.value = item.Data.Value;
+      }
+      break;
+    case 'select':
+      if (element instanceof HTMLSelectElement) {
+        element.value = item.Data.Value;
+      }
+      break;
+
+    case 'radio':
+    case 'checkbox':
+      if (element instanceof HTMLInputElement) {
+        element.checked = true;
+      }
+      break;
+  }
+  getNextItem(obj, index + 1);
+}
+
+// /html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/textarea
+// //*[@id="APjFqb"]
+
+// xpath
+// const textareElement = document.evaluate(
+//   '8',
+//   document,
+//   null,
+//   XPathResult.FIRST_ORDERED_NODE_TYPE,
+//   null
+// ).singleNodeValue;
