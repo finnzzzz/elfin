@@ -2,12 +2,12 @@
 
 import asyncSetWorkflow from './api/workflowData/asyncSetWorkflow';
 
-import useStore from '@/app/user_store';
+import user_useStore from '@/app/user_store';
 import { shallow } from 'zustand/shallow';
 import PersonalScriptList from './components/personalScriptList/PersonalScriptList';
 
 export default function Home() {
-  const userInfo = useStore((state) => state.userInfo, shallow);
+  const userInfo = user_useStore((state) => state.userInfo, shallow);
 
   console.log('首頁');
 
