@@ -10,7 +10,7 @@ import useStore from '@/app/user_store';
 const PersonalScriptList = () => {
   const userInfo = useStore((state) => state.userInfo);
 
-  let uid = userInfo.userUid;
+  const uid = userInfo.userUid;
 
   const userRef = collection(db, 'users', uid, 'scripts');
   const q = query(userRef, orderBy('saveTime', 'desc'));
