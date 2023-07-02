@@ -23,7 +23,7 @@ const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
   return (
     <div className='h-[80px] rounded-md border border-blue-600 bg-white p-2'>
       <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
-      <div>Delay</div>
+      <div className='text-2xl'>Delay</div>
       <div>
         <label htmlFor='text'>Time：</label>
         <input
