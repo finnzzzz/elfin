@@ -12,11 +12,12 @@ import {
   OnConnect,
   Connection,
   XYPosition,
+  MarkerType,
 } from 'reactflow';
 
 interface Store {
   nodes: Node[];
-  edges: Edge[];
+  edges: any[];
   viewport: object;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
@@ -34,7 +35,7 @@ const useStore = create<Store>((set, get) => ({
   viewport: {},
 
   setNodes: (nodes) => {
-    set({ nodes: nodes });
+    set({ nodes });
   },
 
   setEdges: (edges) => {
@@ -59,7 +60,19 @@ const useStore = create<Store>((set, get) => ({
 
   onConnect: (connection: Connection) => {
     set({
-      edges: addEdge(connection, get().edges),
+      edges: [
+        ...get().edges,
+        {
+          ...connection,
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+          },
+          style: {
+            strokeWidth: 2,
+            stroke: '#ccc',
+          },
+        },
+      ],
     });
   },
 
@@ -100,6 +113,12 @@ const useStore = create<Store>((set, get) => ({
         break;
       }
       case 'newTab': {
+        const data = {};
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'getContent': {
         const data = {};
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
