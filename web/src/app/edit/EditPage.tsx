@@ -8,6 +8,7 @@ import ReactFlow, {
   Controls,
   Panel,
   ReactFlowInstance,
+  MiniMap,
   // getOutgoers,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
@@ -23,6 +24,7 @@ import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
 import InputEvent from '../nodes/InputEvent';
 import NewTabEvent from '../nodes/NewTabEvent';
+import GetContentEvent from '../nodes/GetContentEvent';
 
 // ---------------------------------------FirebaseFunction
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
@@ -43,6 +45,7 @@ const nodeTypes = {
   delay: DelayEvent,
   inputCustom: InputEvent,
   newTab: NewTabEvent,
+  getContent: GetContentEvent,
 };
 
 const flowKey = 'demo-flow';
@@ -166,7 +169,8 @@ const EditPage = ({ id }: EditPageProps) => {
                 test
               </button>
             </Panel>
-            <Background />
+            <MiniMap zoomable pannable />
+            <Background size={1} offset={2} />
           </ReactFlow>
         </div>
       </ReactFlowProvider>
