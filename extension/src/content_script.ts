@@ -9,6 +9,8 @@
 //   command: string;
 //   data: obj;
 // }
+
+console.log('content_script working');
 chrome.runtime.onMessage.addListener((msg) => {
   console.log(msg);
   if (msg.command == 'runCommands') {
@@ -17,17 +19,35 @@ chrome.runtime.onMessage.addListener((msg) => {
     getNextItem(scrapeObj, 0);
   }
 });
-function getNextItem(obj, index) {
+
+function setNativeValue(el, value) {
+  const previousValue = el.value;
+
+  if (el.type === 'checkbox' || el.type === 'radio') {
+    if ((!!value && !el.checked) || (!value && el.checked)) {
+      el.click();
+    }
+  } else el.value = value;
+
+  const tracker = el._valueTracker;
+  if (tracker) {
+    tracker.setValue(previousValue);
+  }
+
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function getNextItem(obj, index: number) {
   if (typeof obj[index] !== 'undefined') {
     if (obj[index].type == 'click') {
       clickEvent(obj, index);
       console.log('click 執行順序:', index);
     }
 
-    // if (obj[index].type == 'wait') {
-    //   waitEvent(obj, index);
-    //   console.log('wait');
-    // }
+    if (obj[index].type == 'delay') {
+      delayEvent(obj, index);
+      console.log('wait');
+    }
 
     // if (obj[index].type == 'save') {
     //   saveEvent(obj, index);
@@ -35,7 +55,11 @@ function getNextItem(obj, index) {
 
     if (obj[index].type == 'inputCustom') {
       enterEvent(obj, index);
-      console.log('enter 執行順序:', index);
+      console.log('inputCustom 執行順序:', index);
+    }
+    if (obj[index].type == 'newTab') {
+      newTabEvent(obj, index);
+      console.log('newTab 執行順序:', index);
     }
   } else {
     //send a return ...
@@ -46,22 +70,29 @@ function getNextItem(obj, index) {
   }
 }
 
-// function waitEvent(obj: obj, index: number) {
-//   const item = obj[index];
-//   const waitTime = parseInt(item.one);
-//   window.setTimeout(function () {
-//     getNextItem(obj, index + 1);
-//   }, waitTime);
-// }
+function delayEvent(obj, index: number) {
+  const item = obj[index];
+  const waitTime = parseInt(item.Data.DelayTime);
+  window.setTimeout(function () {
+    getNextItem(obj, index + 1);
+  }, waitTime);
+}
 
 function clickEvent(obj, index) {
   const item = obj[index];
-  const element = document.querySelector(`.${item.Data.CSS}`);
-  console.log('element', element);
-  if (element instanceof HTMLSelectElement) {
-    console.log(element);
-    element.click();
+  // const element = document.querySelector(`.${item.Data.CSS}`);
+  const xpathE = document.evaluate(
+    `${item.Data.CSS}`,
+    document,
+    null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE,
+    null
+  ).singleNodeValue;
+  console.log(xpathE, index);
+  if (xpathE) {
+    xpathE.click();
     getNextItem(obj, index + 1);
+    return;
   }
   alert(`no ${item.Data.CSS} element`);
 }
@@ -75,39 +106,21 @@ function clickEvent(obj, index) {
 // }
 function enterEvent(obj, index) {
   const item = obj[index];
-  const element = document.querySelector(`.${item.Data.CSS}`);
-  const value = (document.querySelector(`.${item.Data.CSS}`).value = item.Data.Value);
-
-  switch (item.Data.Type) {
-    case 'text':
-      if (element instanceof HTMLInputElement) {
-        element.value = item.Data.Value;
-      }
-      break;
-    case 'select':
-      if (element instanceof HTMLSelectElement) {
-        element.value = item.Data.Value;
-      }
-      break;
-
-    case 'radio':
-    case 'checkbox':
-      if (element instanceof HTMLInputElement) {
-        element.checked = true;
-      }
-      break;
-  }
+  console.log('item', item);
+  const xpathE = document.evaluate(
+    `${item.Data.CSS}`,
+    document,
+    null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE,
+    null
+  ).singleNodeValue;
+  console.log(xpathE, index);
+  setNativeValue(xpathE, item.Data.Value);
   getNextItem(obj, index + 1);
 }
 
-// /html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/textarea
-// //*[@id="APjFqb"]
-
-// xpath
-// const textareElement = document.evaluate(
-//   '8',
-//   document,
-//   null,
-//   XPathResult.FIRST_ORDERED_NODE_TYPE,
-//   null
-// ).singleNodeValue;
+function newTabEvent(obj, index) {
+  const url = obj[index].Data.URL;
+  window.open(url, '_blank');
+  getNextItem(obj, index + 1);
+}
