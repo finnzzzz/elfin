@@ -49,6 +49,13 @@ const Toolbox = ({ nodes }: ToolBoxProps) => {
       >
         NewTab
       </div>
+      <div
+        className='node border-yellow-500'
+        onDragStart={(event) => onDragStart(event, 'getContent')}
+        draggable
+      >
+        GetContent
+      </div>
       {nodes?.map((node) => (
         <div key={node.id}>
           Node {node.id} <br /> x: {node.position.x.toFixed(2)}, y: {node.position.y.toFixed(2)}

@@ -7,7 +7,7 @@ import { shallow } from 'zustand/shallow';
 type Event = React.ChangeEvent<HTMLInputElement>;
 
 const selector = (id: string) => (store: any) => ({
-  setCSS: (e: Event) => store.updateNode(id, { CSS: e.target.value }),
+  setXPath: (e: Event) => store.updateNode(id, { XPath: e.target.value }),
   setDescription: (e: Event) => store.updateNode(id, { Description: e.target.value }),
   setType: (e: Event) => store.updateNode(id, { Type: e.target.value }),
   setValue: (e: Event) => store.updateNode(id, { Value: e.target.value }),
@@ -19,10 +19,10 @@ interface ClickEventProps {
 }
 
 function InputEvent({ id, isConnectable }: ClickEventProps) {
-  const { setCSS, setDescription, setType, setValue } = useStore(selector(id), shallow);
+  const { setXPath, setDescription, setType, setValue } = useStore(selector(id), shallow);
 
   const nodes = useStore((state) => state.nodes);
-  const CSSValue = nodes?.filter((item) => item.id == id)[0]?.data?.CSS;
+  const XPath = nodes?.filter((item) => item.id == id)[0]?.data?.XPath;
   const Description = nodes?.filter((item) => item.id == id)[0]?.data?.Description;
   const Type = nodes?.filter((item) => item.id == id)[0]?.data?.Type;
   const Value = nodes?.filter((item) => item.id == id)[0]?.data?.Value;
@@ -35,21 +35,21 @@ function InputEvent({ id, isConnectable }: ClickEventProps) {
         type='target'
         position={Position.Left}
         isConnectable={isConnectable}
-        // className='w-6s bg-slate-400'
+        style={{ background: '#90b6f9', width: '18px', height: '18px', left: '-24px' }}
       />
-      <div className=' text-2xl'>Input</div>
-      <div>{id}</div>
+      <div className=' text-2xl font-medium'>Input</div>
+      <div className=' text-xs'>{id}</div>
       <div className=' flex flex-col'>
-        <label htmlFor='text'>CSS：</label>
+        <label className=' mt-2'>XPath：</label>
         <input
           id='css'
           name='css'
-          onChange={setCSS}
-          value={CSSValue}
+          onChange={setXPath}
+          value={XPath}
           className='nodrag rounded-sm border border-blue-300'
         />
 
-        <label htmlFor='text'>Type：</label>
+        <label className=' mt-2'>Type：</label>
         <select
           name='type'
           id='type'
@@ -63,7 +63,7 @@ function InputEvent({ id, isConnectable }: ClickEventProps) {
           <option value='checkbox'>Checkbox</option>
         </select>
 
-        <label htmlFor='text'>Value：</label>
+        <label className=' mt-2'>Value：</label>
         <input
           id='value'
           name='value'
@@ -72,7 +72,7 @@ function InputEvent({ id, isConnectable }: ClickEventProps) {
           className='nodrag rounded-sm border border-blue-300'
         />
 
-        <label htmlFor='text'>Description：</label>
+        <label className=' mt-2'>Description：</label>
         <input
           id='description'
           name='description'
@@ -82,12 +82,11 @@ function InputEvent({ id, isConnectable }: ClickEventProps) {
         />
       </div>
       <Handle
-        className='bg-slate-400'
         type='source'
         position={Position.Right}
         id='input'
         isConnectable={isConnectable}
-        style={{ background: '#ff3c3c', width: '15px', height: '15px', right: '-20px' }}
+        style={{ background: '#90b6f9', width: '18px', height: '18px', right: '-24px' }}
       />
     </div>
   );
