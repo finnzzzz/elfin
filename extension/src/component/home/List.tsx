@@ -2,66 +2,63 @@ import { db } from '../../lib/firebase';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
-import { Node, getOutgoers } from 'reactflow';
-
-interface Idata {
-  nodes: Inodes[];
-  edges: object[];
-}
-
-interface data {
-  CSS: string;
-}
-
-interface Inodes {
-  type: string;
-  data: data;
-}
+import { Node, Edge, XYPosition, getOutgoers } from 'reactflow';
 
 interface IitemObj {
   type: string;
-  CSS: string;
+  Data: object;
 }
 
-type IexecutionOrder = Node[];
+type Flow = {
+  nodes: Node[];
+  edges: Edge[];
+  viewport: XYPosition;
+};
 
 const List = () => {
-  const workflowRef = collection(db, 'workflowtest');
-  const q = query(workflowRef, orderBy('saveTime', 'desc'));
+  const userRef = collection(db, 'users', '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1', 'scripts');
+  const q = query(userRef, orderBy('saveTime', 'desc'));
   const [workflowSnapShots, loading, error] = useCollection(q);
 
-  const getExecutionOrder = (data: Idata) => {
+  const getExecutionOrder = (data: Flow) => {
     const { nodes, edges } = data;
-    const executionOrder: IexecutionOrder = [];
-    function traverse(node: Node, nodes: [], edges: []) {
+    const executionOrder: Node[] = [];
+    function traverse(node: Node, nodes: Node[], edges: Edge[]) {
       const nextNode = getOutgoers(node, nodes, edges);
-      if (nextNode.length > 0) {
+      if (nextNode.length) {
         executionOrder.push(nextNode[0]);
         traverse(nextNode[0], nodes, edges);
       }
     }
+
     const triggerNode = nodes.find((item) => item.type === 'trigger');
+    console.log(triggerNode);
+
     if (triggerNode) {
-      // @ts-expect-error 123
-      traverse(triggerNode, nodes, edges);
+      const nextNode = getOutgoers(triggerNode, nodes, edges);
+      if (nextNode.length) {
+        traverse(triggerNode, nodes, edges);
+        return executionOrder;
+      }
+      return alert('no event after trigger');
     }
-    return executionOrder;
+    return alert('no trigger node');
   };
 
-  const createCommandObject = (data: Idata) => {
+  const createCommandObject = (data: Flow) => {
     const executionOrder = getExecutionOrder(data);
-    console.log(executionOrder);
+    console.log('executionOrder', executionOrder);
 
     const commandsArr: object[] = [];
-    for (let i = 0; i < executionOrder.length; i++) {
+
+    for (let i = 0; i < (executionOrder as Node[]).length; i++) {
       const itemObj: IitemObj = {
         type: '',
-        CSS: '',
+        Data: {},
       };
 
-      // @ts-expect-error 123
       itemObj.type = executionOrder[i].type;
-      itemObj.CSS = executionOrder[i].data.CSS;
+      itemObj.Data = executionOrder[i].data;
       commandsArr.push(itemObj);
     }
 
