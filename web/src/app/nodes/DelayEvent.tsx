@@ -21,7 +21,7 @@ const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
   const DelayTime = nodes?.filter((item) => item.id == id)[0]?.data?.DelayTime;
 
   return (
-    <div className='h-[80px] rounded-md border border-blue-600 bg-white p-2'>
+    <div className='h-[100px] w-[160px] rounded-md border border-blue-600 bg-white p-2'>
       <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
       <div className='text-2xl'>Delay</div>
       <div>
@@ -31,7 +31,7 @@ const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
           name='text'
           onChange={setDelayTime}
           value={DelayTime}
-          className='nodrag rounded-sm border border-blue-300'
+          className='nodrag w-full rounded-sm border border-blue-300'
         />
       </div>
       <Handle type='source' position={Position.Right} id='delay' isConnectable={isConnectable} />
