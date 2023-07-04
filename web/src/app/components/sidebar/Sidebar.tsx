@@ -1,34 +1,44 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import Link from 'next/link';
 import useStore from '@/app/user_store';
 
 import { auth, authProvider } from '@/app/lib/firebase';
-import { signInWithPopup, signOut } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { signInWithPopup, UserCredential, signOut } from 'firebase/auth';
 
 import asyncSetUser from '@/app/api/user/asyncSetUser';
 import { shallow } from 'zustand/shallow';
 
 const Sidebar = () => {
-  const [user] = useAuthState(auth);
+  const [loginState, setLoginState] = useState(false);
 
   const userInfo = useStore((state) => state.userInfo, shallow);
   const logout = useStore((state) => state.logout, shallow);
   const login = useStore((state) => state.login, shallow);
 
-  const userlogin = async () => {
-    const userInfo = await signInWithPopup(auth, authProvider);
-    console.log(user);
-    console.log(userInfo.user.uid);
-    await asyncSetUser(userInfo.user.uid, userInfo.user.displayName!);
+  //解決hydration問題
+  useEffect(() => {
+    const storeLogin = userInfo.isLogin;
+    setLoginState(storeLogin);
+  }, [userInfo.isLogin]);
 
-    login(userInfo.user.displayName!, userInfo.user.uid!);
+  let userInfoFirestore;
+
+  const userlogin = async () => {
+    const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
+    console.log('userInfoFirestore', userInfoFirestore);
+
+    console.log(userInfoFirestore.user.uid);
+    await asyncSetUser(userInfoFirestore.user.uid, userInfoFirestore.user.displayName);
+
+    login(userInfoFirestore.user.displayName, userInfoFirestore.user.uid);
   };
 
   const userLogout = async () => {
     await signOut(auth);
-    console.log(user);
+    console.log('userInfoFirestore', userInfoFirestore);
     logout();
   };
   return (
@@ -36,7 +46,7 @@ const Sidebar = () => {
       <div>
         <Link href='/'>home</Link>
       </div>
-      {userInfo.isLogin ? (
+      {loginState ? (
         <>
           <span>{userInfo.userName}</span>
           <button onClick={userLogout} className=' w-fit rounded-sm border border-blue-700 p-1'>
