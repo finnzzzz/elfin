@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 
 import asyncSetWorkflow from './api/workflowData/asyncSetWorkflow';
 
@@ -8,6 +9,14 @@ import PersonalScriptList from './components/personalScriptList/PersonalScriptLi
 
 export default function Home() {
   const userInfo = user_useStore((state) => state.userInfo, shallow);
+
+  const [loginState, setLoginState] = useState(false);
+
+  //解決hydration問題
+  useEffect(() => {
+    const storeLogin = userInfo.isLogin;
+    setLoginState(storeLogin);
+  }, [userInfo.isLogin]);
 
   console.log('首頁');
 
@@ -26,7 +35,7 @@ export default function Home() {
       <br />
       <br />
       <br />
-      {userInfo.isLogin ? (
+      {loginState ? (
         <>
           <div className=' text-2xl'>{userInfo.userName}的script</div>
           <button
