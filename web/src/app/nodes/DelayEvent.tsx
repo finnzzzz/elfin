@@ -21,7 +21,7 @@ const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
   const DelayTime = nodes?.filter((item) => item.id == id)[0]?.data?.DelayTime;
 
   return (
-    <div className='h-[100px] w-[160px] rounded-md border border-blue-600 bg-white p-2'>
+    <div className='h-[150px] w-[160px] rounded-md border border-blue-600 bg-white p-2'>
       <Handle
         type='target'
         position={Position.Left}
@@ -29,6 +29,8 @@ const DelayEvent = ({ id, isConnectable }: DelayEventProps) => {
         style={{ background: '#909cf9', width: '18px', height: '18px', left: '-24px' }}
       />
       <div className='text-2xl'>Delay</div>
+      <div className=' mb-4 text-xs'>{id}</div>
+
       <div>
         <label htmlFor='text'>Time：</label>
         <input
