@@ -10,12 +10,14 @@ import ReactFlow, {
   ReactFlowInstance,
   MiniMap,
   // getOutgoers,
+  addEdge,
+  MarkerType,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
 import useStore from '../store';
 import user_useStore from '../user_store';
-import { shallow } from 'zustand/shallow';
+// import { shallow } from 'zustand/shallow';
 // ---------------------------------------Components
 import Toolbox from './Toolbox';
 // ---------------------------------------NodesInterface
@@ -30,14 +32,6 @@ import GetContentEvent from '../nodes/GetContentEvent';
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 
 // ----------------------------------------------------------
-const selector = (store: any) => ({
-  nodes: store.nodes,
-  edges: store.edges,
-  onNodesChange: store.onNodesChange,
-  onEdgesChange: store.onEdgesChange,
-  onConnect: store.onConnect,
-  createNode: store.createNode,
-});
 
 const nodeTypes = {
   trigger: TriggerEvent,
@@ -57,7 +51,14 @@ interface EditPageProps {
 }
 
 const EditPage = ({ id }: EditPageProps) => {
-  const store = useStore(selector, shallow);
+  const setEdges = useStore((state) => state.setEdges);
+  const createNode = useStore((state) => state.createNode);
+  const edges = useStore((state) => state.edges);
+  const nodes = useStore((state) => state.nodes);
+  const onEdgesChange = useStore((state) => state.onEdgesChange);
+  const onNodesChange = useStore((state) => state.onNodesChange);
+  const onConnect = useStore((state) => state.onConnect);
+
   const userInfo = user_useStore((state) => state.userInfo);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
@@ -85,9 +86,9 @@ const EditPage = ({ id }: EditPageProps) => {
         y: event.clientY - reactFlowBounds!.top,
       });
 
-      store.createNode(type, position);
+      createNode(type, position);
     },
-    [reactFlowInstance, store]
+    [reactFlowInstance]
   );
 
   const onUpdate = useCallback(
@@ -106,6 +107,43 @@ const EditPage = ({ id }: EditPageProps) => {
     },
     [reactFlowInstance]
   );
+
+  const onEdgeUpdate = (oldEdge, newConnection) => {
+    console.log('oldEdge', oldEdge);
+    console.log('newConnection', newConnection);
+    const newConnectionWithStyle = {
+      ...newConnection,
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 18,
+        height: 18,
+        color: '#307dfa',
+      },
+      style: {
+        strokeWidth: 2,
+        stroke: '#307dfa',
+      },
+    };
+    console.log('newConnectionWithStyle', newConnectionWithStyle);
+
+    const allEdges = addEdge(newConnectionWithStyle, edges);
+    console.log('allEdges', allEdges);
+    const newEdges = allEdges.filter((item) => item.id !== oldEdge.id);
+    console.log('newEdges', newEdges);
+
+    setEdges(newEdges);
+  };
+
+  const doubleClick = (_, edge) => {
+    const newEdges = edges.filter((e) => e.id !== edge.id);
+    console.log('newEdges', newEdges);
+    setEdges(newEdges);
+  };
+
+  // const onEdgeUpdate = useCallback(
+  //   (oldEdge, newConnection) => setEdges((els) => updateEdge(oldEdge, newConnection, els)),
+  //   []
+  // );
 
   // const nodeClick = (some, node) => {
   //   console.log('node', node);
@@ -136,38 +174,40 @@ const EditPage = ({ id }: EditPageProps) => {
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
       <ReactFlowProvider>
-        <Toolbox nodes={store.nodes} />
+        <Toolbox nodes={nodes} edges={edges} />
         <div className=' h-full flex-grow' ref={reactFlowWrapper}>
           <ReactFlow
-            nodes={store.nodes}
-            edges={store.edges}
-            onNodesChange={store.onNodesChange}
-            onEdgesChange={store.onEdgesChange}
-            onConnect={store.onConnect}
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
             nodeTypes={nodeTypes}
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onEdgeDoubleClick={doubleClick}
+            onEdgeUpdate={onEdgeUpdate}
             // onNodeClick={nodeClick}
           >
             <Controls />
             <Panel position='top-right'>
               <button
-                className=' mr-2 border border-blue-500'
+                className=' late-50 mr-2 rounded-md border border-blue-500 bg-white p-1'
                 onClick={() => {
                   onUpdate(userInfo.userUid, id);
                 }}
               >
-                update
+                save
               </button>
-              <button
-                className='border border-blue-500'
+              {/* <button
+                className='p1 border border-blue-500'
                 onClick={() => {
                   console.log('123');
                 }}
               >
                 test
-              </button>
+              </button> */}
             </Panel>
             <MiniMap zoomable pannable />
             <Background size={1} offset={2} />
