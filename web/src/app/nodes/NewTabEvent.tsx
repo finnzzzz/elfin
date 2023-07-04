@@ -22,7 +22,12 @@ const NewTabEvent = ({ id, isConnectable }: DelayEventProps) => {
 
   return (
     <div className='h-[80px] rounded-md border border-blue-600 bg-white p-2'>
-      <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
+      <Handle
+        type='target'
+        position={Position.Left}
+        isConnectable={isConnectable}
+        style={{ background: '#909cf9', width: '18px', height: '18px', left: '-24px' }}
+      />
       <div className='text-2xl'>NewTab</div>
       <div>
         <label htmlFor='text'>URL：</label>
@@ -34,7 +39,13 @@ const NewTabEvent = ({ id, isConnectable }: DelayEventProps) => {
           className='nodrag rounded-sm border border-blue-300'
         />
       </div>
-      <Handle type='source' position={Position.Right} id='delay' isConnectable={isConnectable} />
+      <Handle
+        type='source'
+        position={Position.Right}
+        id='newTab'
+        isConnectable={isConnectable}
+        style={{ background: '#909cf9', width: '18px', height: '18px', right: '-24px' }}
+      />
     </div>
   );
 };
