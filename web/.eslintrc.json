@@ -7,6 +7,9 @@
     // "eslint:recommended"
 
   ],
+  "plugins":[
+    "@typescript-eslint"
+  ],
   "rules":{
     "no-var":"error",
     // "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
