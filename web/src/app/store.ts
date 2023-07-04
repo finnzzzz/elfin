@@ -11,6 +11,7 @@ import {
   OnConnect,
   Connection,
   XYPosition,
+  addEdge,
   MarkerType,
 } from 'reactflow';
 
@@ -19,7 +20,7 @@ interface Store {
   edges: any[];
   viewport: object;
   setNodes: (nodes: Node[]) => void;
-  setEdges: (edges: Edge[]) => void;
+  setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
   setViewport: (viewport: object) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
@@ -37,8 +38,13 @@ const useStore = create<Store>((set, get) => ({
     set({ nodes });
   },
 
-  setEdges: (edges) => {
-    set({ edges });
+  setEdges: (newEdges) => {
+    if (Array.isArray(newEdges)) {
+      set({ edges: newEdges });
+    } else {
+      console.log(newEdges);
+      console.error('Invalid edges data type. Expected an array.');
+    }
   },
 
   setViewport: (viewport) => {
@@ -58,20 +64,21 @@ const useStore = create<Store>((set, get) => ({
   },
 
   onConnect: (connection: Connection) => {
+    const newCon = {
+      ...connection,
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 18,
+        height: 18,
+        color: '#307dfa',
+      },
+      style: {
+        strokeWidth: 2,
+        stroke: '#307dfa',
+      },
+    };
     set({
-      edges: [
-        ...get().edges,
-        {
-          ...connection,
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-          },
-          style: {
-            strokeWidth: 2,
-            stroke: '#ccc',
-          },
-        },
-      ],
+      edges: addEdge(newCon, get().edges),
     });
   },
 
