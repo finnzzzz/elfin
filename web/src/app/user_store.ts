@@ -20,7 +20,7 @@ const useStore = create<Store>()(
         userInfo: {
           userName: 'none',
           userUid: '0000',
-          // userUid: '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1',
+          // userUid: '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1', for dev
           isLogin: false,
         },
 
