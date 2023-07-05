@@ -80,8 +80,6 @@ const Edit = ({ params }: EditProps) => {
         )}
         <EditPage id={workflow?.id} />
       </div>
-
-      <div>123</div>
     </>
   );
 };
