@@ -24,7 +24,7 @@ const PersonalScriptList = () => {
   };
   return (
     <>
-      <div>PersonalScriptList</div>
+      <div className=' mb-4'>PersonalScriptList</div>
       <div className=' flex flex-wrap gap-4'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
@@ -32,21 +32,22 @@ const PersonalScriptList = () => {
           const saveTimeSeconds = item.data().saveTime?.seconds;
           const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString();
           return (
-            <div className='flex flex-col' key={item.id}>
+            <div className='flex flex-col items-end' key={item.id}>
               <button
                 onClick={() => {
                   deleteScript(userInfo.userUid, item.id);
                 }}
+                className=' mb-1 w-fit rounded-md border border-red-300 bg-red-100 p-1 text-sm '
               >
                 delete
               </button>
               <Link href={`/edit/${item.id}`}>
-                <div className=' flex w-[250px] flex-col items-center rounded-lg border border-blue-500 bg-slate-200 p-3'>
-                  <span className=' mb-2'>{item.data().name}</span>
-                  <span className=' mb-2'>{item.data().id}</span>
-                  <span>上次修改時間：{saveTime}</span>
+                <div className=' flex h-[100px] w-[250px] flex-col items-center rounded-lg border border-blue-500 bg-slate-200 p-3'>
+                  <span className=' mb-2 text-xl'>{item.data().name}</span>
+                  <span className=' mb-2 text-sm'>{item.data().id}</span>
                 </div>
               </Link>
+              <span className=' text-xs'>Edited：{saveTime}</span>
             </div>
           );
         })}
