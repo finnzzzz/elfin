@@ -26,6 +26,7 @@ interface IWorkflow {
 const Edit = ({ params }: EditProps) => {
   //獲取網址中的id
   const { edit_id } = params;
+  const [loading, setLoading] = useState(true);
   const [workflow, setWorkflow] = useState<IWorkflow>({
     flow: {},
     id: '',
@@ -44,12 +45,17 @@ const Edit = ({ params }: EditProps) => {
     if (workflow.id == '') {
       const docRef = doc(db, 'users', userInfo.userUid, 'scripts', edit_id);
       const docSnap = await getDoc(docRef);
-      setWorkflow(docSnap.data() as IWorkflow);
-      setDate(new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString());
-      // console.log(docSnap.data());
-      setNodes(docSnap.data()?.flow?.nodes);
-      setEdges(docSnap.data()?.flow?.edges);
-      setViewport(docSnap.data()?.flow?.viewport);
+      if (docSnap.data()) {
+        setWorkflow(docSnap.data() as IWorkflow);
+        setDate(new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString());
+        // console.log(docSnap.data());
+        setNodes(docSnap.data()?.flow?.nodes);
+        setEdges(docSnap.data()?.flow?.edges);
+        setViewport(docSnap.data()?.flow?.viewport);
+        setLoading(false);
+      } else {
+        alert('not yours');
+      }
     }
   };
 
@@ -59,15 +65,22 @@ const Edit = ({ params }: EditProps) => {
   });
 
   return (
-    <div className='flex h-full w-full flex-col'>
-      <div className='flex items-center justify-center '>
-        <div>Editpage----</div>
-        <div>ID：{workflow?.id}----</div>
-        <div>Name：{workflow?.name}----</div>
-        <div>SaveTime：{date}</div>
+    <>
+      <div className='flex h-full w-full flex-col'>
+        <div className='flex items-center justify-center '>
+          <div>Editpage----</div>
+          <div>ID：{workflow?.id}----</div>
+          <div>Name：{workflow?.name}----</div>
+          <div>SaveTime：{date}</div>
+        </div>
+        {loading && (
+          <div className=' absolute z-20 flex h-full w-full items-center justify-center bg-[#83838374]'>
+            <div className='text-3xl'>loading...</div>
+          </div>
+        )}
+        <EditPage id={workflow?.id} />
       </div>
-      <EditPage id={workflow?.id} />
-    </div>
+    </>
   );
 };
 

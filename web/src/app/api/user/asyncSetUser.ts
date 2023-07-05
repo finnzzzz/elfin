@@ -1,7 +1,7 @@
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
 
-const asyncSetUser = async (uid: string, userName: string) => {
+const asyncSetUser = async (uid: string, userName: string | null) => {
   const userDoc = doc(db, 'users', uid);
   const docRef = await setDoc(
     userDoc,

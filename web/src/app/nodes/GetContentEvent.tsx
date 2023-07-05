@@ -21,9 +21,15 @@ const GetContentEvent = ({ id, isConnectable }: DelayEventProps) => {
   const XPath = nodes?.filter((item) => item.id == id)[0]?.data?.XPath;
 
   return (
-    <div className='h-[80px] rounded-md border border-blue-600 bg-white p-2'>
-      <Handle type='target' position={Position.Left} isConnectable={isConnectable} />
+    <div className='h-[110px] rounded-md border border-blue-600 bg-white p-2'>
+      <Handle
+        type='target'
+        position={Position.Left}
+        isConnectable={isConnectable}
+        style={{ background: '#909cf9', width: '18px', height: '18px', left: '-24px' }}
+      />
       <div className='text-2xl'>GetContent</div>
+      <div className=' mb-4 text-xs'>{id}</div>
       <div>
         <label htmlFor='text'>XPath：</label>
         <input
@@ -34,7 +40,13 @@ const GetContentEvent = ({ id, isConnectable }: DelayEventProps) => {
           className='nodrag rounded-sm border border-blue-300'
         />
       </div>
-      <Handle type='source' position={Position.Right} id='delay' isConnectable={isConnectable} />
+      <Handle
+        type='source'
+        position={Position.Right}
+        id='getContent'
+        isConnectable={isConnectable}
+        style={{ background: '#909cf9', width: '18px', height: '18px', right: '-24px' }}
+      />
     </div>
   );
 };
