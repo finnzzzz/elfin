@@ -1,11 +1,12 @@
 import React from 'react';
-import { Node } from 'reactflow';
+import { Node, Edge } from 'reactflow';
 
 interface ToolBoxProps {
   nodes: Node[];
+  edges: Edge[];
 }
 
-const Toolbox = ({ nodes }: ToolBoxProps) => {
+const Toolbox = ({ edges }: ToolBoxProps) => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
@@ -56,11 +57,16 @@ const Toolbox = ({ nodes }: ToolBoxProps) => {
       >
         GetContent
       </div>
-      {nodes?.map((node) => (
+      {/* {nodes?.map((node) => (
         <div key={node.id}>
           Node {node.id} <br /> x: {node.position.x.toFixed(2)}, y: {node.position.y.toFixed(2)}
           <br />
           type:{node.type}, data_CSS:{node.data?.CSS}
+        </div>
+      ))} */}
+      {edges?.map((edges) => (
+        <div key={edges.id} className=' text-xs'>
+          {edges.id}
         </div>
       ))}
     </aside>
