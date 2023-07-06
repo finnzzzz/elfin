@@ -28,10 +28,14 @@ const Sidebar = () => {
   const userlogin = async () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
 
-    console.log(userInfoFirestore.user);
+    console.log(userInfoFirestore.user.photoURL);
     await asyncSetUser(userInfoFirestore.user.uid, userInfoFirestore.user.displayName);
 
-    login(userInfoFirestore.user.displayName, userInfoFirestore.user.uid);
+    login(
+      userInfoFirestore.user.displayName,
+      userInfoFirestore.user.uid,
+      userInfoFirestore.user.photoURL as string
+    );
   };
 
   const userLogout = async () => {
@@ -48,7 +52,7 @@ const Sidebar = () => {
           {/* <span className=' text-xs'>{userInfo.userName}</span> */}
           <div className='flex flex-col items-center'>
             <Image
-              src='https://lh3.googleusercontent.com/a/AAcHTtfu3WzqzIOI7COtgrDZj8FsIEpchm89vRlr6laB=s96-c'
+              src={userInfo.userImage}
               width={40}
               height={40}
               alt='image'

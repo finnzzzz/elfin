@@ -40,7 +40,7 @@ function setNativeValue(el: HTMLInputElement | HTMLSelectElement, value: string)
     tracker.setValue(previousValue);
   }
 
-  el.dispatchEvent(new Event('change', { bubbles: true }));
+  el.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 function getNextItem(obj: obj, index: number) {
@@ -99,12 +99,40 @@ function clickEvent(obj: obj, index: number) {
   ).singleNodeValue as HTMLElement | null;
   console.log(XPath, index);
   if (XPath) {
-    XPath.click();
-    getNextItem(obj, index + 1);
-    return;
+    if (XPath instanceof HTMLAnchorElement) {
+      console.log('alink');
+      console.log(XPath.href);
+      // const href = XPath.href;
+      XPath.click();
+      chrome.runtime.sendMessage({
+        command: 'newtab',
+        data: '123',
+      });
+
+      // bWindow.addEventListener('load', function () {
+      //   const scriptElement = bWindow.document.createElement('script');
+      //   scriptElement.textContent = `
+      //   alert('123')
+      //     // function myFunction() {
+      //     //   console.log('Hello from myFunction in B page!');
+      //     // }
+      //     // myFunction()
+      //   `;
+      //   bWindow.document.head.appendChild(scriptElement);
+      // });
+
+      // 繼續執行 JavaScript 的程式碼
+      // getNextItem(obj, index + 1);
+      return;
+    } else {
+      XPath.click();
+      getNextItem(obj, index + 1);
+      return;
+    }
   }
   alert(`no ${item.Data.XPath} element`);
 }
+
 // function saveEvent(obj, index) {
 //   console.log('save');
 //   var item = obj[index];

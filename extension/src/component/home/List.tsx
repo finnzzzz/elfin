@@ -15,6 +15,24 @@ type Flow = {
   viewport: XYPosition;
 };
 
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+  if (msg.command == 'newtab') {
+    // alert('123');
+
+    setTimeout(() => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
+        const activeTabId = tabs[0].id as number;
+        console.log(activeTabId);
+        const obj = msg.data;
+        chrome.tabs.sendMessage(activeTabId, {
+          command: 'runCommands',
+          data: obj,
+        });
+      });
+    }, 1500);
+  }
+});
+
 const List = () => {
   const userRef = collection(db, 'users', '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1', 'scripts');
   const q = query(userRef, orderBy('saveTime', 'desc'));
