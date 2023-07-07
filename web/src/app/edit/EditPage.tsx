@@ -58,7 +58,6 @@ const EditPage = ({ id }: EditPageProps) => {
   const onEdgesChange = useStore((state) => state.onEdgesChange);
   const onNodesChange = useStore((state) => state.onNodesChange);
   const onConnect = useStore((state) => state.onConnect);
-
   const userInfo = user_useStore((state) => state.userInfo);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
@@ -171,6 +170,14 @@ const EditPage = ({ id }: EditPageProps) => {
 
   // console.log('successors', successors);
   // };
+
+  // const onNodeContextMenu = () => {
+  //   setIsOpen(true);
+  // };
+
+  // const onNodeMouseLeave = () => {
+  //   setIsOpen(false);
+  // };
   return (
     <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
       <ReactFlowProvider>
@@ -188,9 +195,15 @@ const EditPage = ({ id }: EditPageProps) => {
             onDragOver={onDragOver}
             onEdgeDoubleClick={doubleClick}
             onEdgeUpdate={onEdgeUpdate}
+            // onNodeMouseEnter={onNodeContextMenu}
+            // onNodeMouseLeave={onNodeMouseLeave}
+            minZoom={0.5}
+            maxZoom={1.5}
+            // fitView
+            // fitViewOptions={{ padding: 0.5 }}
             // onNodeClick={nodeClick}
           >
-            <Controls />
+            {/* <Controls /> */}
             <Panel position='top-right'>
               <button
                 className=' late-50 mr-2 rounded-md border border-blue-500 bg-white p-1'
@@ -209,6 +222,9 @@ const EditPage = ({ id }: EditPageProps) => {
                 test
               </button> */}
             </Panel>
+
+            {/* <ContentMenu isOpen={isOpen} position={position} /> */}
+
             <MiniMap zoomable pannable />
             <Background size={1} offset={2} />
           </ReactFlow>
