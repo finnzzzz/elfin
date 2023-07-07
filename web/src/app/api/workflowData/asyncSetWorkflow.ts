@@ -6,7 +6,16 @@ const asyncSetWorkflow = async (uid: string, { flow }: { flow: Flow }) => {
   const docRef = await addDoc(workflowDoc, {
     id: '',
     name: 'none',
-    flow,
+    flow: {
+      nodes: [
+        {
+          id: 'start from this node',
+          position: { x: 100, y: 100 },
+          type: 'trigger',
+          data: { label: 'Trigger', disable: false },
+        },
+      ],
+    },
     saveTime: serverTimestamp(),
   });
 
