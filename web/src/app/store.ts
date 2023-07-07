@@ -19,6 +19,8 @@ interface Store {
   nodes: Node[];
   edges: any[];
   viewport: object;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
   setViewport: (viewport: object) => void;
@@ -27,12 +29,20 @@ interface Store {
   onConnect: OnConnect;
   updateNode: (nodeId: string, data: object) => void;
   createNode: (type: string, position: XYPosition) => void;
+  deleteNodeById: (id: string) => void;
+  deleteEdgeById: (id: string) => void;
+  handleToggle: (id: string) => void;
 }
 
 const useStore = create<Store>((set, get) => ({
   nodes: [],
   edges: [],
   viewport: {},
+  isOpen: false,
+
+  setIsOpen: (isOpen) => {
+    set({ isOpen });
+  },
 
   setNodes: (nodes) => {
     set({ nodes });
@@ -95,37 +105,65 @@ const useStore = create<Store>((set, get) => ({
     const id = crypto.randomUUID();
     switch (type) {
       case 'click': {
-        const data = {};
+        const data = {
+          label: 'Click',
+          disable: false,
+          XPath: '',
+          description: '',
+        };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
       }
       case 'trigger': {
-        const data = {};
+        const data = {
+          label: 'Trigger',
+          disable: false,
+        };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
       }
       case 'delay': {
-        const data = {};
+        const data = {
+          label: 'Delay',
+          disable: false,
+          delayTime: '',
+        };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
       }
       case 'inputCustom': {
-        const data = {};
+        const data = {
+          label: 'Input',
+          disable: false,
+          value: '',
+          XPath: '',
+          description: '',
+          inputType: '',
+        };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
       }
       case 'newTab': {
-        const data = {};
+        const data = {
+          label: 'NewTab',
+          disable: false,
+          url: '',
+        };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
       }
       case 'getContent': {
-        const data = {};
+        const data = {
+          label: 'GetContent',
+          disable: false,
+          XPath: '',
+          description: '',
+        };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
         break;
@@ -133,6 +171,26 @@ const useStore = create<Store>((set, get) => ({
       default:
         break;
     }
+  },
+
+  handleToggle: (nodeId) => {
+    set((state) => ({
+      nodes: state.nodes.map((node) =>
+        node.id === nodeId ? { ...node, data: { ...node.data, disable: !node.data.disable } } : node
+      ),
+    }));
+  },
+
+  deleteNodeById: (id) => {
+    set((state) => ({
+      nodes: state.nodes.filter((item) => item.id !== id),
+    }));
+  },
+
+  deleteEdgeById: (id) => {
+    set((state) => ({
+      edges: state.edges.filter((item) => item.source !== id && item.target !== id),
+    }));
   },
 }));
 

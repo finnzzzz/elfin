@@ -13,5 +13,9 @@
       "matches": ["<all_urls>"],
       "js": ["src/content_script.ts"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "src/backgroundScripts/background.ts",
+    "type": "module"
+  }
 }
