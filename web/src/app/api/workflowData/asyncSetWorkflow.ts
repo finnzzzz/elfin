@@ -15,12 +15,18 @@ const asyncSetWorkflow = async (uid: string) => {
           data: { label: 'Trigger', disable: false },
         },
       ],
+      edges: [],
+      viewport: {},
     },
     saveTime: serverTimestamp(),
   });
 
   const docId = docRef.id;
-  await setDoc(doc(db, 'users', uid, 'scripts', docId), { id: docId }, { merge: true });
+  await setDoc(
+    doc(db, 'users', uid, 'scripts', docId),
+    { id: docId, name: docId },
+    { merge: true }
+  );
   return docRef;
 };
 
