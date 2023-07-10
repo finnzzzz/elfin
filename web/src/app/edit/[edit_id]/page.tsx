@@ -34,7 +34,6 @@ const Edit = ({ params }: EditProps) => {
     name: '',
     saveTime: '',
   });
-  const [date, setDate] = useState('');
 
   const scriptName = useStore((state) => state.scriptName);
   const saveTime = useStore((state) => state.saveTime);
@@ -55,12 +54,6 @@ const Edit = ({ params }: EditProps) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.data()) {
         setWorkflow(docSnap.data() as IWorkflow);
-        setDate(
-          new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString('zh-TW', {
-            hour12: false,
-          })
-        );
-        // console.log(docSnap.data());
         setNodes(docSnap.data()?.flow?.nodes);
         setEdges(docSnap.data()?.flow?.edges);
         setViewport(docSnap.data()?.flow?.viewport);

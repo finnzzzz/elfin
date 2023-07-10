@@ -10,12 +10,7 @@ import { MdOutlineRadioButtonChecked } from 'react-icons/md';
 import { IoMdCheckboxOutline } from 'react-icons/io';
 import { TbTextRecognition } from 'react-icons/tb';
 
-interface ToolBoxProps {
-  nodes: Node[];
-  edges: Edge[];
-}
-
-const Toolbox = ({ edges }: ToolBoxProps) => {
+const Toolbox = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
