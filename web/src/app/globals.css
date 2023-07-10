@@ -2,17 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   height: 100vh;
   width: 100vw;
-  background: rgb(205, 205, 205);
+  background: #ffffff;
 }
 
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 1px rgb(46, 91, 255);
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
+  }
+}
+
+.background-image-blue {
+  background: #fff;
+  background: linear-gradient(
+    25deg,
+    rgb(208, 225, 255, 0.8) 0%,
+    rgba(214, 235, 255, 0.5) 10%,
+    rgba(148, 180, 255, 0.2) 55%,
+    rgba(218, 232, 255, 0.3) 70%,
+    rgba(192, 216, 255, 0.5) 100%
+  );
+}
+
+.toolboxItemShadow {
+  box-shadow: 4px 5px 5px -3px rgba(131, 131, 131, 0.5);
+}
+
+/* ---------------------------------------------------------------------reactflow */
 .node {
   @apply mb-3 flex h-[20px] w-[150px] cursor-grab items-center justify-center rounded-xl border bg-white p-5;
 }
 
 .toggleOpacity {
   @apply opacity-50;
+}
+
+.toolboxContainer {
+  @apply flex w-full flex-col gap-4 rounded-md bg-[#f7f7f7] p-4;
+}
+
+.toolboxItem {
+  @apply toolboxItemShadow flex h-[60px] cursor-grab items-center justify-center gap-3 rounded-lg border border-gray-400 bg-white text-mainBlue-400;
+}
+
+/* ---------------------------------------------------------------------scroll-bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f0f0f0;
+  border-radius: 5px;
 }
