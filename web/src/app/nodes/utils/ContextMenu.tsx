@@ -35,8 +35,6 @@ const ContextMenu = ({ id, children, color }: ContextMenuProps) => {
     handleToggle(id);
   };
 
-  const hover = `hover:${color}`;
-
   return (
     <>
       <div onMouseEnter={() => setVisiblee(true)} onMouseLeave={() => setVisiblee(false)}>
