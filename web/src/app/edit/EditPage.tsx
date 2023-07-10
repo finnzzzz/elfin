@@ -26,7 +26,6 @@ import Toolbox from './Toolbox';
 import ClickEvent from '../nodes/ClickEvent';
 import DelayEvent from '../nodes/DelayEvent';
 import TriggerEvent from '../nodes/TriggerEvent';
-import InputEvent from '../nodes/InputEvent';
 import NewTabEvent from '../nodes/NewTabEvent';
 import GetContentEvent from '../nodes/GetContentEvent';
 import InputTextEvent from '../nodes/InputTextEvent';

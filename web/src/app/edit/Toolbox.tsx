@@ -1,5 +1,4 @@
 import React from 'react';
-import { Node, Edge } from 'reactflow';
 
 import { PiBrowsersDuotone } from 'react-icons/pi';
 import { PiTimerBold } from 'react-icons/pi';
