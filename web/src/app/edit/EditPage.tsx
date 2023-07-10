@@ -12,6 +12,8 @@ import ReactFlow, {
   // getOutgoers,
   addEdge,
   MarkerType,
+  // OnConnectStart,
+  // OnConnectEnd,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
@@ -27,10 +29,15 @@ import TriggerEvent from '../nodes/TriggerEvent';
 import InputEvent from '../nodes/InputEvent';
 import NewTabEvent from '../nodes/NewTabEvent';
 import GetContentEvent from '../nodes/GetContentEvent';
+import InputTextEvent from '../nodes/InputTextEvent';
+import InputSelectEvent from '../nodes/InputSelectEvent';
+import InputRadioEvent from '../nodes/InputRadioEvent';
+import InputCheckboxEvent from '../nodes/InputCheckboxEvent';
 
 // ---------------------------------------FirebaseFunction
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
-
+import { db } from '@/app/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 // ----------------------------------------------------------
 
 const nodeTypes = {
@@ -40,6 +47,10 @@ const nodeTypes = {
   inputCustom: InputEvent,
   newTab: NewTabEvent,
   getContent: GetContentEvent,
+  inputText: InputTextEvent,
+  inputSelect: InputSelectEvent,
+  inputRadio: InputRadioEvent,
+  inputCheckbox: InputCheckboxEvent,
 };
 
 const flowKey = 'demo-flow';
@@ -59,6 +70,7 @@ const EditPage = ({ id }: EditPageProps) => {
   const onNodesChange = useStore((state) => state.onNodesChange);
   const onConnect = useStore((state) => state.onConnect);
   const userInfo = user_useStore((state) => state.userInfo);
+  const setSaveTime = useStore((state) => state.setSaveTime);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<a | null>(null);
@@ -97,10 +109,16 @@ const EditPage = ({ id }: EditPageProps) => {
         localStorage.setItem(flowKey, JSON.stringify(flow));
 
         //儲存到firestore
-        const addedRes = await asyncUpdateWorkflow(uid, id, { flow });
+        await asyncUpdateWorkflow(uid, id, { flow });
 
-        console.log('addedRes', addedRes);
-        console.log(reactFlowInstance.toObject());
+        //獲取儲存時間
+        const docRef = doc(db, 'users', userInfo.userUid, 'scripts', id);
+        const docSnap = await getDoc(docRef);
+        setSaveTime(
+          new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString('zh-TW', {
+            hour12: false,
+          })
+        );
       }
       console.log('update');
     },
@@ -139,11 +157,7 @@ const EditPage = ({ id }: EditPageProps) => {
     setEdges(newEdges);
   };
 
-  // const onEdgeUpdate = useCallback(
-  //   (oldEdge, newConnection) => setEdges((els) => updateEdge(oldEdge, newConnection, els)),
-  //   []
-  // );
-
+  //TEST_CODE
   // const nodeClick = (some, node) => {
   //   console.log('node', node);
   //   let childnode = getOutgoers(node, store.nodes, store.edges);
@@ -178,8 +192,23 @@ const EditPage = ({ id }: EditPageProps) => {
   // const onNodeMouseLeave = () => {
   //   setIsOpen(false);
   // };
+
+  // const [connectionInProgress, setConnectionInProgress] = useState(false);
+  // const onConnectStart: OnConnectStart = useCallback(() => {
+  //   setConnectionInProgress(true);
+  // }, [setConnectionInProgress]);
+
+  // const onConnectEnd: OnConnectEnd = useCallback(() => {
+  //   setConnectionInProgress(false);
+  // }, [setConnectionInProgress]);
+
   return (
-    <div className='flex h-full w-full flex-grow flex-row bg-slate-100 '>
+    <div
+      className='flex flex-grow flex-row bg-gray-100 '
+      style={{
+        height: `calc(100% - 50px)`,
+      }}
+    >
       <ReactFlowProvider>
         <Toolbox nodes={nodes} edges={edges} />
         <div className=' h-full flex-grow' ref={reactFlowWrapper}>
@@ -195,10 +224,10 @@ const EditPage = ({ id }: EditPageProps) => {
             onDragOver={onDragOver}
             onEdgeDoubleClick={doubleClick}
             onEdgeUpdate={onEdgeUpdate}
-            // onNodeMouseEnter={onNodeContextMenu}
-            // onNodeMouseLeave={onNodeMouseLeave}
             minZoom={0.5}
             maxZoom={1.5}
+            // onConnectStart={onConnectStart}
+            // onConnectEnd={onConnectEnd}
             // fitView
             // fitViewOptions={{ padding: 0.5 }}
             // onNodeClick={nodeClick}
@@ -213,18 +242,7 @@ const EditPage = ({ id }: EditPageProps) => {
               >
                 save
               </button>
-              {/* <button
-                className='p1 border border-blue-500'
-                onClick={() => {
-                  console.log('123');
-                }}
-              >
-                test
-              </button> */}
             </Panel>
-
-            {/* <ContentMenu isOpen={isOpen} position={position} /> */}
-
             <MiniMap zoomable pannable />
             <Background size={1} offset={2} />
           </ReactFlow>
