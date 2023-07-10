@@ -1,0 +1,40 @@
+.react-flow__handle-target {
+  background: transparent;
+  border-radius: 0;
+  border: 1px solid rgb(220, 220, 220);
+  height: 100%;
+  width: 30px;
+
+  &::after {
+    background-color: rgb(255, 255, 255);
+    border-radius: 100%;
+    content: '';
+    display: block;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 16px;
+  }
+}
+
+.react-flow__handle-source {
+  background: transparent;
+  border-radius: 0;
+  border: 1px solid rgb(220, 220, 220);
+  height: 70%;
+  width: 30px;
+
+  &::after {
+    background-color: rgb(255, 255, 255);
+    border-radius: 100%;
+    content: '';
+    display: block;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 16px;
+    right: 0px;
+  }
+}
