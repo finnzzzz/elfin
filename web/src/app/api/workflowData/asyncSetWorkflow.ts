@@ -13,6 +13,7 @@ const asyncSetWorkflow = async (uid: string) => {
           position: { x: 100, y: 100 },
           type: 'trigger',
           data: { label: 'Trigger', disable: false },
+          deletable: false,
         },
       ],
       edges: [],
