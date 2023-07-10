@@ -48,7 +48,7 @@ const Sidebar = () => {
     logout();
   };
   return (
-    <div className='bg-white] flex h-full w-16 flex-col items-center justify-between gap-2 border border-gray-300'>
+    <div className='bg-white flex h-full w-16 flex-col items-center justify-between gap-2 border border-gray-300'>
       <div className=' pt-4'>
         <Link className={`${font.className} text-xl text-blue-600  `} href='/'>
           elfin
@@ -63,7 +63,7 @@ const Sidebar = () => {
               width={37}
               height={37}
               alt='image'
-              quality={40}
+              quality={50}
               className=' mb-4 rounded-full border-2 border-blue-600'
             />
             {/* <button
@@ -73,7 +73,7 @@ const Sidebar = () => {
               logout
             </button> */}
             <button className=' mb-3' onClick={userLogout}>
-              <TbLogout size='30px' stroke-width='1' color='#5f5f5f' />
+              <TbLogout size='30px' stroke-width='1px' color='#5f5f5f' />
             </button>
           </div>
         </>
