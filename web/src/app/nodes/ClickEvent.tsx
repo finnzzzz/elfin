@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Handle, Position } from 'reactflow';
+
+import { MdAdsClick } from 'react-icons/md';
 
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 
-type Event = React.ChangeEvent<HTMLInputElement>;
+type inputEvent = React.ChangeEvent<HTMLInputElement>;
 
 const selector = (id: string) => (store: any) => ({
-  setXPath: (e: Event) => store.updateNode(id, { XPath: e.target.value }),
-  setDescription: (e: Event) => store.updateNode(id, { description: e.target.value }),
+  setXPath: (e: inputEvent) => store.updateNode(id, { XPath: e.target.value }),
+  setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
 });
 
 type clickObj = {
@@ -28,10 +30,21 @@ interface ClickEventProps {
 function ClickEvent({ id, isConnectable, data }: ClickEventProps) {
   const { setXPath, setDescription } = useStore(selector(id), shallow);
 
+  const [stashXpath, setStashXpath] = useState(data.XPath);
+  const [stashDescription, setStashDescription] = useState(data.description);
+
+  const xpathChange = (e: inputEvent) => {
+    setStashXpath(e.target.value);
+  };
+
+  const descriptionChange = (e: inputEvent) => {
+    setStashDescription(e.target.value);
+  };
+
   return (
-    <ContextMenu id={id}>
+    <ContextMenu id={id} color={'text-customGreen-400'}>
       <div
-        className={`h-[170px] rounded-md border border-blue-600 bg-white p-2 ${
+        className={`overflow-hidde w-[228px] overflow-hidden rounded-nodebase border border-customGreen-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
         } `}
       >
@@ -39,26 +52,39 @@ function ClickEvent({ id, isConnectable, data }: ClickEventProps) {
           type='target'
           position={Position.Left}
           isConnectable={isConnectable}
-          style={{ background: '#909cf9', width: '18px', height: '18px', left: '-24px' }}
+          className=' react-flow__handle-target after:border after:border-customGreen-400'
+          style={{ left: '-8px', top: '81px' }}
         />
-        <div className=' text-2xl'>{data.label}</div>
-        <div className=' text-xs'>{id}</div>
-        <div className=' flex flex-col'>
-          <label htmlFor='text'>XPath：</label>
+        <div className=' flex h-[57px] items-center justify-center border border-b-customGreen-400 bg-customGreen-50'>
+          <div className=' flex items-center gap-2'>
+            <span className=' text-customGreen-400'>
+              <MdAdsClick size='24px' />
+            </span>
+            <div className=' text-2xl font-medium text-customGreen-400'>{data.label}</div>
+          </div>
+        </div>
+        {/* <div className=' text-xs'>{id}</div> */}
+        <div className=' pm-5 flex flex-col pb-5 pl-5 pr-5'>
           <input
-            id='text'
-            name='text'
-            onChange={setXPath}
-            value={data.XPath}
-            className='nodrag rounded-sm border border-blue-300'
+            id='clickDescription'
+            name='clickDescription'
+            onChange={descriptionChange}
+            value={stashDescription}
+            onBlur={setDescription}
+            placeholder='click for.....'
+            maxLength={21}
+            className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:underline'
           />
-          <label htmlFor='text'>Description：</label>
+          <label htmlFor='text' className=' mb-1 text-customGreen-500'>
+            XPath：
+          </label>
           <input
-            id='text'
-            name='text'
-            onChange={setDescription}
-            value={data.description}
-            className='nodrag rounded-sm border border-blue-300'
+            type='text'
+            value={stashXpath}
+            onChange={xpathChange}
+            onBlur={setXPath}
+            className='nodrag rounded-md border border-customGreen-500 p-1 outline-none'
+            placeholder='xpath.....'
           />
         </div>
         <Handle
@@ -66,7 +92,8 @@ function ClickEvent({ id, isConnectable, data }: ClickEventProps) {
           position={Position.Right}
           id='click'
           isConnectable={isConnectable}
-          style={{ background: '#909cf9', width: '18px', height: '18px', right: '-24px' }}
+          className=' react-flow__handle-source after:border after:border-customGreen-400'
+          style={{ right: '-8px', top: '140px' }}
         />
       </div>
     </ContextMenu>

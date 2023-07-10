@@ -1,14 +1,15 @@
-import React from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 
-type Event = React.ChangeEvent<HTMLInputElement>;
+import { PiBrowsersDuotone } from 'react-icons/pi';
 
 const selector = (id: string) => (store: any) => ({
-  setURL: (e: Event) => store.updateNode(id, { url: e.target.value }),
-  setDescription: (e: Event) => store.updateNode(id, { description: e.target.value }),
+  setURL: (e: ChangeEvent<HTMLInputElement>) => store.updateNode(id, { url: e.target.value }),
+  setDescription: (e: ChangeEvent<HTMLInputElement>) =>
+    store.updateNode(id, { description: e.target.value }),
 });
 
 type newTabObj = {
@@ -27,46 +28,71 @@ interface NewTabProps {
 const NewTabEvent = ({ id, isConnectable, data }: NewTabProps) => {
   const { setURL, setDescription } = useStore(selector(id), shallow);
 
+  const [stashUrl, setStashUrl] = useState(data.url);
+  const [stashDescription, setStashDescription] = useState(data.description);
+
+  const urlChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setStashUrl(e.target.value);
+  };
+
+  const descriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setStashDescription(e.target.value);
+  };
+
   return (
-    <ContextMenu id={id}>
+    <ContextMenu id={id} color={'text-customNileBlue-400'}>
       <div
-        className={`h-[200px] rounded-md border border-blue-600 bg-white p-2 ${
+        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customNileBlue-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
-        }`}
+        } `}
       >
         <Handle
           type='target'
           position={Position.Left}
           isConnectable={isConnectable}
-          style={{ background: '#909cf9', width: '18px', height: '18px', left: '-24px' }}
+          className=' react-flow__handle-target after:border after:border-customNileBlue-400'
+          style={{ left: '-8px', top: '81px' }}
         />
-        <div className='text-2xl'>{data.label}</div>
-        <div className=' mb-4 text-xs'>{id}</div>
-
-        <div className=' flex flex-col'>
-          <label htmlFor='text'>URL：</label>
+        <div className=' flex h-[33%] items-center justify-center border border-b-customNileBlue-400 bg-customNileBlue-50'>
+          <div className=' flex items-center gap-2'>
+            <span className=' text-customNileBlue-400'>
+              <PiBrowsersDuotone size='24px' />
+            </span>
+            <div className=' text-2xl font-medium text-customNileBlue-400'>{data.label}</div>
+          </div>
+        </div>
+        {/* <div className=' text-xs'>{id}</div> */}
+        <div className=' flex flex-col pl-5 pr-5'>
+          <input
+            id='clickDescription'
+            name='clickDescription'
+            onChange={descriptionChange}
+            value={stashDescription}
+            onBlur={setDescription}
+            maxLength={21}
+            placeholder='newTab for.....'
+            className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:underline'
+          />
+          <label htmlFor='text' className=' mb-1 text-customNileBlue-500'>
+            URL：
+          </label>
           <input
             id='text'
             name='text'
-            onChange={setURL}
-            value={data.url}
-            className='nodrag rounded-sm border border-blue-300'
-          />
-          <label className=' mt-2'>Description：</label>
-          <input
-            id='description'
-            name='description'
-            onChange={setDescription}
-            value={data.description}
-            className='nodrag rounded-sm border border-blue-300'
+            onChange={urlChange}
+            value={stashUrl}
+            onBlur={setURL}
+            className='nodrag rounded-md border border-customNileBlue-500 p-1 outline-none'
+            placeholder='https://.....'
           />
         </div>
         <Handle
           type='source'
           position={Position.Right}
-          id='newTab'
+          id='click'
           isConnectable={isConnectable}
-          style={{ background: '#909cf9', width: '18px', height: '18px', right: '-24px' }}
+          className=' react-flow__handle-source after:border after:border-customNileBlue-400'
+          style={{ right: '-8px', top: '140px' }}
         />
       </div>
     </ContextMenu>

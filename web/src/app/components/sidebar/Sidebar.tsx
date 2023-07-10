@@ -1,4 +1,7 @@
 'use client';
+import { Bakbak_One } from 'next/font/google';
+import { TbLogout } from 'react-icons/tb';
+import { MdAccountCircle } from 'react-icons/md';
 
 import { useState, useEffect } from 'react';
 
@@ -11,6 +14,8 @@ import { signInWithPopup, UserCredential, signOut } from 'firebase/auth';
 
 import asyncSetUser from '@/app/api/user/asyncSetUser';
 import { shallow } from 'zustand/shallow';
+
+const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
 
 const Sidebar = () => {
   const [loginState, setLoginState] = useState(false);
@@ -43,37 +48,49 @@ const Sidebar = () => {
     logout();
   };
   return (
-    <div className='flex h-full w-16 flex-col items-center justify-between gap-2 border border-blue-900 bg-blue-100'>
+    <div className='bg-white flex h-full w-16 flex-col items-center justify-between gap-2 border border-gray-300'>
       <div className=' pt-4'>
-        <Link href='/'>home</Link>
+        <Link className={`${font.className} text-xl text-blue-600  `} href='/'>
+          elfin
+        </Link>
       </div>
       {loginState ? (
         <>
           {/* <span className=' text-xs'>{userInfo.userName}</span> */}
-          <div className='flex flex-col items-center'>
+          <div className=' flex flex-col items-center'>
             <Image
               src={userInfo.userImage}
-              width={40}
-              height={40}
+              width={37}
+              height={37}
               alt='image'
               quality={50}
-              className=' mb-3 rounded-full'
+              className=' mb-4 rounded-full border-2 border-blue-600'
             />
-            <button
+            {/* <button
               onClick={userLogout}
               className=' mb-4 w-fit rounded-sm border border-blue-700 p-1 text-xs'
             >
               logout
+            </button> */}
+            <button className=' mb-3' onClick={userLogout}>
+              <TbLogout size='30px' stroke-width='1px' color='#5f5f5f' />
             </button>
           </div>
         </>
       ) : (
-        <button
-          onClick={userlogin}
-          className=' w-fitc mb-4 rounded-md border border-blue-700 bg-white p-1'
-        >
-          login
-        </button>
+        <>
+          <div className=' flex flex-col items-center'>
+            <button className=' mb-3' onClick={userlogin}>
+              <MdAccountCircle size='37px' color='#c8c8c8' />
+            </button>
+            {/* <button
+              onClick={userlogin}
+              className=' w-fitc mb-4 rounded-md border border-blue-700 bg-white p-1'
+            >
+              login
+            </button> */}
+          </div>
+        </>
       )}
     </div>
   );

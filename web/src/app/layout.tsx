@@ -1,9 +1,11 @@
 import React from 'react';
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Nunito_Sans } from 'next/font/google';
+// import { Mulish } from 'next/font/google';
+// import { Jost } from 'next/font/google';
 import Sidebar from './components/sidebar/Sidebar';
 
-const inter = Inter({ subsets: ['latin'] });
+const font = Nunito_Sans({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'elfin',
@@ -13,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={font.className}>
         <Sidebar />
         {children}
       </body>

@@ -1,9 +1,10 @@
 'use client';
 // ---------------------------------------React
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 // ---------------------------------------firebase
 import { db } from '@/app/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import asyncUpdateWorkflow from '../../api/workflowData/asyncUpdateWorkflow';
 // ---------------------------------------Components
 import EditPage from '../EditPage';
 // ---------------------------------------Zustand
@@ -33,10 +34,15 @@ const Edit = ({ params }: EditProps) => {
     name: '',
     saveTime: '',
   });
-  const [date, setDate] = useState('');
+
+  const scriptName = useStore((state) => state.scriptName);
+  const saveTime = useStore((state) => state.saveTime);
+
   const setNodes = useStore((state) => state.setNodes);
   const setEdges = useStore((state) => state.setEdges);
   const setViewport = useStore((state) => state.setViewport);
+  const setScriptName = useStore((state) => state.setScriptName);
+  const setSaveTime = useStore((state) => state.setSaveTime);
 
   const userInfo = user_useStore((state) => state.userInfo);
 
@@ -44,14 +50,19 @@ const Edit = ({ params }: EditProps) => {
   const data = async () => {
     if (workflow.id == '') {
       const docRef = doc(db, 'users', userInfo.userUid, 'scripts', edit_id);
+
       const docSnap = await getDoc(docRef);
       if (docSnap.data()) {
         setWorkflow(docSnap.data() as IWorkflow);
-        setDate(new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString());
-        // console.log(docSnap.data());
         setNodes(docSnap.data()?.flow?.nodes);
         setEdges(docSnap.data()?.flow?.edges);
         setViewport(docSnap.data()?.flow?.viewport);
+        setScriptName(docSnap.data()?.name);
+        setSaveTime(
+          new Date(docSnap.data()?.saveTime.seconds * 1000).toLocaleString('zh-TW', {
+            hour12: false,
+          })
+        );
         setLoading(false);
       } else {
         alert('not yours');
@@ -62,16 +73,35 @@ const Edit = ({ params }: EditProps) => {
   useEffect(() => {
     data();
     console.log(workflow);
+    console.log(scriptName);
   });
+
+  const saveName = useCallback(async (uid: string, id: string, e) => {
+    //儲存到firestore
+    const name = e.target.value;
+    const addedRes = await asyncUpdateWorkflow(uid, id, { name });
+    console.log(addedRes);
+  }, []);
 
   return (
     <>
-      <div className='flex h-full w-full flex-col'>
-        <div className='flex items-center justify-center '>
-          <div>Editpage----</div>
-          <div>ID：{workflow?.id}----</div>
-          <div>Name：{workflow?.name}----</div>
-          <div>SaveTime：{date}</div>
+      <div className='flex w-full flex-col'>
+        <div className='relative flex items-center justify-center border border-b-gray-300 p-3'>
+          <input
+            type='text'
+            value={scriptName}
+            onChange={(e) => {
+              setScriptName(e.target.value);
+            }}
+            onBlur={(e) => {
+              saveName(userInfo.userUid, workflow?.id, e);
+            }}
+            className=' w-[250px] text-center text-gray-700 outline-none focus:italic focus:underline'
+          />
+          <div className=' absolute bottom-1 right-4 text-sm'>
+            <span className=' mr-2 text-gray-500'>last saved</span>
+            <span className=' italic text-gray-500'>{saveTime}</span>
+          </div>
         </div>
         {loading && (
           <div className=' absolute z-20 flex h-full w-full items-center justify-center bg-[#83838374]'>

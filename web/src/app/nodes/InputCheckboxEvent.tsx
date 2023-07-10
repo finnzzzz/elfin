@@ -1,10 +1,11 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
+
+import { IoMdCheckboxOutline } from 'react-icons/io';
+
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
-
-import { TbTextRecognition } from 'react-icons/tb';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -13,20 +14,22 @@ const selector = (id: string) => (store: any) => ({
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
 });
 
-type getContentObj = {
-  label: 'GetContent';
+type inputObj = {
+  label: 'Input';
   disable: boolean;
+  value: string;
   XPath: string;
   description: string;
+  inputType: string;
 };
 
-interface DelayEventProps {
+interface ClickEventProps {
   id: string;
   isConnectable: boolean;
-  data: getContentObj;
+  data: inputObj;
 }
 
-const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
+function InputEvent({ id, isConnectable, data }: ClickEventProps) {
   const { setXPath, setDescription } = useStore(selector(id), shallow);
 
   const [stashXpath, setStashXpath] = useState(data.XPath);
@@ -41,9 +44,9 @@ const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
   };
 
   return (
-    <ContextMenu id={id} color={'text-customDarkGreen-400'}>
+    <ContextMenu id={id} color={'text-customPink-400'}>
       <div
-        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customDarkGreen-400 bg-white ${
+        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customPink-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
         } `}
       >
@@ -51,15 +54,15 @@ const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
           type='target'
           position={Position.Left}
           isConnectable={isConnectable}
-          className=' react-flow__handle-target after:border after:border-customDarkGreen-400'
+          className=' react-flow__handle-target after:border after:border-customPink-400'
           style={{ left: '-8px', top: '81px' }}
         />
-        <div className=' flex h-[33%] items-center justify-center border border-b-customDarkGreen-400 bg-customDarkGreen-50'>
+        <div className=' flex h-[33%] items-center justify-center border border-b-customPink-400 bg-customPink-50'>
           <div className=' flex items-center gap-2'>
-            <span className=' text-customDarkGreen-400'>
-              <TbTextRecognition size='24px' />
+            <span className=' text-customPink-400'>
+              <IoMdCheckboxOutline size='24px' />
             </span>
-            <div className=' text-2xl font-medium text-customDarkGreen-400'>{data.label}</div>
+            <div className=' text-2xl font-medium text-customPink-400'>{data.label}</div>
           </div>
         </div>
         {/* <div className=' text-xs'>{id}</div> */}
@@ -71,11 +74,11 @@ const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
             value={stashDescription}
             onBlur={setDescription}
             maxLength={21}
-            placeholder='getContent for.....'
-            className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:underline'
+            placeholder='checkbox for.....'
+            className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:italic focus:underline '
           />
-          <label htmlFor='text' className=' mb-1 text-customDarkGreen-500'>
-            URL：
+          <label htmlFor='text' className=' mb-1 text-customPink-500'>
+            XPath：
           </label>
           <input
             id='text'
@@ -83,7 +86,7 @@ const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
             value={stashXpath}
             onChange={xpathChange}
             onBlur={setXPath}
-            className='nodrag rounded-md border border-customDarkGreen-500 p-1 outline-none'
+            className='nodrag rounded-md border border-customPink-500 p-1 outline-none'
             placeholder='xpath.....'
           />
         </div>
@@ -92,12 +95,12 @@ const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
           position={Position.Right}
           id='click'
           isConnectable={isConnectable}
-          className=' react-flow__handle-source after:border after:border-customDarkGreen-400'
+          className=' react-flow__handle-source after:border after:border-customPink-400'
           style={{ right: '-8px', top: '140px' }}
         />
       </div>
     </ContextMenu>
   );
-};
+}
 
-export default GetContentEvent;
+export default InputEvent;
