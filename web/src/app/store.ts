@@ -20,10 +20,14 @@ interface Store {
   edges: any[];
   viewport: object;
   isOpen: boolean;
+  scriptName: string;
+  saveTime: string;
   setIsOpen: (isOpen: boolean) => void;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
   setViewport: (viewport: object) => void;
+  setScriptName:(scriptName:string) => void;
+  setSaveTime:(saveTime:string) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -39,6 +43,8 @@ const useStore = create<Store>((set, get) => ({
   edges: [],
   viewport: {},
   isOpen: false,
+  scriptName: '',
+  saveTime: '',
 
   setIsOpen: (isOpen) => {
     set({ isOpen });
@@ -61,6 +67,14 @@ const useStore = create<Store>((set, get) => ({
     set({ viewport });
   },
 
+  setScriptName: (scriptName) => {
+    set({ scriptName });
+  },
+
+  setSaveTime: (saveTime) => {
+    set({ saveTime });
+  },
+
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -78,13 +92,13 @@ const useStore = create<Store>((set, get) => ({
       ...connection,
       markerEnd: {
         type: MarkerType.ArrowClosed,
-        width: 18,
-        height: 18,
-        color: '#307dfa',
+        width: 12,
+        height: 12,
+        color: '#9f9f9f',
       },
       style: {
-        strokeWidth: 2,
-        stroke: '#307dfa',
+        strokeWidth: 1.8,
+        stroke: '#ababab',
       },
     };
     set({
@@ -128,6 +142,7 @@ const useStore = create<Store>((set, get) => ({
         const data = {
           label: 'Delay',
           disable: false,
+          description: '',
           delayTime: '',
         };
 
@@ -160,6 +175,52 @@ const useStore = create<Store>((set, get) => ({
       case 'getContent': {
         const data = {
           label: 'GetContent',
+          disable: false,
+          XPath: '',
+          description: '',
+        };
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'inputText': {
+        const data = {
+          label: 'Text',
+          disable: false,
+          XPath: '',
+          Value: '',
+          description: '',
+        };
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'inputSelect': {
+        const data = {
+          label: 'Select',
+          disable: false,
+          XPath: '',
+          value: '',
+          description: '',
+        };
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'inputRadio': {
+        const data = {
+          label: 'Radio',
+          disable: false,
+          XPath: '',
+          description: '',
+        };
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'inputCheckbox': {
+        const data = {
+          label: 'Checkbox',
           disable: false,
           XPath: '',
           description: '',
