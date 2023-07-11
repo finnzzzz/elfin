@@ -43,7 +43,6 @@ const nodeTypes = {
   trigger: TriggerEvent,
   click: ClickEvent,
   delay: DelayEvent,
-  inputCustom: InputEvent,
   newTab: NewTabEvent,
   getContent: GetContentEvent,
   inputText: InputTextEvent,

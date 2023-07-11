@@ -29,7 +29,7 @@ interface ClickEventProps {
   data: inputObj;
 }
 
-function InputEvent({ id, isConnectable, data }: ClickEventProps) {
+function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
   const { setXPath, setDescription } = useStore(selector(id), shallow);
 
   const [stashXpath, setStashXpath] = useState(data.XPath);
@@ -103,4 +103,4 @@ function InputEvent({ id, isConnectable, data }: ClickEventProps) {
   );
 }
 
-export default InputEvent;
+export default InputCheckboxEvent;

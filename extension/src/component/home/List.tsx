@@ -2,6 +2,8 @@ import { db } from '../../lib/firebase';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
+import { TiFlashOutline } from 'react-icons/ti';
+
 import { Node, Edge, XYPosition, getOutgoers } from 'reactflow';
 
 interface IitemObj {
@@ -100,24 +102,32 @@ const List = () => {
       {workflowSnapShots?.docs
         ? workflowSnapShots.docs.map((item) => {
             const saveTimeSeconds = item.data().saveTime?.seconds;
-            const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString();
+            const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString('zh-TW', {
+              hour12: false,
+            });
             return (
-              <div className='flex flex-col items-center' key={item.id}>
-                <button>delete</button>
-                <div className=' flex w-[300px] flex-col items-center rounded-lg border border-blue-500 bg-slate-200 p-3'>
-                  <span className=' mb-2'>{item.data().name}</span>
-                  <span className=' mb-2 text-sm'>{item.data().id}</span>
-                  <span className=' text-sm'>save time：</span>
-                  <span className=' text-sm'>{saveTime}</span>
+              <div
+                className='flex relative flex-col w-full items-center pr-7 mb-4  pl-7'
+                key={item.id}
+              >
+                {/* <button>delete</button> */}
+                <div className=' flex w-full h-[85px] justify-between shadow-sm shadow-mainBlue-300 items-start rounded-lg border border-blue-400 bg-white p-3'>
+                  <div className=' flex flex-col gap-1'>
+                    <span className='text-base text-mainBlue-400'>{item.data().name}</span>
+                    <span className=' text-gray-400'>description</span>
+                  </div>
                   <button
                     onClick={() => {
                       createCommandObject(item.data().flow);
                     }}
-                    className=' border border-blue-500 p-1 rounded-md'
+                    className=' rounded-md text-gray-400 hover:text-mainBlue-400 mt-2 mr-2'
                   >
-                    start
+                    <TiFlashOutline size='28px' />
                   </button>
                 </div>
+                <span className=' text-xs absolute right-10 text-gray-400 bottom-1'>
+                  Edited:{saveTime}
+                </span>
               </div>
             );
           })

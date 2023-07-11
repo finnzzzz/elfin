@@ -11,10 +11,20 @@ const Home = () => {
 
   console.log('rerender');
 
+  const goElfin = () => {
+    window.open('https://elfin.vercel.app/');
+  };
+
   return (
     <div className=' flex h-full justify-end'>
-      <div className=' flex w-[350px] flex-col items-center  border border-black pb-3 pt-3 font-semibold'>
-        <div className=' text-2xl mb-5'>Extension</div>
+      <div className=' flex w-[350px] flex-col items-center pb-3 pt-8 font-semibold background-image-blue relative'>
+        <div
+          onClick={goElfin}
+          className=' text-2xl mb-5 font-bakbak text-mainBlue-500 hover:underline cursor-pointer'
+        >
+          elfin
+        </div>
+
         {userToken ? (
           <List />
         ) : (

@@ -6,4 +6,17 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Nunito Sans';
+}
+
+.background-image-blue {
+  background: rgb(230, 236, 255);
+  background: linear-gradient(
+    25deg,
+    rgba(209, 221, 255, 0.8603816526610644) 0%,
+    rgba(234, 239, 255, 1) 17%,
+    rgba(255, 253, 246, 0.5) 49%,
+    rgba(219, 229, 255, 1) 79%,
+    rgba(250, 252, 255, 1) 100%
+  );
 }
