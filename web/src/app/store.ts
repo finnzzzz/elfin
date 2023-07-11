@@ -26,8 +26,8 @@ interface Store {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[] | ((edges: Edge[]) => Edge[])) => void;
   setViewport: (viewport: object) => void;
-  setScriptName:(scriptName:string) => void;
-  setSaveTime:(saveTime:string) => void;
+  setScriptName: (scriptName: string) => void;
+  setSaveTime: (saveTime: string) => void;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -212,6 +212,7 @@ const useStore = create<Store>((set, get) => ({
           label: 'Radio',
           disable: false,
           XPath: '',
+          value: true,
           description: '',
         };
 
@@ -223,6 +224,7 @@ const useStore = create<Store>((set, get) => ({
           label: 'Checkbox',
           disable: false,
           XPath: '',
+          value: true,
           description: '',
         };
 
