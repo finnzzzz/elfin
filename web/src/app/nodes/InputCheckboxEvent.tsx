@@ -17,7 +17,7 @@ const selector = (id: string) => (store: any) => ({
 type inputObj = {
   label: 'Input';
   disable: boolean;
-  value: string;
+  value: boolean;
   XPath: string;
   description: string;
   inputType: string;

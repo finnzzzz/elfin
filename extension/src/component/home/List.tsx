@@ -8,7 +8,7 @@ import { Node, Edge, XYPosition, getOutgoers } from 'reactflow';
 
 interface IitemObj {
   type: string;
-  Data: object;
+  data: object;
 }
 
 type Flow = {
@@ -17,23 +17,21 @@ type Flow = {
   viewport: XYPosition;
 };
 
-chrome.runtime.onMessage.addListener((msg, sender, response) => {
-  if (msg.command == 'newtab') {
-    // alert('123');
-
-    setTimeout(() => {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-        const activeTabId = tabs[0].id as number;
-        console.log(activeTabId);
-        const obj = msg.data;
-        chrome.tabs.sendMessage(activeTabId, {
-          command: 'runCommands',
-          data: obj,
-        });
-      });
-    }, 1500);
-  }
-});
+// chrome.runtime.onMessage.addListener((msg, sender, response) => {
+//   if (msg.command == 'newtab') {
+//     setInterval(() => {
+//       chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
+//         const activeTabId = tabs[0].id as number;
+//         console.log(activeTabId);
+//         const obj = msg.data;
+//         chrome.tabs.sendMessage(activeTabId, {
+//           command: 'runCommands',
+//           data: obj,
+//         });
+//       });
+//     }, 500);
+//   }
+// });
 
 const List = () => {
   const userRef = collection(db, 'users', '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1', 'scripts');
@@ -74,11 +72,11 @@ const List = () => {
     for (let i = 0; i < (executionOrder as Node[]).length; i++) {
       const itemObj: IitemObj = {
         type: '',
-        Data: {},
+        data: {},
       };
 
       itemObj.type = executionOrder[i].type;
-      itemObj.Data = executionOrder[i].data;
+      itemObj.data = executionOrder[i].data;
       commandsArr.push(itemObj);
     }
 
@@ -89,7 +87,7 @@ const List = () => {
       console.log(activeTabId);
       const obj = commandsArr;
       chrome.tabs.sendMessage(activeTabId, {
-        command: 'runCommands',
+        command: 'firstRunCommands',
         data: obj,
       });
     });
