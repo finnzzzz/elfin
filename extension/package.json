@@ -10,14 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.239",
     "firebase": "^9.23.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
+    "react-icons": "^4.10.1",
     "reactflow": "^11.7.4"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.239",
     "@crxjs/vite-plugin": "^1.0.14",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
