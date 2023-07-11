@@ -1,11 +1,11 @@
 interface data {
   type: string;
-  Data: {
-    CSS: string;
+  data: {
     XPath: string;
-    DelayTime: string;
-    URL: string;
-    Value: string;
+    delayTime: string;
+    url: string;
+    value: string;
+    disable: boolean;
   };
 }
 
@@ -17,12 +17,22 @@ type obj = Array<data>;
 // }
 
 console.log('content_script working');
-chrome.runtime.onMessage.addListener((msg) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   console.log(msg);
-  if (msg.command == 'runCommands') {
-    console.log('start commands');
+  if (msg.command == 'firstRunCommands') {
+    sendResponse({ success: true });
+    console.log('firstRunCommands');
     const scrapeObj = msg.data;
     getNextItem(scrapeObj, 0);
+    console.log(msg.data);
+  } else if (msg.command == 'runCommands') {
+    sendResponse({ success: true });
+    console.log('start commands');
+    const scrapeObj = msg.data.obj;
+    const index = msg.data.index + 1;
+    console.log(scrapeObj, index, typeof index);
+
+    getNextItem(scrapeObj, index);
   }
 });
 
@@ -59,7 +69,12 @@ function getNextItem(obj: obj, index: number) {
     //   saveEvent(obj, index);
     // }
 
-    if (obj[index].type == 'inputCustom') {
+    if (
+      obj[index].type == 'inputText' ||
+      obj[index].type == 'inputSelect' ||
+      obj[index].type == 'inputRadio' ||
+      obj[index].type == 'inputCheckbox'
+    ) {
       enterEvent(obj, index);
       console.log('inputCustom 執行順序:', index);
     }
@@ -81,7 +96,7 @@ function getNextItem(obj: obj, index: number) {
 
 function delayEvent(obj: obj, index: number) {
   const item = obj[index];
-  const waitTime = parseInt(item.Data.DelayTime);
+  const waitTime = parseInt(item.data.delayTime);
   window.setTimeout(function () {
     getNextItem(obj, index + 1);
   }, waitTime);
@@ -89,9 +104,8 @@ function delayEvent(obj: obj, index: number) {
 
 function clickEvent(obj: obj, index: number) {
   const item = obj[index];
-  // const element = document.querySelector(`.${item.Data.CSS}`);
   const XPath = document.evaluate(
-    `${item.Data.XPath}`,
+    `${item.data.XPath}`,
     document,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -100,26 +114,16 @@ function clickEvent(obj: obj, index: number) {
   console.log(XPath, index);
   if (XPath) {
     if (XPath instanceof HTMLAnchorElement) {
+      // event.preventDefault();
       console.log('alink');
       console.log(XPath.href);
       // const href = XPath.href;
-      XPath.click();
+      // XPath.click();
+      window.open(XPath.href, '_blank');
       chrome.runtime.sendMessage({
         command: 'newtab',
         data: '123',
       });
-
-      // bWindow.addEventListener('load', function () {
-      //   const scriptElement = bWindow.document.createElement('script');
-      //   scriptElement.textContent = `
-      //   alert('123')
-      //     // function myFunction() {
-      //     //   console.log('Hello from myFunction in B page!');
-      //     // }
-      //     // myFunction()
-      //   `;
-      //   bWindow.document.head.appendChild(scriptElement);
-      // });
 
       // 繼續執行 JavaScript 的程式碼
       // getNextItem(obj, index + 1);
@@ -130,7 +134,7 @@ function clickEvent(obj: obj, index: number) {
       return;
     }
   }
-  alert(`no ${item.Data.XPath} element`);
+  alert(`no ${item.data.XPath} element`);
 }
 
 // function saveEvent(obj, index) {
@@ -144,7 +148,7 @@ function clickEvent(obj: obj, index: number) {
 function getContentEvent(obj: obj, index: number) {
   const item = obj[index];
   const XPath = document.evaluate(
-    `${item.Data.XPath}`,
+    `${item.data.XPath}`,
     document,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -164,7 +168,7 @@ function enterEvent(obj: obj, index: number) {
   const item = obj[index];
   console.log('item', item);
   const XPath = document.evaluate(
-    `${item.Data.XPath}`,
+    `${item.data.XPath}`,
     document,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
@@ -172,7 +176,7 @@ function enterEvent(obj: obj, index: number) {
   ).singleNodeValue as HTMLInputElement | HTMLSelectElement | null;
   console.log(XPath, index);
   if (XPath) {
-    setNativeValue(XPath, item.Data.Value);
+    setNativeValue(XPath, item.data.value);
   } else {
     alert('no element');
   }
@@ -181,7 +185,10 @@ function enterEvent(obj: obj, index: number) {
 }
 
 function newTabEvent(obj: obj, index: number) {
-  const url = obj[index].Data.URL;
+  const url = obj[index].data.url;
   window.open(url, '_blank');
-  getNextItem(obj, index + 1);
+  chrome.runtime.sendMessage({
+    command: 'newtab',
+    data: { obj, index },
+  });
 }
