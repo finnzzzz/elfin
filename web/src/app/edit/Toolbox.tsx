@@ -8,6 +8,8 @@ import { IoList } from 'react-icons/io5';
 import { MdOutlineRadioButtonChecked } from 'react-icons/md';
 import { IoMdCheckboxOutline } from 'react-icons/io';
 import { TbTextRecognition } from 'react-icons/tb';
+import { PiHandTap } from 'react-icons/pi';
+import { PiHandSwipeRight } from 'react-icons/pi';
 
 const Toolbox = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>, nodeType: string) => {
@@ -17,8 +19,14 @@ const Toolbox = () => {
 
   return (
     <div className=' flex flex-col border border-r-gray-300 bg-white'>
-      <div className=' p-5 text-center text-lg font-semibold italic text-blue-500'>
-        Drag to create
+      <div className='flex items-center gap-3 justify-center p-5 text-center text-lg font-bold text-blue-600'>
+        <span>
+          <PiHandTap size='22px' />
+        </span>
+        <span>Drag to create</span>
+        <span>
+          <PiHandSwipeRight size='22px' />
+        </span>
       </div>
       <aside
         className=' flex w-[250px] flex-col items-center overflow-auto p-3
@@ -29,17 +37,17 @@ const Toolbox = () => {
             <span>Browser</span>
             <div className=' toolboxContainer'>
               <div
-                className=' toolboxItem hover:text-customNileBlue-400 hover:border-customNileBlue-400'
+                className=' toolboxItem hover:border-customNileBlue-400 hover:text-customNileBlue-400'
                 onDragStart={(event) => onDragStart(event, 'newTab')}
                 draggable
               >
                 <span>
                   <PiBrowsersDuotone size='24px' />
                 </span>
-                <span >New Tab</span>
+                <span>New Tab</span>
               </div>
               <div
-                className=' toolboxItem hover:text-customOrange-400 hover:border-customOrange-400'
+                className=' toolboxItem hover:border-customOrange-400 hover:text-customOrange-400'
                 onDragStart={(event) => onDragStart(event, 'delay')}
                 draggable
               >
@@ -54,7 +62,7 @@ const Toolbox = () => {
             <span>Interaction</span>
             <div className=' toolboxContainer'>
               <div
-                className=' toolboxItem hover:text-customGreen-400 hover:border-customGreen-400'
+                className=' toolboxItem hover:border-customGreen-400 hover:text-customGreen-400'
                 onDragStart={(event) => onDragStart(event, 'click')}
                 draggable
               >
@@ -64,7 +72,7 @@ const Toolbox = () => {
                 <span>Click</span>
               </div>
               <div
-                className=' toolboxItem hover:text-customPurple-400 hover:border-customPurple-400'
+                className=' toolboxItem hover:border-customPurple-400 hover:text-customPurple-400'
                 onDragStart={(event) => onDragStart(event, 'inputText')}
                 draggable
               >
@@ -74,7 +82,7 @@ const Toolbox = () => {
                 Text
               </div>
               <div
-                className=' toolboxItem hover:text-customRed-400 hover:border-customRed-400'
+                className=' toolboxItem hover:border-customRed-400 hover:text-customRed-400'
                 onDragStart={(event) => onDragStart(event, 'inputSelect')}
                 draggable
               >
@@ -84,7 +92,7 @@ const Toolbox = () => {
                 Select
               </div>
               <div
-                className=' toolboxItem hover:text-customDarkYellow-400 hover:border-customDarkYellow-400'
+                className=' toolboxItem hover:border-customDarkYellow-400 hover:text-customDarkYellow-400'
                 onDragStart={(event) => onDragStart(event, 'inputRadio')}
                 draggable
               >
@@ -94,7 +102,7 @@ const Toolbox = () => {
                 Radio
               </div>
               <div
-                className=' toolboxItem hover:text-customPink-400 hover:border-customPink-400'
+                className=' toolboxItem hover:border-customPink-400 hover:text-customPink-400'
                 onDragStart={(event) => onDragStart(event, 'inputCheckbox')}
                 draggable
               >
@@ -109,7 +117,7 @@ const Toolbox = () => {
             <span>Data</span>
             <div className=' toolboxContainer '>
               <div
-                className=' toolboxItem hover:text-customDarkGreen-400 hover:border-customDarkGreen-400'
+                className=' toolboxItem hover:border-customDarkGreen-400 hover:text-customDarkGreen-400'
                 onDragStart={(event) => onDragStart(event, 'getContent')}
                 draggable
               >
