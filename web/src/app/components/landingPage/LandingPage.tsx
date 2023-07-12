@@ -28,9 +28,9 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className='flex h-full w-full  flex-col items-center p-6'>
+      <div className='flex h-full w-full  flex-col items-center p-5'>
         <span className=' self-end text-xl'>browser automation tool</span>
-        <div className=' mt-[12.5%] flex items-center gap-2 text-5xl font-bold'>
+        <div className=' mt-[10.5%] flex items-center gap-2 text-5xl font-bold'>
           <span>make</span>
           <span className=' title-browser-bg rounded-[10px]  p-2 pl-3 pr-3 text-mainBlue-500'>
             browser
@@ -40,7 +40,7 @@ const LandingPage = () => {
             simple
           </span>
         </div>
-        <div className=' mt-[7%]'>
+        <div className=' mt-[6%]'>
           <Image
             src={mainPic}
             width={1236}
@@ -50,7 +50,7 @@ const LandingPage = () => {
             alt='landing page picture'
           />
         </div>
-        <button className=' mt-[13%] text-xl hover:underline' onClick={userlogin}>
+        <button className=' mt-[150px] text-xl hover:underline' onClick={userlogin}>
           sign up to start
         </button>
       </div>
