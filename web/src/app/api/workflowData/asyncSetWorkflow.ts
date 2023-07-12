@@ -20,6 +20,7 @@ const asyncSetWorkflow = async (uid: string) => {
       viewport: {},
     },
     saveTime: serverTimestamp(),
+    description:'description'
   });
 
   const docId = docRef.id;
