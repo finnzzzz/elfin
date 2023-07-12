@@ -2,11 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
-}
-
 body {
+  box-sizing: border-box;
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -34,8 +31,46 @@ body {
   );
 }
 
+.title-browser-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(200, 227, 251, 0.7) 40%,
+    rgba(169, 216, 255, 0.9) 100%
+  );
+}
+
+.title-simple-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 245, 240, 0.7) 0%,
+    rgba(255, 242, 230, 1) 25%,
+    rgba(255, 194, 141, 1) 100%
+  );
+}
+
+.scriptList-block-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.8603816526610644) 0%,
+    rgba(154, 182, 255, 1) 100%
+  );
+}
+
+.templateScriptList-block-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgb(255, 215, 177, 0) 0%, rgba(255, 178, 168, 1) 100%);
+}
+
 .toolboxItemShadow {
   box-shadow: 4px 5px 5px -3px rgba(131, 131, 131, 0.5);
+}
+
+.scriptListShadow {
+  box-shadow: 1px 2px 5px 0px rgba(166, 166, 166, 0.4);
 }
 
 /* ---------------------------------------------------------------------reactflow */
@@ -48,7 +83,7 @@ body {
 }
 
 .toolboxContainer {
-  @apply flex w-full flex-col gap-4 rounded-md bg-[#f7f7f7] p-4;
+  @apply flex w-full flex-col gap-4 rounded-md bg-[#f1f7ff] p-4;
 }
 
 .toolboxItem {

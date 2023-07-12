@@ -2,6 +2,8 @@
 // ---------------------------------------React
 import { useState, useRef, useCallback } from 'react';
 // ---------------------------------------React-Flow
+import { FaRegSave } from 'react-icons/fa';
+// ---------------------------------------React-Flow
 import ReactFlow, {
   Background,
   ReactFlowProvider,
@@ -208,7 +210,7 @@ const EditPage = ({ id }: EditPageProps) => {
       }}
     >
       <ReactFlowProvider>
-        <Toolbox nodes={nodes} edges={edges} />
+        <Toolbox />
         <div className=' h-full flex-grow' ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -233,12 +235,15 @@ const EditPage = ({ id }: EditPageProps) => {
             {/* <Controls /> */}
             <Panel position='top-right'>
               <button
-                className=' late-50 mr-2 rounded-md border border-blue-500 bg-white p-1'
+                className='mr-2 flex items-center justify-center gap-3 rounded-xl border bg-mainBlue-400 p-2 pl-4 pr-4 text-white hover:bg-mainBlue-500'
                 onClick={() => {
                   onUpdate(userInfo.userUid, id);
                 }}
               >
-                save
+                <span>
+                  <FaRegSave size='20px' />
+                </span>
+                Save
               </button>
             </Panel>
             <MiniMap zoomable pannable />

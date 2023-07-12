@@ -8,6 +8,8 @@ import { HiPlus } from 'react-icons/hi';
 import user_useStore from '@/app/user_store';
 import { shallow } from 'zustand/shallow';
 import PersonalScriptList from './components/personalScriptList/PersonalScriptList';
+import LandingPage from './components/landingPage/LandingPage';
+import TemplateScripts from './components/templateScripts/TemplateScripts';
 
 export default function Home() {
   const userInfo = user_useStore((state) => state.userInfo, shallow);
@@ -28,30 +30,44 @@ export default function Home() {
   };
 
   return (
-    <div className='w-full p-5'>
-      <div className=' mb-7 text-2xl text-slate-500'>hello world</div>
-      <div className='mb-[30px] text-2xl text-gray-800'>Template</div>
-      <div className=' mb-7 h-[180px] w-full rounded-sm bg-gray-100'></div>
-      <hr className='mb-5 w-full border-gray-400' />
+    <>
       {loginState ? (
-        <>
-          <div className=' mb-7 text-2xl'>{userInfo.userName} s scripts</div>
-          <button
-            onClick={() => {
-              addScript(userInfo.userUid);
-            }}
-            className=' mb-3 flex items-center rounded-md border border-blue-200 bg-[#0D99FF] p-3 text-white'
-          >
-            <span className=' leading-[15px]'>New script</span>
-            <span className=' ml-1'>
-              <HiPlus size='15px' />
+        <div className='w-full p-5 pt-[60px]'>
+          <span className=' absolute right-[20px] top-[20px]'>Browser automation tool</span>
+          <div className=' mb-7 text-2xl text-slate-800'>
+            👋🏻 Welcome !
+            <span className='ml-2 text-2xl font-semibold text-mainBlue-500'>
+              {userInfo.userName}
             </span>
-          </button>
-          <PersonalScriptList />
-        </>
+          </div>
+          <div className=' mb-[20px] text-[24px] text-gray-700'>Template</div>
+          <TemplateScripts />
+          <hr className='mb-8 mt-[50px] w-full border-gray-300' />
+          {loginState ? (
+            <>
+              <div className=' mb-7 text-[20px] text-gray-700'>
+                {userInfo.userName}&#39; scripts
+              </div>
+              <button
+                onClick={() => {
+                  addScript(userInfo.userUid);
+                }}
+                className=' mb-4 flex items-center rounded-md border border-blue-200 bg-[#0D99FF] p-3 text-white'
+              >
+                <span className=' leading-[15px]'>New script</span>
+                <span className=' ml-1'>
+                  <HiPlus size='15px' />
+                </span>
+              </button>
+              <PersonalScriptList />
+            </>
+          ) : (
+            <div>請先登入</div>
+          )}
+        </div>
       ) : (
-        <div>請先登入</div>
+        <LandingPage />
       )}
-    </div>
+    </>
   );
 }

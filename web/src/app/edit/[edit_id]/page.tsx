@@ -85,8 +85,8 @@ const Edit = ({ params }: EditProps) => {
 
   return (
     <>
-      <div className='flex w-full flex-col'>
-        <div className='relative flex items-center justify-center border border-b-gray-300 p-3'>
+      <div className='flex h-full w-full flex-col'>
+        <div className='relative flex items-center justify-center border-b border-b-gray-300 p-3'>
           <input
             type='text'
             value={scriptName}
@@ -100,7 +100,7 @@ const Edit = ({ params }: EditProps) => {
           />
           <div className=' absolute bottom-1 right-4 text-sm'>
             <span className=' mr-2 text-gray-500'>last saved</span>
-            <span className=' italic text-gray-500'>{saveTime}</span>
+            <span className=' text-gray-500'>{saveTime}</span>
           </div>
         </div>
         {loading && (

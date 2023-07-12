@@ -18,8 +18,8 @@ const Toolbox = () => {
   };
 
   return (
-    <div className=' flex flex-col border border-r-gray-300 bg-white'>
-      <div className='flex items-center gap-3 justify-center p-5 text-center text-lg font-bold text-blue-600'>
+    <div className=' flex flex-col bg-white'>
+      <div className='flex items-center justify-center gap-3  border-b border-r border-b-gray-300 border-r-gray-300 p-5 text-center text-lg font-bold text-blue-600 '>
         <span>
           <PiHandTap size='22px' />
         </span>
@@ -28,13 +28,10 @@ const Toolbox = () => {
           <PiHandSwipeRight size='22px' />
         </span>
       </div>
-      <aside
-        className=' flex w-[250px] flex-col items-center overflow-auto p-3
-    '
-      >
+      <aside className=' flex h-full w-[260px] flex-col items-center overflow-auto border-r  border-b-gray-300 p-5'>
         <div className='flex w-full flex-col gap-4 '>
           <div>
-            <span>Browser</span>
+            <span className=' text-gray-800'>Browser</span>
             <div className=' toolboxContainer'>
               <div
                 className=' toolboxItem hover:border-customNileBlue-400 hover:text-customNileBlue-400'
@@ -59,7 +56,7 @@ const Toolbox = () => {
             </div>
           </div>
           <div>
-            <span>Interaction</span>
+            <span className=' text-gray-800'>Interaction</span>
             <div className=' toolboxContainer'>
               <div
                 className=' toolboxItem hover:border-customGreen-400 hover:text-customGreen-400'
@@ -114,7 +111,7 @@ const Toolbox = () => {
             </div>
           </div>
           <div>
-            <span>Data</span>
+            <span className=' text-gray-800'>Data</span>
             <div className=' toolboxContainer '>
               <div
                 className=' toolboxItem hover:border-customDarkGreen-400 hover:text-customDarkGreen-400'
@@ -129,25 +126,6 @@ const Toolbox = () => {
             </div>
           </div>
         </div>
-        {/* <div
-        className='node border-orange-400'
-        onDragStart={(event) => onDragStart(event, 'click')}
-        draggable
-      >
-        click
-      </div> */}
-        {/* {nodes?.map((node) => (
-        <div key={node.id}>
-          Node {node.id} <br /> x: {node.position.x.toFixed(2)}, y: {node.position.y.toFixed(2)}
-          <br />
-          type:{node.type}, data_CSS:{node.data?.CSS}
-        </div>
-      ))} */}
-        {/* {edges?.map((edges) => (
-        <div key={edges.id} className=' text-xs'>
-          {edges.id}
-        </div>
-      ))} */}
       </aside>
     </div>
   );

@@ -29,55 +29,52 @@ const PersonalScriptList = () => {
     asyncDeleteWorkflow(uid, id);
     console.log('delete');
   };
+
+  const personalScripts = workflowSnapShots?.docs.filter(
+    (item) => item.data().isTemplate !== 'true'
+  );
   return (
     <>
-      {/* <div className=' mb-4'>PersonalScriptList</div> */}
-      <div className=' background-image-blue flex flex-wrap justify-start gap-4 rounded-md p-5'>
+      <div className=' background-image-blue flex flex-wrap justify-start gap-9 rounded-md p-9'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
-        {workflowSnapShots?.docs.map((item) => {
+        {personalScripts?.map((item) => {
           const saveTimeSeconds = item.data().saveTime?.seconds;
           const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString();
           return (
-            <div className='flex flex-col items-end' key={item.id}>
-              {/* <button
-                onClick={() => {
-                  deleteScript(userInfo.userUid, item.id);
-                }}
-                className=' mb-1 w-fit rounded-md border border-red-300 bg-red-100 p-1 text-sm '
-              >
-                delete
-              </button> */}
-
-              <Link href={`/edit/${item.id}`}>
-                <div className=' relative h-[100px] w-[250px] rounded-md border border-[#d2e4fa] bg-white hover:border-[#a1bbda]'>
-                  <span
-                    className='  absolute right-2 top-2 text-gray-400 hover:text-gray-700'
-                    onClick={(e) => {
-                      deleteScript(userInfo.userUid, item.id, e);
-                    }}
-                  >
-                    <IoIosClose size='20px' />
-                  </span>
-
-                  <div className=' m-5 flex flex-col '>
-                    <div className=' flex items-center'>
-                      <span className=' mb-2 text-md'>{item.data().name}</span>
+            <div className='' key={item.id}>
+              <div className=' relative h-[210px] w-[290px]'>
+                <div className=' ml-auto h-[70px] w-[70%] rounded-[20px] border border-gray-300 bg-white '></div>
+                <span
+                  className='  absolute right-4 top-2 cursor-pointer text-gray-400 hover:text-gray-700'
+                  onClick={(e) => {
+                    deleteScript(userInfo.userUid, item.id, e);
+                  }}
+                >
+                  <IoIosClose size='20px' />
+                </span>
+                <div className=' scriptListShadow absolute bottom-0 h-[180px] w-[290px] rounded-[20px] border border-gray-300 bg-white p-4'>
+                  <div className=' scriptList-block-bg  mb-4 h-[30px] w-[100px] rounded-[10px] '></div>
+                  <div className=' flex h-[70%] flex-col justify-between'>
+                    <div className=' flex flex-col'>
+                      <Link href={`/edit/${item.id}`} key={item.id}>
+                        <span className=' text-md hover:underline'>{item.data().name}</span>
+                      </Link>
+                      <input
+                        id='description'
+                        name='clickDescription'
+                        // onChange={descriptionChange}
+                        // value={stashDescription}
+                        // onBlur={setDescription}
+                        maxLength={21}
+                        placeholder='description'
+                        className=' rounded-sm text-gray-400 outline-none focus:underline '
+                      />
                     </div>
-                    {/* <span className=' mb-2 text-sm'>{item.data().id}</span> */}
-                    <input
-                      type='text'
-                      className=' mb-2 text-sm text-gray-400 outline-none focus:underline'
-                      placeholder='description'
-                      maxLength={27}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    />
+                    <span className=' mt-1 self-end text-xs text-gray-500'>Edited：{saveTime}</span>
                   </div>
                 </div>
-              </Link>
-              <span className=' mt-1 text-xs'>Edited：{saveTime}</span>
+              </div>
             </div>
           );
         })}
