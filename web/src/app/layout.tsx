@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={font.className}>
         <Sidebar />
-        {children}
+        <div className=' ml-[64px] w-full'>{children}</div>
       </body>
     </html>
   );

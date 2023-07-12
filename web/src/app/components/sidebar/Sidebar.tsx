@@ -2,6 +2,8 @@
 import { Bakbak_One } from 'next/font/google';
 import { TbLogout } from 'react-icons/tb';
 import { MdAccountCircle } from 'react-icons/md';
+import { RxInfoCircled } from 'react-icons/rx';
+import { IoSettingsOutline } from 'react-icons/io5';
 
 import { useState, useEffect } from 'react';
 
@@ -33,11 +35,13 @@ const Sidebar = () => {
   const userlogin = async () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
 
-    console.log(userInfoFirestore.user.photoURL);
-    await asyncSetUser(userInfoFirestore.user.uid, userInfoFirestore.user.displayName);
+    await asyncSetUser(
+      userInfoFirestore.user.uid,
+      userInfoFirestore.user.providerData[0].displayName
+    );
 
     login(
-      userInfoFirestore.user.displayName,
+      userInfoFirestore.user.providerData[0].displayName,
       userInfoFirestore.user.uid,
       userInfoFirestore.user.photoURL as string
     );
@@ -48,7 +52,7 @@ const Sidebar = () => {
     logout();
   };
   return (
-    <div className='bg-white flex h-full w-16 flex-col items-center justify-between gap-2 border border-gray-300'>
+    <div className='fixed flex h-full w-16 flex-col items-center justify-between gap-2 overflow-auto border  border-r-gray-300 bg-white'>
       <div className=' pt-4'>
         <Link className={`${font.className} text-xl text-blue-600  `} href='/'>
           elfin
@@ -56,23 +60,22 @@ const Sidebar = () => {
       </div>
       {loginState ? (
         <>
-          {/* <span className=' text-xs'>{userInfo.userName}</span> */}
           <div className=' flex flex-col items-center'>
+            <button className=' mb-5'>
+              <RxInfoCircled size='26px' color='#949494' />
+            </button>
+            <button className=' mb-5'>
+              <IoSettingsOutline size='26px' color='#949494' />
+            </button>
             <Image
               src={userInfo.userImage}
               width={37}
               height={37}
               alt='image'
-              quality={50}
-              className=' mb-4 rounded-full border-2 border-blue-600'
+              quality={65}
+              className=' mb-5 rounded-full border-2 border-blue-600'
             />
-            {/* <button
-              onClick={userLogout}
-              className=' mb-4 w-fit rounded-sm border border-blue-700 p-1 text-xs'
-            >
-              logout
-            </button> */}
-            <button className=' mb-3' onClick={userLogout}>
+            <button className=' mb-6' onClick={userLogout}>
               <TbLogout size='30px' stroke-width='1px' color='#5f5f5f' />
             </button>
           </div>
@@ -80,15 +83,9 @@ const Sidebar = () => {
       ) : (
         <>
           <div className=' flex flex-col items-center'>
-            <button className=' mb-3' onClick={userlogin}>
+            <button className=' mb-6' onClick={userlogin}>
               <MdAccountCircle size='37px' color='#c8c8c8' />
             </button>
-            {/* <button
-              onClick={userlogin}
-              className=' w-fitc mb-4 rounded-md border border-blue-700 bg-white p-1'
-            >
-              login
-            </button> */}
           </div>
         </>
       )}
