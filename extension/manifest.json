@@ -1,13 +1,19 @@
 {
-  "name": "vite-extension",
-  "description": "extension",
-  "version": "0.0.1",
+  "name": "elfin - browser automation tool",
+  "description": "Elfin is a tool that makes browser automation easy. It is designed in an intuitive and simple way, allowing you to easily customize your own browser scripts",
+  "version": "1.0.0",
   "manifest_version": 3,
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "action": {
-    "default_title": "extension",
+    "default_title": "elfin",
     "default_popup": "index.html"
   },
-  "permissions": ["scripting", "activeTab"],
+  "permissions": ["scripting", "activeTab", "storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
