@@ -36,8 +36,6 @@ const Sidebar = () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
     const extensionKey = crypto.randomUUID();
     localStorage.setItem('extensionKey', extensionKey);
-    console.log('1', extensionKey);
-
 
     await asyncSetUser(
       userInfoFirestore.user.uid,
