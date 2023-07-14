@@ -11,46 +11,54 @@ interface data {
 
 type obj = Array<data>;
 
-// interface Message {
-//   command: string;
-//   data: obj;
-// }
 
 console.log('content_script working');
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  console.log(msg);
-  if (msg.command == 'firstRunCommands') {
-    sendResponse({ success: true });
-    console.log('firstRunCommands');
-    const scrapeObj = msg.data;
-    getNextItem(scrapeObj, 0);
-    console.log(msg.data);
-  } else if (msg.command == 'runCommands') {
-    sendResponse({ success: true });
-    console.log('start commands');
-    const scrapeObj = msg.data.obj;
-    const index = msg.data.index + 1;
-    console.log(scrapeObj, index, typeof index);
+type objj = {
+  success: true;
+};
+chrome.runtime.onMessage.addListener(
+  (msg: any, _sender: chrome.runtime.MessageSender, sendResponse: (obj: objj) => void) => {
+    console.log(msg);
+    if (msg.command == 'firstRunCommands') {
+      sendResponse({ success: true });
+      console.log('firstRunCommands');
+      const scrapeObj = msg.data;
+      getNextItem(scrapeObj, 0);
+      console.log(msg.data);
+    } else if (msg.command == 'runCommands') {
+      sendResponse({ success: true });
+      console.log('start commands');
+      const scrapeObj = msg.data.obj;
+      const index = msg.data.index + 1;
+      console.log(scrapeObj, index, typeof index);
 
-    getNextItem(scrapeObj, index);
+      getNextItem(scrapeObj, index);
+    }
   }
-});
+);
 
-function setNativeValue(el: HTMLInputElement | HTMLSelectElement, value: string) {
-  const previousValue = el.value;
+function setNativeValue(
+  el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
+  value: string | boolean
+): void {
+  // const previousValue = el.value;
 
-  if (el.type === 'checkbox' || el.type === 'radio') {
+  if (el instanceof HTMLInputElement && (el.type === 'checkbox' || el.type === 'radio')) {
     if ((!!value && !el.checked) || (!value && el.checked)) {
       el.click();
     }
-  } else el.value = value;
-
-  const tracker = (el as any)._valueTracker;
-  if (tracker) {
-    tracker.setValue(previousValue);
+  } else {
+    el.value = value as string;
+    const inputEvent = new Event('input', { bubbles: true });
+    el.dispatchEvent(inputEvent);
+    const changeEvent = new Event('change', { bubbles: true });
+    el.dispatchEvent(changeEvent);
   }
 
-  el.dispatchEvent(new Event('input', { bubbles: true }));
+  // const tracker = el._valueTracker;
+  // if (tracker) {
+  //   tracker.setValue(previousValue);
+  // }
 }
 
 function getNextItem(obj: obj, index: number) {
@@ -64,11 +72,6 @@ function getNextItem(obj: obj, index: number) {
       delayEvent(obj, index);
       console.log('wait');
     }
-
-    // if (obj[index].type == 'save') {
-    //   saveEvent(obj, index);
-    // }
-
     if (
       obj[index].type == 'inputText' ||
       obj[index].type == 'inputSelect' ||
