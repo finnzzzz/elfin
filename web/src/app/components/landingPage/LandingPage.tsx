@@ -13,10 +13,13 @@ const LandingPage = () => {
 
   const userlogin = async () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
+    const extensionKey = crypto.randomUUID();
+    localStorage.setItem('extensionKey', extensionKey);
 
     await asyncSetUser(
       userInfoFirestore.user.uid,
-      userInfoFirestore.user.providerData[0].displayName
+      userInfoFirestore.user.providerData[0].displayName,
+      extensionKey
     );
 
     login(

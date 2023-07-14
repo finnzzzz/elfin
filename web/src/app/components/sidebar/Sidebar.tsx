@@ -34,10 +34,13 @@ const Sidebar = () => {
 
   const userlogin = async () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
+    const extensionKey = crypto.randomUUID();
+    localStorage.setItem('extensionKey', extensionKey);
 
     await asyncSetUser(
       userInfoFirestore.user.uid,
-      userInfoFirestore.user.providerData[0].displayName
+      userInfoFirestore.user.providerData[0].displayName,
+      extensionKey
     );
 
     login(
@@ -50,6 +53,7 @@ const Sidebar = () => {
   const userLogout = async () => {
     await signOut(auth);
     logout();
+    localStorage.removeItem('extensionKey');
   };
   return (
     <div className='fixed flex h-full w-16 flex-col items-center justify-between gap-2 overflow-auto border  border-r-gray-300 bg-white'>
