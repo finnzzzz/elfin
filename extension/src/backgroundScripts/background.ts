@@ -1,8 +1,4 @@
-// chrome.tabs.onUpdated.addListener(function (tab) {
-//   console.log('新分頁創建:', tab);
-// });
-
-chrome.runtime.onMessage.addListener((msg, sender, response) => {
+chrome.runtime.onMessage.addListener((msg) => {
   if (msg.command == 'newtab') {
     let times = 0;
     let messageSent = false;
@@ -38,5 +34,8 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       }
     };
     sendCom();
+  } else if (msg.command == 'setExtensionKey') {
+    console.log('bgget', msg.data.newExtensionKey);
+    chrome.runtime.sendMessage({ command: 'setkey', data: msg.data.newExtensionKey });
   }
 });
