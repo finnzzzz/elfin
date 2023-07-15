@@ -1,5 +1,4 @@
 'use client';
-import { Bakbak_One } from 'next/font/google';
 import icon from './icon48.png';
 
 import { TbLogout } from 'react-icons/tb';
@@ -18,8 +17,6 @@ import { signInWithPopup, UserCredential, signOut } from 'firebase/auth';
 
 import asyncSetUser from '@/app/api/user/asyncSetUser';
 import { shallow } from 'zustand/shallow';
-
-const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
 
 const Sidebar = () => {
   const [loginState, setLoginState] = useState(false);
