@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useCallback, useState, useEffect } from 'react';
 import { db } from '@/app/lib/firebase';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -6,11 +7,12 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { IoIosClose } from 'react-icons/io';
 
 import asyncDeleteWorkflow from '@/app/api/workflowData/asyncDeleteWorkflow';
+import asyncUpdateWorkflow from '@/app/api/workflowData/asyncUpdateWorkflow';
 
-import useStore from '@/app/user_store';
+import useUserStore from '@/app/user_store';
 
 const PersonalScriptList = () => {
-  const userInfo = useStore((state) => state.userInfo);
+  const userInfo = useUserStore((state) => state.userInfo);
 
   const uid = userInfo.userUid;
 
@@ -18,7 +20,18 @@ const PersonalScriptList = () => {
   const q = query(userRef, orderBy('saveTime', 'desc'));
   const [workflowSnapShots, loading, error] = useCollection(q);
 
-  console.log('psl', workflowSnapShots?.docs);
+  const [description, setDescription] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    const desObj: { [key: string]: string } = {};
+    workflowSnapShots?.docs.map((item) => {
+      const id: string = item.data().id;
+      const des: string = item.data().description;
+      desObj[id] = des;
+    });
+    console.log(desObj);
+    setDescription(desObj);
+  }, [workflowSnapShots]);
 
   const deleteScript = (
     uid: string,
@@ -33,9 +46,26 @@ const PersonalScriptList = () => {
   const personalScripts = workflowSnapShots?.docs.filter(
     (item) => item.data().isTemplate !== 'true'
   );
+
+  const saveScriptDescription = useCallback(
+    async (uid: string, id: string, e: React.FocusEvent<HTMLInputElement>) => {
+      const description = e.target.value;
+      await asyncUpdateWorkflow(uid, id, { description });
+    },
+    []
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setDescription((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
-      <div className=' background-image-blue flex flex-wrap justify-start gap-9 rounded-md p-9'>
+      <div className=' background-image-blue flex flex-wrap justify-start gap-9 rounded-md p-11'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
         {personalScripts?.map((item) => {
@@ -62,13 +92,15 @@ const PersonalScriptList = () => {
                       </Link>
                       <input
                         id='description'
-                        name='clickDescription'
-                        // onChange={descriptionChange}
-                        // value={stashDescription}
-                        // onBlur={setDescription}
-                        maxLength={21}
                         placeholder='description'
+                        name={item.id}
+                        maxLength={26}
                         className=' rounded-sm text-gray-400 outline-none focus:underline '
+                        value={description[item.id]}
+                        onChange={handleChange}
+                        onBlur={(e) => {
+                          saveScriptDescription(userInfo.userUid, item?.id, e);
+                        }}
                       />
                     </div>
                     <span className=' mt-1 self-end text-xs text-gray-500'>Edited：{saveTime}</span>
