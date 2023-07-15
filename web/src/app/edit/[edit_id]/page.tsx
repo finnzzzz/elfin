@@ -76,12 +76,15 @@ const Edit = ({ params }: EditProps) => {
     console.log(scriptName);
   });
 
-  const saveName = useCallback(async (uid: string, id: string, e) => {
-    //儲存到firestore
-    const name = e.target.value;
-    const addedRes = await asyncUpdateWorkflow(uid, id, { name });
-    console.log(addedRes);
-  }, []);
+  const saveName = useCallback(
+    async (uid: string, id: string, e: React.FocusEvent<HTMLInputElement>) => {
+      //儲存到firestore
+      const name = e.target.value;
+      const addedRes = await asyncUpdateWorkflow(uid, id, { name });
+      console.log(addedRes);
+    },
+    []
+  );
 
   return (
     <>
