@@ -1,5 +1,6 @@
 'use client';
-import { Bakbak_One } from 'next/font/google';
+import icon from './icon48.png';
+
 import { TbLogout } from 'react-icons/tb';
 import { MdAccountCircle } from 'react-icons/md';
 import { RxInfoCircled } from 'react-icons/rx';
@@ -16,8 +17,6 @@ import { signInWithPopup, UserCredential, signOut } from 'firebase/auth';
 
 import asyncSetUser from '@/app/api/user/asyncSetUser';
 import { shallow } from 'zustand/shallow';
-
-const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
 
 const Sidebar = () => {
   const [loginState, setLoginState] = useState(false);
@@ -58,8 +57,15 @@ const Sidebar = () => {
   return (
     <div className='fixed flex h-full w-16 flex-col items-center justify-between gap-2 overflow-auto border  border-r-gray-300 bg-white'>
       <div className=' pt-4'>
-        <Link className={`${font.className} text-xl text-blue-600  `} href='/'>
-          elfin
+        <Link href='/'>
+          <Image
+            src={icon}
+            width={48}
+            height={48}
+            quality={100}
+            className=' w-[35px]'
+            alt='elfin icon'
+          />
         </Link>
       </div>
       {loginState ? (

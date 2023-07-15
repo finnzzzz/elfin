@@ -1,4 +1,6 @@
 'use client';
+import { Bakbak_One } from 'next/font/google';
+
 import { useState, useEffect } from 'react';
 
 import asyncSetWorkflow from './api/workflowData/asyncSetWorkflow';
@@ -10,6 +12,8 @@ import { shallow } from 'zustand/shallow';
 import PersonalScriptList from './components/personalScriptList/PersonalScriptList';
 import LandingPage from './components/landingPage/LandingPage';
 import TemplateScripts from './components/templateScripts/TemplateScripts';
+
+const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
 
 export default function Home() {
   const userInfo = user_useStore((state) => state.userInfo, shallow);
@@ -33,7 +37,12 @@ export default function Home() {
     <>
       {loginState ? (
         <div className='w-full p-5 pt-[60px]'>
-          <span className=' absolute right-[20px] top-[20px]'>Browser automation tool</span>
+          <span className=' absolute right-[20px] top-[20px]'>
+            <div className=' flex flex-col items-end'>
+              <span className={` ${font.className} text-xl leading-5 text-gray-400 `}>elfin</span>
+              <span className=' font-bold text-gray-400'>Browser automation tool</span>
+            </div>
+          </span>
           <div className=' mb-7 text-2xl text-slate-800'>
             👋🏻 Welcome !
             <span className='ml-2 text-2xl font-semibold text-mainBlue-500'>
