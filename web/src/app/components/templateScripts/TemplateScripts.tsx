@@ -18,8 +18,6 @@ const TemplateScripts = () => {
   const q = query(userRef, orderBy('saveTime', 'desc'));
   const [workflowSnapShots, loading, error] = useCollection(q);
 
-  console.log('psl', workflowSnapShots?.docs);
-
   const deleteScript = (
     uid: string,
     id: string,
@@ -34,16 +32,14 @@ const TemplateScripts = () => {
     (item) => item.data().isTemplate === 'true'
   );
 
-  console.log(templateScripts);
   return (
     <>
-      {/* background-image-blue */}
       <div className=' flex flex-wrap justify-start gap-7 rounded-md bg-[#f0f3ff] p-5'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
         {templateScripts?.map((item) => {
-          // const saveTimeSeconds = item.data().saveTime?.seconds;
-          // const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString();
+          const saveTimeSeconds = item.data().saveTime?.seconds;
+          const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString();
           return (
             <div className='' key={item.id}>
               <div className=' relative h-[180px] w-[250px]'>
@@ -63,47 +59,11 @@ const TemplateScripts = () => {
                       <Link href={`/edit/${item.id}`} key={item.id}>
                         <span className=' text-md hover:underline'>{item.data().name}</span>
                       </Link>
-                      <input
-                        type='text'
-                        className=' text-sm text-gray-400 outline-none focus:underline'
-                        placeholder='description'
-                        maxLength={27}
-                        onClick={(e) => {
-                          e.preventDefault();
-                        }}
-                      />
                     </div>
-                    {/* <span className=' mt-1 self-end text-xs text-gray-500'>Edited：{saveTime}</span> */}
+                    <span className=' mt-1 self-end text-xs text-gray-500'>Edited：{saveTime}</span>
                   </div>
                 </div>
               </div>
-              {/* <Link href={`/edit/${item.id}`}>
-                <div className=' relative mt-4  h-[150px] w-[250px] rounded-[20px] border border-[#8e9eb2] bg-white p-3 hover:border-[#a1bbda]'>
-                  <div className=' absolute right-[0px] top-[-25px]  h-[50px] w-[170px] rounded-[10px] border border-gray-300 bg-white'>
-                    456
-                  </div>
-                  
-
-                  <div className=' scriptList-block-bg  mb-4 h-[30px] w-[100px] rounded-[10px]'>
-                    123
-                  </div>
-                  <div className=' flex flex-col '>
-                    <div className=' flex items-center'>
-                      <span className=' text-md'>{item.data().name}</span>
-                    </div>
-                    <input
-                      type='text'
-                      className=' text-sm text-gray-400 outline-none focus:underline'
-                      placeholder='description'
-                      maxLength={27}
-                      onClick={(e) => {
-                        e.preventDefault();
-                      }}
-                    />
-                  </div>
-                </div>
-              </Link> */}
-              {/* <span className=' mt-1 text-xs'>Edited：{saveTime}</span> */}
             </div>
           );
         })}
