@@ -35,7 +35,9 @@ const TriggerEvent = ({ isConnectable, id, data }: TriggerEventProps) => {
         </div>
         <div className=' flex items-center text-gray-500'>
           <div className=' text-xs'>{id}</div>
-          <TiArrowRight />
+          <span className=' animate-bounce-custom'>
+            <TiArrowRight />
+          </span>
         </div>
       </div>
       <div className=' w-full flex-1 border-l-mainBlue-400 bg-mainBlue-50'></div>

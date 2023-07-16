@@ -34,6 +34,7 @@ import InputTextEvent from '../nodes/InputTextEvent';
 import InputSelectEvent from '../nodes/InputSelectEvent';
 import InputRadioEvent from '../nodes/InputRadioEvent';
 import InputCheckboxEvent from '../nodes/InputCheckboxEvent';
+import EnterSubmitEvent from '../nodes/EnterSubmitEvent';
 
 // ---------------------------------------FirebaseFunction
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
@@ -51,6 +52,7 @@ const nodeTypes = {
   inputSelect: InputSelectEvent,
   inputRadio: InputRadioEvent,
   inputCheckbox: InputCheckboxEvent,
+  enterSubmit: EnterSubmitEvent
 };
 
 const flowKey = 'demo-flow';
@@ -80,7 +82,7 @@ const EditPage = ({ id }: EditPageProps) => {
     if (!isDirty) {
       setIsDirty(true);
     }
-  }, [nodes, isDirty]);
+  }, [nodes]);
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();

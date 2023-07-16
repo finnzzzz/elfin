@@ -11,7 +11,6 @@ interface data {
 
 type obj = Array<data>;
 
-
 console.log('content_script working');
 type objj = {
   success: true;
@@ -87,6 +86,11 @@ function getNextItem(obj: obj, index: number) {
     }
     if (obj[index].type == 'getContent') {
       getContentEvent(obj, index);
+      console.log('getContent 執行順序:', index);
+    }
+    if (obj[index].type == 'enterSubmit') {
+      pressKey(obj, index);
+      console.log('enterSubmit 執行順序:', index);
     }
   } else {
     //send a return ...
@@ -194,4 +198,34 @@ function newTabEvent(obj: obj, index: number) {
     command: 'newtab',
     data: { obj, index },
   });
+}
+
+function pressKey(obj: obj, index: number) {
+  const item = obj[index];
+  console.log('item', item);
+  const XPath = document.evaluate(
+    `${item.data.XPath}`,
+    document,
+    null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE,
+    null
+  ).singleNodeValue as HTMLInputElement | HTMLSelectElement | null;
+  console.log(XPath, index);
+  if (XPath) {
+    // const keyValue = item.data.value;
+    // const event = new KeyboardEvent('keydown', {
+    //   key: 'a',
+    //   keyCode: 65,
+    //   bubbles: true,
+    //   cancelable: true,
+    // });
+
+    // // 觸發事件
+    // XPath.dispatchEvent(event);
+    XPath.form.submit();
+  } else {
+    alert('no element');
+  }
+
+  getNextItem(obj, index + 1);
 }
