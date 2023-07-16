@@ -10,6 +10,7 @@ import { IoMdCheckboxOutline } from 'react-icons/io';
 import { TbTextRecognition } from 'react-icons/tb';
 import { PiHandTap } from 'react-icons/pi';
 import { PiHandSwipeRight } from 'react-icons/pi';
+import { LuSend } from 'react-icons/lu';
 
 const Toolbox = () => {
   const onDragStart = (event: React.DragEvent<HTMLDivElement>, nodeType: string) => {
@@ -107,6 +108,16 @@ const Toolbox = () => {
                   <IoMdCheckboxOutline size='22px' />
                 </span>
                 Checkbox
+              </div>
+              <div
+                className=' toolboxItem hover:border-customPink-400 hover:text-customPink-400'
+                onDragStart={(event) => onDragStart(event, 'enterSubmit')}
+                draggable
+              >
+                <span>
+                  <LuSend size='20px' />
+                </span>
+                Enter Submit
               </div>
             </div>
           </div>
