@@ -188,7 +188,7 @@ const useStore = create<Store>((set, get) => ({
           label: 'Text',
           disable: false,
           XPath: '',
-          Value: '',
+          value: '',
           description: '',
         };
 
@@ -225,6 +225,17 @@ const useStore = create<Store>((set, get) => ({
           disable: false,
           XPath: '',
           value: true,
+          description: '',
+        };
+
+        set({ nodes: [...get().nodes, { id, type, data, position }] });
+        break;
+      }
+      case 'enterSubmit': {
+        const data = {
+          label: 'Enter Submit',
+          disable: false,
+          XPath: '',
           description: '',
         };
 
