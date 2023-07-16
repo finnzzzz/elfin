@@ -56,6 +56,11 @@ module.exports = {
           400: '#0F740D',
           500: '#0B5F09',
         },
+        customDarkBlue: {
+          50: '#DEE7FF',
+          400: '#1E44A7',
+          500: '#102f7c',
+        },
       },
       borderRadius: {
         nodebase: '16px',
