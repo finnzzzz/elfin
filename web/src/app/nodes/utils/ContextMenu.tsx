@@ -1,6 +1,6 @@
 import { useState, memo } from 'react';
 
-import { IoTrashBinOutline } from 'react-icons/io5';
+import { TbTrash } from 'react-icons/tb';
 import { LiaToggleOffSolid } from 'react-icons/lia';
 import { LiaToggleOnSolid } from 'react-icons/lia';
 
@@ -47,15 +47,15 @@ const ContextMenu = ({ id, children, color }: ContextMenuProps) => {
         >
           <button onClick={toggle}>
             {disable ? (
-              <LiaToggleOffSolid size='22px' color='#9DA3AE' />
+              <LiaToggleOffSolid size='22px' color='#c4c7cb' />
             ) : (
               <span className={`${color}`}>
                 <LiaToggleOnSolid size='22px' />
               </span>
             )}
           </button>
-          <button onClick={handleDelete} className={` text-gray-300 hover:text-gray-500`}>
-            <IoTrashBinOutline size='22px' />
+          <button onClick={handleDelete} className={` text-gray-300 hover:${color}`}>
+            <TbTrash size='24px' />
           </button>
         </NodeToolbar>
         {children}
