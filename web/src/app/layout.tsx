@@ -1,8 +1,6 @@
 import React from 'react';
 import './globals.css';
 import { Nunito_Sans } from 'next/font/google';
-// import { Mulish } from 'next/font/google';
-// import { Jost } from 'next/font/google';
 import Sidebar from './components/sidebar/Sidebar';
 
 const font = Nunito_Sans({ subsets: ['latin'] });
