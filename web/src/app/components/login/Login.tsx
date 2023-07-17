@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 import elfinIcon from './icon128.png';
 import googleIcon from './google.png';
@@ -20,6 +20,8 @@ interface LoginProps {
 const Login = ({ togglePop, seen }: LoginProps) => {
   const login = useStore((state) => state.login);
 
+  const [isSignUp, setIsSignUp] = useState(true);
+
   const googleLogin = async () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
     const extensionKey = crypto.randomUUID();
@@ -38,6 +40,10 @@ const Login = ({ togglePop, seen }: LoginProps) => {
     );
   };
 
+  const signUp = () => {
+    setIsSignUp(!isSignUp);
+  };
+
   return (
     <>
       <Modal togglePop={togglePop} seen={seen}>
@@ -54,10 +60,12 @@ const Login = ({ togglePop, seen }: LoginProps) => {
             <span className=' text-[28px] font-semibold leading-[28px]'>Get Started </span>
           </div>
           <div className=' flex flex-col gap-1'>
-            <div className=' flex flex-col '>
-              <span className=' text-base'>name</span>
-              <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
-            </div>
+            {isSignUp && (
+              <div className=' flex flex-col '>
+                <span className=' text-base'>name</span>
+                <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
+              </div>
+            )}
             <div className=' flex flex-col '>
               <span className=''>email</span>
               <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
@@ -66,12 +74,31 @@ const Login = ({ togglePop, seen }: LoginProps) => {
               <span className=''>password</span>
               <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
             </div>
-            <div className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'>
-              <span className=' text-white '>Sign up</span>
-            </div>
+            {isSignUp ? (
+              <div className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'>
+                <span className=' text-white '>Sign up</span>
+              </div>
+            ) : (
+              <div className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'>
+                <span className=' text-white '>Sign in</span>
+              </div>
+            )}
             <span className='mt-1 text-end text-sm'>
-              <span>Already have an account?</span>
-              <span className='ml-2 cursor-pointer underline'>Sign in</span>
+              {isSignUp ? (
+                <>
+                  <span>Already have an account?</span>
+                  <span className='ml-2 cursor-pointer underline' onClick={signUp}>
+                    Sign in
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span>Don&apos;t have an account?</span>
+                  <span className='ml-2 cursor-pointer underline' onClick={signUp}>
+                    Sign up
+                  </span>
+                </>
+              )}
             </span>
           </div>
           <hr className=' mt-5 w-full text-gray-900' />
