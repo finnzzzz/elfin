@@ -94,11 +94,11 @@ const useStore = create<Store>((set, get) => ({
         type: MarkerType.ArrowClosed,
         width: 12,
         height: 12,
-        color: '#9f9f9f',
+        color: '#307dfa',
       },
       style: {
         strokeWidth: 1.8,
-        stroke: '#ababab',
+        stroke: '#307dfa',
       },
     };
     set({

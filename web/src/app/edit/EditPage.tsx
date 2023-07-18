@@ -142,12 +142,12 @@ const EditPage = ({ id }: EditPageProps) => {
       ...newConnection,
       markerEnd: {
         type: MarkerType.ArrowClosed,
-        width: 18,
-        height: 18,
+        width: 12,
+        height: 12,
         color: '#307dfa',
       },
       style: {
-        strokeWidth: 2,
+        strokeWidth: 1.8,
         stroke: '#307dfa',
       },
     };
@@ -251,7 +251,7 @@ const EditPage = ({ id }: EditPageProps) => {
           >
             <Panel position='bottom-left'>
               <button
-                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:shadow-sm hover:shadow-mainBlue-200'
+                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:bg-gray-50'
                 onClick={clearAllNodes}
               >
                 <span>
