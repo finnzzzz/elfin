@@ -5,6 +5,7 @@ import { TbLogout } from 'react-icons/tb';
 import { MdAccountCircle } from 'react-icons/md';
 import { RxInfoCircled } from 'react-icons/rx';
 import { IoSettingsOutline } from 'react-icons/io5';
+import { AiOutlineChrome } from 'react-icons/ai';
 
 import { useState, useEffect } from 'react';
 
@@ -71,6 +72,9 @@ const Sidebar = () => {
       {loginState ? (
         <>
           <div className=' flex flex-col items-center'>
+            <button className=' mb-5'>
+              <AiOutlineChrome size='28px' color='#949494' />
+            </button>
             <button className=' mb-5'>
               <RxInfoCircled size='26px' color='#949494' />
             </button>
