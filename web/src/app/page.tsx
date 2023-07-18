@@ -1,5 +1,5 @@
 'use client';
-import { Bakbak_One } from 'next/font/google';
+// import { Bakbak_One } from 'next/font/google';
 
 import { useState, useEffect } from 'react';
 
@@ -13,7 +13,7 @@ import PersonalScriptList from './components/personalScriptList/PersonalScriptLi
 import LandingPage from './components/landingPage/LandingPage';
 import TemplateScripts from './components/templateScripts/TemplateScripts';
 
-const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
+// const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
 
 export default function Home() {
   const userInfo = user_useStore((state) => state.userInfo, shallow);
