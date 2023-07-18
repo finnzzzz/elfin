@@ -110,7 +110,7 @@ const Toolbox = () => {
                 Checkbox
               </div>
               <div
-                className=' toolboxItem hover:border-customPink-400 hover:text-customPink-400'
+                className=' toolboxItem hover:border-customDarkBlue-400 hover:text-customDarkBlue-400'
                 onDragStart={(event) => onDragStart(event, 'enterSubmit')}
                 draggable
               >
