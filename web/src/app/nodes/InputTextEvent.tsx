@@ -62,7 +62,7 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
   return (
     <ContextMenu id={id} color={'text-customPurple-400'}>
       <div
-        className={` w-[228px] overflow-hidden rounded-nodebase border border-customPurple-400 bg-white ${
+        className={` w-[228px] h-[270px] overflow-hidden rounded-nodebase border border-customPurple-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
         }`}
       >
@@ -104,9 +104,6 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
             className='nodrag rounded-md border border-customPurple-500 p-1 outline-none'
             placeholder='xpath.....'
           />
-          {/* <label htmlFor='text' className=' mb-1 mt-2 text-customPurple-500'>
-            Content：
-          </label> */}
           <select
             name=''
             id=''
@@ -118,7 +115,7 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
             <option value='extensionVariable'>Extension Variable</option>
           </select>
           {textEnterType === 'extensionVariable' ? (
-            <div>Enter value in extension</div>
+            <div className=' text-gray-500 text-sm text-center mt-5'>Enter value in extension</div>
           ) : (
             <textarea
               id='text'

@@ -41,7 +41,7 @@ const LandingPage = () => {
           <button className=' 2xl:mt-30 mt-20 text-xl hover:underline' onClick={togglePop}>
             sign in to start
           </button>
-          <div className=' mr-5 mt-[5.5%] flex items-center self-end rounded-full border border-black p-3 text-base'>
+          <div className=' mr-5 mt-[5.5%] flex items-center self-end rounded-full border border-black p-3 text-base cursor-pointer'>
             <Image
               src={chromeIcon}
               width={41}

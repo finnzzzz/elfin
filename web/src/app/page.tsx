@@ -1,5 +1,5 @@
 'use client';
-import { Bakbak_One } from 'next/font/google';
+// import { Bakbak_One } from 'next/font/google';
 
 import { useState, useEffect } from 'react';
 
@@ -13,7 +13,7 @@ import PersonalScriptList from './components/personalScriptList/PersonalScriptLi
 import LandingPage from './components/landingPage/LandingPage';
 import TemplateScripts from './components/templateScripts/TemplateScripts';
 
-const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
+// const font = Bakbak_One({ weight: '400', subsets: ['latin'] });
 
 export default function Home() {
   const userInfo = user_useStore((state) => state.userInfo, shallow);
@@ -39,7 +39,7 @@ export default function Home() {
         <div className='w-full p-5 pt-[60px]'>
           <span className=' absolute right-[20px] top-[20px]'>
             <div className=' flex flex-col items-end'>
-              <span className={` ${font.className} text-xl leading-5 text-gray-400 `}>elfin</span>
+              {/* <span className={` ${font.className} text-xl leading-5 text-gray-400 `}>elfin</span> */}
               <span className=' font-bold text-gray-400'>Browser automation tool</span>
             </div>
           </span>
@@ -61,7 +61,7 @@ export default function Home() {
                 onClick={() => {
                   addScript(userInfo.userUid);
                 }}
-                className=' mb-4 flex items-center rounded-md border border-blue-200 bg-[#0D99FF] p-3 text-white'
+                className=' mb-4 flex items-center rounded-md border border-blue-200 bg-[#68a6f8] hover:bg-[#0d99ff] p-3 text-white'
               >
                 <span className=' leading-[15px]'>New script</span>
                 <span className=' ml-1'>

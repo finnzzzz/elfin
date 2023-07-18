@@ -53,10 +53,11 @@ const Home = () => {
       <div className=' flex w-[330px] flex-col items-center pb-3 pt-6 font-semibold background-image-blue relative'>
         <div
           onClick={goElfin}
-          className=' text-2xl font-bakbak text-mainBlue-500 hover:underline cursor-pointer mb-4'
+          className=' text-2xl font-bakbak text-mainBlue-500 hover:underline cursor-pointer'
         >
           elfin
         </div>
+        <span className=' mb-4 text-sm text-gray-500'>Free your hands with elfin</span>
 
         {userToken ? (
           <>

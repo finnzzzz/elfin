@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import useStore from '@/app/user_store';
 
 import { auth, authProvider } from '@/app/lib/firebase';
@@ -25,6 +26,8 @@ const Sidebar = () => {
   const userInfo = useStore((state) => state.userInfo, shallow);
   const logout = useStore((state) => state.logout, shallow);
   const login = useStore((state) => state.login, shallow);
+
+  const router = useRouter();
 
   //解決hydration問題
   useEffect(() => {
@@ -54,6 +57,7 @@ const Sidebar = () => {
     await signOut(auth);
     logout();
     localStorage.removeItem('extensionKey');
+    router.push('/');
   };
   return (
     <div className='fixed flex h-full w-16 flex-col items-center justify-between gap-2 overflow-auto border  border-r-gray-300 bg-white'>

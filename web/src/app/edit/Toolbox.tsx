@@ -32,7 +32,7 @@ const Toolbox = () => {
       <aside className=' flex h-full w-[260px] flex-col items-center overflow-auto border-r  border-b-gray-300 p-5'>
         <div className='flex w-full flex-col gap-4 '>
           <div>
-            <span className=' text-gray-800'>Browser</span>
+            <span className=' text-gray-700 text-lg'>Browser</span>
             <div className=' toolboxContainer'>
               <div
                 className=' toolboxItem hover:border-customNileBlue-400 hover:text-customNileBlue-400'
@@ -57,7 +57,7 @@ const Toolbox = () => {
             </div>
           </div>
           <div>
-            <span className=' text-gray-800'>Interaction</span>
+            <span className=' text-gray-700 text-lg'>Interaction</span>
             <div className=' toolboxContainer'>
               <div
                 className=' toolboxItem hover:border-customGreen-400 hover:text-customGreen-400'
@@ -122,7 +122,7 @@ const Toolbox = () => {
             </div>
           </div>
           <div>
-            <span className=' text-gray-800'>Data</span>
+            <span className=' text-gray-700 text-lg'>Data</span>
             <div className=' toolboxContainer '>
               <div
                 className=' toolboxItem hover:border-customDarkGreen-400 hover:text-customDarkGreen-400'

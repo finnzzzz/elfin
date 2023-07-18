@@ -197,8 +197,8 @@ const List = ({ setUserToken }: ListProps) => {
                     <span className='text-base text-mainBlue-400'>{item.name}</span>
                     <span className='text-xs text-gray-400 font-normal'>{item.description}</span>
                     {extensionVariableLsit?.map((item, index) => (
-                      <div className=' flex item-center text-gray-700 mt-1'>
-                        <span>
+                      <div className=' flex item-center  mt-1'>
+                        <span className=' text-teal-600'>
                           {index + 1}. {item.type}：
                         </span>
                         <input
@@ -206,7 +206,7 @@ const List = ({ setUserToken }: ListProps) => {
                           type='text'
                           value={extVariable[item.id + item.type + item.position.x] || ''}
                           onChange={handleChangle}
-                          className='border-b border-b-gray-400 outline-none w-24'
+                          className='border-b border-b-teal-600 outline-none w-28 text-gray-800'
                         />
                       </div>
                     ))}
