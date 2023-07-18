@@ -3,11 +3,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 // ---------------------------------------React-Flow
 import { IoSave } from 'react-icons/io5';
+import { BiTrash } from 'react-icons/bi';
 // ---------------------------------------React-Flow
 import ReactFlow, {
   Background,
   ReactFlowProvider,
-  // Controls,
   Panel,
   ReactFlowInstance,
   MiniMap,
@@ -52,7 +52,7 @@ const nodeTypes = {
   inputSelect: InputSelectEvent,
   inputRadio: InputRadioEvent,
   inputCheckbox: InputCheckboxEvent,
-  enterSubmit: EnterSubmitEvent
+  enterSubmit: EnterSubmitEvent,
 };
 
 const flowKey = 'demo-flow';
@@ -64,6 +64,7 @@ interface EditPageProps {
 }
 
 const EditPage = ({ id }: EditPageProps) => {
+  const setNodes = useStore((state) => state.setNodes);
   const setEdges = useStore((state) => state.setEdges);
   const createNode = useStore((state) => state.createNode);
   const edges = useStore((state) => state.edges);
@@ -73,7 +74,7 @@ const EditPage = ({ id }: EditPageProps) => {
   const onConnect = useStore((state) => state.onConnect);
   const userInfo = user_useStore((state) => state.userInfo);
   const setSaveTime = useStore((state) => state.setSaveTime);
-  
+
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<a | null>(null);
   const [isDirty, setIsDirty] = useState(true);
@@ -166,6 +167,13 @@ const EditPage = ({ id }: EditPageProps) => {
     setEdges(newEdges);
   };
 
+  const clearAllNodes = () => {
+    const triggerNodes = nodes.filter((item) => item.type === 'trigger');
+    console.log(triggerNodes);
+    setNodes(triggerNodes);
+    setEdges([]);
+  };
+
   //TEST_CODE
   // const nodeClick = (some, node) => {
   //   console.log('node', node);
@@ -241,10 +249,20 @@ const EditPage = ({ id }: EditPageProps) => {
             // fitViewOptions={{ padding: 0.5 }}
             // onNodeClick={nodeClick}
           >
-            {/* <Controls /> */}
+            <Panel position='bottom-left'>
+              <button
+                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:shadow-sm hover:shadow-mainBlue-200'
+                onClick={clearAllNodes}
+              >
+                <span>
+                  <BiTrash size='18px' />
+                </span>
+                Clear all nodes
+              </button>
+            </Panel>
             <Panel position='top-right'>
               <button
-                className='relative mr-2 flex items-center justify-center gap-2 rounded-xl bg-mainBlue-400 p-2 pl-4 pr-5 text-white hover:bg-mainBlue-500 hover:shadow-sm hover:shadow-indigo-400'
+                className='relative mr-2 flex items-center justify-center gap-2 rounded-xl bg-mainBlue-400 p-2 pl-4 pr-5 text-white hover:bg-mainBlue-500 hover:shadow-indigo-400'
                 onClick={() => {
                   onUpdate(userInfo.userUid, id);
                 }}
