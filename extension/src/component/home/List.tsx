@@ -22,10 +22,25 @@ type scriptsList = {
   id: string;
   name: string;
   saveTime: { seconds: number };
+  description: string;
 };
 
-const List = () => {
+interface ListProps {
+  setUserToken: (token: string) => void;
+}
+
+const List = ({ setUserToken }: ListProps) => {
   const [data, setData] = useState<scriptsList[]>([]);
+  const [extVariable, setExtVariable] = useState<{ [key: string]: string }>({});
+
+  const handleChangle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setExtVariable((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    console.log(extVariable);
+  };
 
   useEffect(() => {
     getSub();
@@ -37,6 +52,11 @@ const List = () => {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('extensionKey', '==', key));
     const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length === 0) {
+      alert('please reconnect');
+      setUserToken('');
+      return;
+    }
     const docId = querySnapshot.docs[0].id;
 
     const ref = collection(db, `users/${docId}/scripts`);
@@ -59,14 +79,18 @@ const List = () => {
     const executionOrder: Node[] = [];
     function traverse(node: Node, nodes: Node[], edges: Edge[]) {
       const nextNode = getOutgoers(node, nodes, edges);
-      if (nextNode.length) {
+      if (nextNode.length === 1) {
         executionOrder.push(nextNode[0]);
         traverse(nextNode[0], nodes, edges);
+      } else {
+        nextNode.map((_item, index) => {
+          executionOrder.push(nextNode[index]);
+        });
+        // traverse(nextNode[0], nodes, edges);
       }
     }
 
     const triggerNode = nodes.find((item) => item.type === 'trigger');
-    console.log(triggerNode);
 
     if (triggerNode) {
       const nextNode = getOutgoers(triggerNode, nodes, edges);
@@ -96,6 +120,13 @@ const List = () => {
         data: {},
       };
 
+      //TODO
+      if (executionOrder[i].data.value === 'extensionVariable') {
+        console.log('zz', executionOrder[i].id + executionOrder[i].type + i);
+        executionOrder[i].data.value =
+          extVariable[executionOrder[i].id + executionOrder[i].type + executionOrder[i].position.x];
+      }
+
       itemObj.type = executionOrder[i].type as string;
       itemObj.data = executionOrder[i].data;
       commandsArr.push(itemObj);
@@ -114,6 +145,33 @@ const List = () => {
     });
   };
 
+  const getExecutionList = (data: Flow) => {
+    const { nodes, edges } = data;
+    const executionOrder: Node[] = [];
+    function traverse(node: Node, nodes: Node[], edges: Edge[]) {
+      const nextNode = getOutgoers(node, nodes, edges);
+      if (nextNode.length === 1) {
+        executionOrder.push(nextNode[0]);
+        traverse(nextNode[0], nodes, edges);
+      } else {
+        nextNode.map((_item, index) => {
+          executionOrder.push(nextNode[index]);
+        });
+        // traverse(nextNode[0], nodes, edges);
+      }
+    }
+
+    const triggerNode = nodes.find((item) => item.type === 'trigger');
+
+    if (triggerNode) {
+      const nextNode = getOutgoers(triggerNode, nodes, edges);
+      if (nextNode.length) {
+        traverse(triggerNode, nodes, edges);
+        return executionOrder;
+      }
+    }
+  };
+
   return (
     <>
       {data
@@ -122,27 +180,49 @@ const List = () => {
               hour12: false,
             });
 
+            const executionList = getExecutionList(item.flow);
+            console.log('getExetensinVariable', executionList);
+
+            const extensionVariableLsit = executionList?.filter(
+              (item) => item.data.value === 'extensionVariable'
+            );
+
             return (
               <div
                 className='flex relative flex-col w-full items-center pr-7 mb-3  pl-7'
                 key={item.id}
               >
-                <div className=' flex w-full h-[85px] justify-between shadow-sm shadow-mainBlue-300 items-start rounded-lg border border-gray-300 hover:border-mainBlue-300 bg-white p-3'>
-                  <div className=' flex flex-col gap-1'>
+                <div className=' flex w-full justify-between shadow-sm shadow-mainBlue-300 items-center rounded-lg border border-gray-300 hover:border-mainBlue-300 bg-white p-3'>
+                  <div className=' flex flex-col'>
                     <span className='text-base text-mainBlue-400'>{item.name}</span>
+                    <span className='text-xs text-gray-400 font-normal'>{item.description}</span>
+                    {extensionVariableLsit?.map((item, index) => (
+                      <div className=' flex item-center text-gray-700 mt-1'>
+                        <span>
+                          {index + 1}. {item.type}：
+                        </span>
+                        <input
+                          name={item.id + (item.type as string) + item.position.x}
+                          type='text'
+                          value={extVariable[item.id + item.type + item.position.x] || ''}
+                          onChange={handleChangle}
+                          className='border-b border-b-gray-400 outline-none w-24'
+                        />
+                      </div>
+                    ))}
+                    <span className=' text-xs text-gray-400 font-normal mt-3'>
+                      Edited:{saveTime}
+                    </span>
                   </div>
                   <button
                     onClick={() => {
                       createCommandObject(item.flow);
                     }}
-                    className=' rounded-md text-gray-400 hover:text-mainBlue-400 mt-2 mr-2'
+                    className=' rounded-md text-gray-400 hover:text-mainBlue-400 '
                   >
                     <TiFlashOutline size='28px' />
                   </button>
                 </div>
-                <span className=' text-xs absolute right-10 text-gray-400 bottom-1'>
-                  Edited:{saveTime}
-                </span>
               </div>
             );
           })

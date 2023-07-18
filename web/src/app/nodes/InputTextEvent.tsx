@@ -37,6 +37,7 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
   const [stashXpath, setStashXpath] = useState(data.XPath);
   const [stashDescription, setStashDescription] = useState(data.description);
   const [stashContent, setStashContent] = useState(data.value);
+  const [textEnterType, setTextEnterType] = useState('content');
 
   const xpathChange = (e: inputEvent) => {
     setStashXpath(e.target.value);
@@ -48,6 +49,14 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
 
   const contentChange = (e: textareaEvent) => {
     setStashContent(e.target.value);
+  };
+
+  const handleTextEnterType = (e) => {
+    console.log(e.target.value);
+    setTextEnterType(e.target.value);
+    if (e.target.value === 'extensionVariable') {
+      setValue(e);
+    }
   };
 
   return (
@@ -72,7 +81,6 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
             <div className=' text-2xl font-medium text-customPurple-400'>{data.label}</div>
           </div>
         </div>
-        {/* <div className=' text-xs'>{id}</div> */}
         <div className=' flex flex-col pb-5 pl-5 pr-5'>
           <input
             id='textDescription'
@@ -96,20 +104,34 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
             className='nodrag rounded-md border border-customPurple-500 p-1 outline-none'
             placeholder='xpath.....'
           />
-          <label htmlFor='text' className=' mb-1 mt-2 text-customPurple-500'>
+          {/* <label htmlFor='text' className=' mb-1 mt-2 text-customPurple-500'>
             Content：
-          </label>
-          <textarea
-            id='text'
-            name='text'
-            cols={3}
-            rows={2}
-            value={stashContent}
-            onChange={contentChange}
-            onBlur={setValue}
-            className='nodrag resize-none rounded-md border border-customPurple-500 p-1 outline-none'
-            placeholder='content.....'
-          />
+          </label> */}
+          <select
+            name=''
+            id=''
+            onChange={handleTextEnterType}
+            value={textEnterType}
+            className=' m-[-4px] mb-1 mt-2 border-red-600 p-0  text-customPurple-500 outline-none'
+          >
+            <option value='content'>Content</option>
+            <option value='extensionVariable'>Extension Variable</option>
+          </select>
+          {textEnterType === 'extensionVariable' ? (
+            <div>Enter value in extension</div>
+          ) : (
+            <textarea
+              id='text'
+              name='text'
+              cols={3}
+              rows={2}
+              value={stashContent}
+              onChange={contentChange}
+              onBlur={setValue}
+              className='nodrag resize-none rounded-md border border-customPurple-500 p-1 outline-none'
+              placeholder='content.....'
+            />
+          )}
         </div>
         <Handle
           type='source'

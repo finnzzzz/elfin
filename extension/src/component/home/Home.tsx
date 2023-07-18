@@ -66,7 +66,7 @@ const Home = () => {
             >
               <TbLogout size='24px' />
             </button>
-            <List />
+            <List setUserToken={setUserToken} />
           </>
         ) : (
           <>
