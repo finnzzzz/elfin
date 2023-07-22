@@ -9,7 +9,7 @@ import ContextMenu from './utils/ContextMenu';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setXPath: (e: inputEvent) => store.updateNode(id, { XPath: e.target.value }),
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
 });
@@ -65,7 +65,6 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
             <div className=' text-2xl font-medium text-customDarkYellow-400'>{data.label}</div>
           </div>
         </div>
-        {/* <div className=' text-xs'>{id}</div> */}
         <div className=' flex flex-col pl-5 pr-5'>
           <input
             id='clickDescription'

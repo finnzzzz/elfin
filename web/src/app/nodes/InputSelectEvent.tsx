@@ -9,7 +9,7 @@ import ContextMenu from './utils/ContextMenu';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setXPath: (e: inputEvent) => store.updateNode(id, { XPath: e.target.value }),
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
   setValue: (e: inputEvent) => store.updateNode(id, { value: e.target.value }),
@@ -71,7 +71,6 @@ function InputSelectEvent({ id, isConnectable, data }: ClickEventProps) {
             <div className=' text-2xl font-medium text-customRed-400'>{data.label}</div>
           </div>
         </div>
-        {/* <div className=' text-xs'>{id}</div> */}
         <div className=' flex flex-col pb-5 pl-5 pr-5'>
           <input
             id='textDescription'

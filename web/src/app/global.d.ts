@@ -10,6 +10,10 @@ declare global {
       zoom: number;
     };
   };
+
+  type Store = {
+    updateNode: (id: string, obj: object) => void;
+  };
 }
 
 export {};

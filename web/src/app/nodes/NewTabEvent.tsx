@@ -3,10 +3,11 @@ import { Handle, Position } from 'reactflow';
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
+import CustomHandle from './utils/CustomHandle';
 
 import { PiBrowsersDuotone } from 'react-icons/pi';
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setURL: (e: ChangeEvent<HTMLInputElement>) => store.updateNode(id, { url: e.target.value }),
   setDescription: (e: ChangeEvent<HTMLInputElement>) =>
     store.updateNode(id, { description: e.target.value }),
@@ -17,6 +18,8 @@ type newTabObj = {
   disable: boolean;
   url: string;
   description: string;
+  isConnectable: boolean;
+  maxConnections: number;
 };
 
 interface NewTabProps {
@@ -25,9 +28,9 @@ interface NewTabProps {
   data: newTabObj;
 }
 
-const NewTabEvent = ({ id, isConnectable, data }: NewTabProps) => {
+const NewTabEvent = ({ id, data }: NewTabProps) => {
   const { setURL, setDescription } = useStore(selector(id), shallow);
-
+  const { isConnectable, maxConnections } = data;
   const [stashUrl, setStashUrl] = useState(data.url);
   const [stashDescription, setStashDescription] = useState(data.description);
 
@@ -46,10 +49,10 @@ const NewTabEvent = ({ id, isConnectable, data }: NewTabProps) => {
           data.disable ? 'toggleOpacity' : ''
         } `}
       >
-        <Handle
-          type='target'
+        <CustomHandle
           position={Position.Left}
           isConnectable={isConnectable}
+          maxConnections={maxConnections}
           className=' react-flow__handle-target after:border after:border-customNileBlue-400'
           style={{ left: '-8px', top: '81px' }}
         />
@@ -61,7 +64,6 @@ const NewTabEvent = ({ id, isConnectable, data }: NewTabProps) => {
             <div className=' text-2xl font-medium text-customNileBlue-400'>{data.label}</div>
           </div>
         </div>
-        {/* <div className=' text-xs'>{id}</div> */}
         <div className=' flex flex-col pl-5 pr-5'>
           <input
             id='clickDescription'

@@ -11,17 +11,15 @@ import ReactFlow, {
   Panel,
   ReactFlowInstance,
   MiniMap,
-  // getOutgoers,
   addEdge,
   MarkerType,
-  // OnConnectStart,
-  // OnConnectEnd,
+  Edge,
+  Connection,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
 import useStore from '../store';
 import user_useStore from '../user_store';
-// import { shallow } from 'zustand/shallow';
 // ---------------------------------------Components
 import Toolbox from './Toolbox';
 // ---------------------------------------NodesInterface
@@ -35,7 +33,6 @@ import InputSelectEvent from '../nodes/InputSelectEvent';
 import InputRadioEvent from '../nodes/InputRadioEvent';
 import InputCheckboxEvent from '../nodes/InputCheckboxEvent';
 import EnterSubmitEvent from '../nodes/EnterSubmitEvent';
-
 // ---------------------------------------FirebaseFunction
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 import { db } from '@/app/lib/firebase';
@@ -57,7 +54,7 @@ const nodeTypes = {
 
 const flowKey = 'demo-flow';
 
-type a = ReactFlowInstance;
+type FlowInstance = ReactFlowInstance;
 
 interface EditPageProps {
   id: string;
@@ -76,7 +73,7 @@ const EditPage = ({ id }: EditPageProps) => {
   const setSaveTime = useStore((state) => state.setSaveTime);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [reactFlowInstance, setReactFlowInstance] = useState<a | null>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<FlowInstance | null>(null);
   const [isDirty, setIsDirty] = useState(true);
 
   useEffect(() => {
@@ -85,29 +82,28 @@ const EditPage = ({ id }: EditPageProps) => {
     }
   }, [nodes]);
 
-  const onDragOver = useCallback((event: any) => {
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
   const onDrop = useCallback(
-    (event: any) => {
+    (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow');
 
-      // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
         return;
       }
-
-      const position = reactFlowInstance?.project({
-        x: event.clientX - reactFlowBounds!.left,
-        y: event.clientY - reactFlowBounds!.top,
-      });
-
-      createNode(type, position);
+      if (reactFlowBounds && reactFlowInstance) {
+        const position = reactFlowInstance.project({
+          x: event.clientX - reactFlowBounds.left,
+          y: event.clientY - reactFlowBounds.top,
+        });
+        createNode(type, position);
+      }
     },
     [reactFlowInstance]
   );
@@ -118,10 +114,9 @@ const EditPage = ({ id }: EditPageProps) => {
         const flow = reactFlowInstance.toObject();
         localStorage.setItem(flowKey, JSON.stringify(flow));
 
-        //儲存到firestore
         await asyncUpdateWorkflow(uid, id, { flow });
         setIsDirty(false);
-        //獲取儲存時間
+
         const docRef = doc(db, 'users', userInfo.userUid, 'scripts', id);
         const docSnap = await getDoc(docRef);
         setSaveTime(
@@ -130,12 +125,11 @@ const EditPage = ({ id }: EditPageProps) => {
           })
         );
       }
-      console.log('update');
     },
     [reactFlowInstance]
   );
 
-  const onEdgeUpdate = (oldEdge, newConnection) => {
+  const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
     console.log('oldEdge', oldEdge);
     console.log('newConnection', newConnection);
     const newConnectionWithStyle = {
@@ -151,25 +145,20 @@ const EditPage = ({ id }: EditPageProps) => {
         stroke: '#307dfa',
       },
     };
-    console.log('newConnectionWithStyle', newConnectionWithStyle);
 
     const allEdges = addEdge(newConnectionWithStyle, edges);
-    console.log('allEdges', allEdges);
     const newEdges = allEdges.filter((item) => item.id !== oldEdge.id);
-    console.log('newEdges', newEdges);
 
     setEdges(newEdges);
   };
 
-  const doubleClick = (_, edge) => {
+  const doubleClick = (event: React.MouseEvent, edge: Edge) => {
     const newEdges = edges.filter((e) => e.id !== edge.id);
-    console.log('newEdges', newEdges);
     setEdges(newEdges);
   };
 
   const clearAllNodes = () => {
     const triggerNodes = nodes.filter((item) => item.type === 'trigger');
-    console.log(triggerNodes);
     setNodes(triggerNodes);
     setEdges([]);
   };
@@ -243,15 +232,10 @@ const EditPage = ({ id }: EditPageProps) => {
             onEdgeUpdate={onEdgeUpdate}
             minZoom={0.5}
             maxZoom={1.5}
-            // onConnectStart={onConnectStart}
-            // onConnectEnd={onConnectEnd}
-            // fitView
-            // fitViewOptions={{ padding: 0.5 }}
-            // onNodeClick={nodeClick}
           >
             <Panel position='bottom-left'>
               <button
-                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:bg-gray-50'
+                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:bg-gray-50 hover:shadow-sm hover:shadow-blue-200'
                 onClick={clearAllNodes}
               >
                 <span>

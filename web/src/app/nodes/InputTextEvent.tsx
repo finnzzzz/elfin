@@ -9,11 +9,12 @@ import ContextMenu from './utils/ContextMenu';
 
 type inputEvent = ChangeEvent<HTMLInputElement>;
 type textareaEvent = ChangeEvent<HTMLTextAreaElement>;
+type selectEvent = ChangeEvent<HTMLSelectElement>;
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setXPath: (e: inputEvent) => store.updateNode(id, { XPath: e.target.value }),
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
-  setValue: (e: textareaEvent) => store.updateNode(id, { value: e.target.value }),
+  setValue: (e: textareaEvent | selectEvent) => store.updateNode(id, { value: e.target.value }),
 });
 
 type inputObj = {
@@ -37,7 +38,7 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
   const [stashXpath, setStashXpath] = useState(data.XPath);
   const [stashDescription, setStashDescription] = useState(data.description);
   const [stashContent, setStashContent] = useState(data.value);
-  const [textEnterType, setTextEnterType] = useState('content');
+  const [textEnterType, setTextEnterType] = useState(data.value);
 
   const xpathChange = (e: inputEvent) => {
     setStashXpath(e.target.value);
@@ -51,18 +52,20 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
     setStashContent(e.target.value);
   };
 
-  const handleTextEnterType = (e) => {
+  const handleTextEnterType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);
     setTextEnterType(e.target.value);
     if (e.target.value === 'extensionVariable') {
       setValue(e);
+    } else if (e.target.value === 'content') {
+      setStashContent('');
     }
   };
 
   return (
     <ContextMenu id={id} color={'text-customPurple-400'}>
       <div
-        className={` w-[228px] h-[270px] overflow-hidden rounded-nodebase border border-customPurple-400 bg-white ${
+        className={` h-[270px] w-[228px] overflow-hidden rounded-nodebase border border-customPurple-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
         }`}
       >
@@ -115,7 +118,7 @@ function InputTextEvent({ id, isConnectable, data }: ClickEventProps) {
             <option value='extensionVariable'>Extension Variable</option>
           </select>
           {textEnterType === 'extensionVariable' ? (
-            <div className=' text-gray-500 text-sm text-center mt-5'>Enter value in extension</div>
+            <div className=' mt-5 text-center text-sm text-gray-500'>Enter value in extension</div>
           ) : (
             <textarea
               id='text'
