@@ -1,16 +1,16 @@
 import { useState, memo } from 'react';
-import './utils/style/style.css';
+import { Handle, Position } from 'reactflow';
 
 import { PiTimerBold } from 'react-icons/pi';
+import './utils/style/style.css';
 
-import { Handle, Position } from 'reactflow';
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setDelayTime: (e: inputEvent) => store.updateNode(id, { delayTime: e.target.value }),
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
 });

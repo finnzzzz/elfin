@@ -3,11 +3,11 @@ import { Handle, Position } from 'reactflow';
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
-import CustomHandle from './utils/customHandle';
+import CustomHandle from './utils/CustomHandle';
 
 import { PiBrowsersDuotone } from 'react-icons/pi';
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setURL: (e: ChangeEvent<HTMLInputElement>) => store.updateNode(id, { url: e.target.value }),
   setDescription: (e: ChangeEvent<HTMLInputElement>) =>
     store.updateNode(id, { description: e.target.value }),
@@ -50,7 +50,6 @@ const NewTabEvent = ({ id, data }: NewTabProps) => {
         } `}
       >
         <CustomHandle
-          type='target'
           position={Position.Left}
           isConnectable={isConnectable}
           maxConnections={maxConnections}
@@ -65,7 +64,6 @@ const NewTabEvent = ({ id, data }: NewTabProps) => {
             <div className=' text-2xl font-medium text-customNileBlue-400'>{data.label}</div>
           </div>
         </div>
-        {/* <div className=' text-xs'>{id}</div> */}
         <div className=' flex flex-col pl-5 pr-5'>
           <input
             id='clickDescription'

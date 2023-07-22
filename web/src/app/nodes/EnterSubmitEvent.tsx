@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
-import CustomHandle from './utils/customHandle';
+import CustomHandle from './utils/CustomHandle';
 
 import { LuSend } from 'react-icons/lu';
 
@@ -11,7 +11,7 @@ import ContextMenu from './utils/ContextMenu';
 type inputEvent = ChangeEvent<HTMLInputElement>;
 type textareaEvent = ChangeEvent<HTMLTextAreaElement>;
 
-const selector = (id: string) => (store: any) => ({
+const selector = (id: string) => (store: Store) => ({
   setXPath: (e: inputEvent) => store.updateNode(id, { XPath: e.target.value }),
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
   setValue: (e: textareaEvent) => store.updateNode(id, { value: e.target.value }),
@@ -24,11 +24,12 @@ type inputObj = {
   XPath: string;
   description: string;
   inputType: string;
+  isConnectable: boolean;
+  maxConnections: number;
 };
 
 interface ClickEventProps {
   id: string;
-  isConnectable: boolean;
   data: inputObj;
 }
 
