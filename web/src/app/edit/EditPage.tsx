@@ -16,12 +16,13 @@ import ReactFlow, {
   MarkerType,
   // OnConnectStart,
   // OnConnectEnd,
+  Edge,
+  Connection,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
 import useStore from '../store';
 import user_useStore from '../user_store';
-// import { shallow } from 'zustand/shallow';
 // ---------------------------------------Components
 import Toolbox from './Toolbox';
 // ---------------------------------------NodesInterface
@@ -85,13 +86,13 @@ const EditPage = ({ id }: EditPageProps) => {
     }
   }, [nodes]);
 
-  const onDragOver = useCallback((event: any) => {
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
   const onDrop = useCallback(
-    (event: any) => {
+    (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
@@ -101,13 +102,13 @@ const EditPage = ({ id }: EditPageProps) => {
       if (typeof type === 'undefined' || !type) {
         return;
       }
-
-      const position = reactFlowInstance?.project({
-        x: event.clientX - reactFlowBounds!.left,
-        y: event.clientY - reactFlowBounds!.top,
-      });
-
-      createNode(type, position);
+      if (reactFlowBounds && reactFlowInstance) {
+        const position = reactFlowInstance.project({
+          x: event.clientX - reactFlowBounds.left,
+          y: event.clientY - reactFlowBounds.top,
+        });
+        createNode(type, position);
+      }
     },
     [reactFlowInstance]
   );
@@ -135,7 +136,7 @@ const EditPage = ({ id }: EditPageProps) => {
     [reactFlowInstance]
   );
 
-  const onEdgeUpdate = (oldEdge, newConnection) => {
+  const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
     console.log('oldEdge', oldEdge);
     console.log('newConnection', newConnection);
     const newConnectionWithStyle = {
@@ -161,7 +162,7 @@ const EditPage = ({ id }: EditPageProps) => {
     setEdges(newEdges);
   };
 
-  const doubleClick = (_, edge) => {
+  const doubleClick = (event: React.MouseEvent, edge: Edge) => {
     const newEdges = edges.filter((e) => e.id !== edge.id);
     console.log('newEdges', newEdges);
     setEdges(newEdges);
@@ -243,15 +244,10 @@ const EditPage = ({ id }: EditPageProps) => {
             onEdgeUpdate={onEdgeUpdate}
             minZoom={0.5}
             maxZoom={1.5}
-            // onConnectStart={onConnectStart}
-            // onConnectEnd={onConnectEnd}
-            // fitView
-            // fitViewOptions={{ padding: 0.5 }}
-            // onNodeClick={nodeClick}
           >
             <Panel position='bottom-left'>
               <button
-                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:bg-gray-50'
+                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:bg-gray-50 hover:shadow-sm hover:shadow-blue-200'
                 onClick={clearAllNodes}
               >
                 <span>
