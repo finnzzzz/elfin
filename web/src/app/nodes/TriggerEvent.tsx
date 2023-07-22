@@ -16,7 +16,6 @@ type TriggerEventProps = {
 
 const TriggerEvent = ({ isConnectable, id, data }: TriggerEventProps) => {
   return (
-    // <ContextMenu id={id}>
     <div className='flex h-[86px] w-[200px] overflow-hidden rounded-[16px] border border-mainBlue-400 bg-white'>
       <Handle
         type='source'
@@ -42,7 +41,6 @@ const TriggerEvent = ({ isConnectable, id, data }: TriggerEventProps) => {
       </div>
       <div className=' w-full flex-1 border-l-mainBlue-400 bg-mainBlue-50'></div>
     </div>
-    // </ContextMenu>
   );
 };
 
