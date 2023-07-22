@@ -11,11 +11,8 @@ import ReactFlow, {
   Panel,
   ReactFlowInstance,
   MiniMap,
-  // getOutgoers,
   addEdge,
   MarkerType,
-  // OnConnectStart,
-  // OnConnectEnd,
   Edge,
   Connection,
 } from 'reactflow';
@@ -36,7 +33,6 @@ import InputSelectEvent from '../nodes/InputSelectEvent';
 import InputRadioEvent from '../nodes/InputRadioEvent';
 import InputCheckboxEvent from '../nodes/InputCheckboxEvent';
 import EnterSubmitEvent from '../nodes/EnterSubmitEvent';
-
 // ---------------------------------------FirebaseFunction
 import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
 import { db } from '@/app/lib/firebase';
@@ -58,7 +54,7 @@ const nodeTypes = {
 
 const flowKey = 'demo-flow';
 
-type a = ReactFlowInstance;
+type FlowInstance = ReactFlowInstance;
 
 interface EditPageProps {
   id: string;
@@ -77,7 +73,7 @@ const EditPage = ({ id }: EditPageProps) => {
   const setSaveTime = useStore((state) => state.setSaveTime);
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [reactFlowInstance, setReactFlowInstance] = useState<a | null>(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<FlowInstance | null>(null);
   const [isDirty, setIsDirty] = useState(true);
 
   useEffect(() => {
@@ -98,7 +94,6 @@ const EditPage = ({ id }: EditPageProps) => {
       const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow');
 
-      // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
         return;
       }
@@ -119,10 +114,9 @@ const EditPage = ({ id }: EditPageProps) => {
         const flow = reactFlowInstance.toObject();
         localStorage.setItem(flowKey, JSON.stringify(flow));
 
-        //儲存到firestore
         await asyncUpdateWorkflow(uid, id, { flow });
         setIsDirty(false);
-        //獲取儲存時間
+
         const docRef = doc(db, 'users', userInfo.userUid, 'scripts', id);
         const docSnap = await getDoc(docRef);
         setSaveTime(
@@ -131,7 +125,6 @@ const EditPage = ({ id }: EditPageProps) => {
           })
         );
       }
-      console.log('update');
     },
     [reactFlowInstance]
   );
@@ -152,25 +145,20 @@ const EditPage = ({ id }: EditPageProps) => {
         stroke: '#307dfa',
       },
     };
-    console.log('newConnectionWithStyle', newConnectionWithStyle);
 
     const allEdges = addEdge(newConnectionWithStyle, edges);
-    console.log('allEdges', allEdges);
     const newEdges = allEdges.filter((item) => item.id !== oldEdge.id);
-    console.log('newEdges', newEdges);
 
     setEdges(newEdges);
   };
 
   const doubleClick = (event: React.MouseEvent, edge: Edge) => {
     const newEdges = edges.filter((e) => e.id !== edge.id);
-    console.log('newEdges', newEdges);
     setEdges(newEdges);
   };
 
   const clearAllNodes = () => {
     const triggerNodes = nodes.filter((item) => item.type === 'trigger');
-    console.log(triggerNodes);
     setNodes(triggerNodes);
     setEdges([]);
   };
