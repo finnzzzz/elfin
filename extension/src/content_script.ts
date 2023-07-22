@@ -1,36 +1,48 @@
-interface data {
+console.log('elfin extension working');
+
+type NodeContentData = {
+  XPath: string;
+  delayTime: string;
+  url: string;
+  value: string;
+  disable: boolean;
+  description: string;
+};
+
+interface NodeData {
   type: string;
-  data: {
-    XPath: string;
-    delayTime: string;
-    url: string;
-    value: string;
-    disable: boolean;
-  };
+  data: NodeContentData;
 }
 
-type obj = Array<data>;
-
-console.log('content_script working');
-type objj = {
+type SuccessRes = {
   success: true;
 };
+
+type NodeObj = {
+  obj: Array<NodeData>;
+  index: number;
+};
+
+type message = {
+  command: string;
+  data: NodeObj | Array<NodeData>;
+};
+
 chrome.runtime.onMessage.addListener(
-  (msg: any, _sender: chrome.runtime.MessageSender, sendResponse: (obj: objj) => void) => {
-    console.log(msg);
+  (
+    msg: message,
+    _sender: chrome.runtime.MessageSender,
+    sendResponse: (res: SuccessRes) => void
+  ) => {
     if (msg.command == 'firstRunCommands') {
       sendResponse({ success: true });
-      console.log('firstRunCommands');
-      const scrapeObj = msg.data;
+      const scrapeObj = msg.data as Array<NodeData>;
       getNextItem(scrapeObj, 0);
-      console.log(msg.data);
     } else if (msg.command == 'runCommands') {
       sendResponse({ success: true });
-      console.log('start commands');
-      const scrapeObj = msg.data.obj;
-      const index = msg.data.index + 1;
-      console.log(scrapeObj, index, typeof index);
-
+      const msgData = msg.data as NodeObj;
+      const scrapeObj = msgData.obj;
+      const index = msgData.index + 1;
       getNextItem(scrapeObj, index);
     }
   }
@@ -40,8 +52,6 @@ function setNativeValue(
   el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
   value: string | boolean
 ): void {
-  // const previousValue = el.value;
-
   if (el instanceof HTMLInputElement && (el.type === 'checkbox' || el.type === 'radio')) {
     if ((!!value && !el.checked) || (!value && el.checked)) {
       el.click();
@@ -53,23 +63,18 @@ function setNativeValue(
     const changeEvent = new Event('change', { bubbles: true });
     el.dispatchEvent(changeEvent);
   }
-
-  // const tracker = el._valueTracker;
-  // if (tracker) {
-  //   tracker.setValue(previousValue);
-  // }
 }
 
-function getNextItem(obj: obj, index: number) {
+function getNextItem(obj: Array<NodeData>, index: number) {
   if (typeof obj[index] !== 'undefined') {
     if (obj[index].type == 'click') {
       clickEvent(obj, index);
-      console.log('click 執行順序:', index);
+      console.log('click, order of execution:', index);
     }
 
     if (obj[index].type == 'delay') {
       delayEvent(obj, index);
-      console.log('wait');
+      console.log('delay, order of execution:', index);
     }
     if (
       obj[index].type == 'inputText' ||
@@ -78,22 +83,21 @@ function getNextItem(obj: obj, index: number) {
       obj[index].type == 'inputCheckbox'
     ) {
       enterEvent(obj, index);
-      console.log('inputCustom 執行順序:', index);
+      console.log('inputCustom, order of execution:', index);
     }
     if (obj[index].type == 'newTab') {
       newTabEvent(obj, index);
-      console.log('newTab 執行順序:', index);
+      console.log('newTab, order of execution:', index);
     }
     if (obj[index].type == 'getContent') {
       getContentEvent(obj, index);
-      console.log('getContent 執行順序:', index);
+      console.log('getContent, order of execution:', index);
     }
     if (obj[index].type == 'enterSubmit') {
-      pressKey(obj, index);
-      console.log('enterSubmit 執行順序:', index);
+      enterSubmit(obj, index);
+      console.log('enterSubmit, order of execution:', index);
     }
   } else {
-    //send a return ...
     console.log('run complete');
     chrome.runtime.sendMessage({
       command: 'run-complete',
@@ -101,7 +105,7 @@ function getNextItem(obj: obj, index: number) {
   }
 }
 
-function delayEvent(obj: obj, index: number) {
+function delayEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
   const waitTime = parseInt(item.data.delayTime);
   window.setTimeout(function () {
@@ -109,7 +113,7 @@ function delayEvent(obj: obj, index: number) {
   }, waitTime);
 }
 
-function clickEvent(obj: obj, index: number) {
+function clickEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
   const XPath = document.evaluate(
     `${item.data.XPath}`,
@@ -120,19 +124,16 @@ function clickEvent(obj: obj, index: number) {
   ).singleNodeValue as HTMLElement | null;
   console.log(XPath, index);
   if (XPath) {
+    //TODO A link logic
     if (XPath instanceof HTMLAnchorElement) {
       // event.preventDefault();
-      console.log('alink');
-      console.log(XPath.href);
       // const href = XPath.href;
       // XPath.click();
       window.open(XPath.href, '_blank');
       chrome.runtime.sendMessage({
         command: 'newtab',
-        data: '123',
+        data: 'Alink',
       });
-
-      // 繼續執行 JavaScript 的程式碼
       // getNextItem(obj, index + 1);
       return;
     } else {
@@ -144,15 +145,7 @@ function clickEvent(obj: obj, index: number) {
   alert(`no ${item.data.XPath} element`);
 }
 
-// function saveEvent(obj, index) {
-//   console.log('save');
-//   var item = obj[index];
-//   var value = document.querySelector(`.${item.one}`).innerText;
-//   window.ScraperExt.push(value);
-//   getNextItem(obj, index + 1);
-// }
-
-function getContentEvent(obj: obj, index: number) {
+function getContentEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
   const XPath = document.evaluate(
     `${item.data.XPath}`,
@@ -171,7 +164,7 @@ function getContentEvent(obj: obj, index: number) {
   getNextItem(obj, index + 1);
 }
 
-function enterEvent(obj: obj, index: number) {
+function enterEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
   console.log('item', item);
   const XPath = document.evaluate(
@@ -191,7 +184,7 @@ function enterEvent(obj: obj, index: number) {
   getNextItem(obj, index + 1);
 }
 
-function newTabEvent(obj: obj, index: number) {
+function newTabEvent(obj: Array<NodeData>, index: number) {
   const url = obj[index].data.url;
   window.open(url, '_blank');
   chrome.runtime.sendMessage({
@@ -200,7 +193,7 @@ function newTabEvent(obj: obj, index: number) {
   });
 }
 
-function pressKey(obj: obj, index: number) {
+function enterSubmit(obj: Array<NodeData>, index: number) {
   const item = obj[index];
   console.log('item', item);
   const XPath = document.evaluate(
@@ -212,20 +205,9 @@ function pressKey(obj: obj, index: number) {
   ).singleNodeValue as HTMLInputElement | HTMLSelectElement | null;
   console.log(XPath, index);
   if (XPath) {
-    // const keyValue = item.data.value;
-    // const event = new KeyboardEvent('keydown', {
-    //   key: 'a',
-    //   keyCode: 65,
-    //   bubbles: true,
-    //   cancelable: true,
-    // });
-
-    // // 觸發事件
-    // XPath.dispatchEvent(event);
-    XPath.form.submit();
+    XPath.form?.submit();
   } else {
     alert('no element');
   }
-
   getNextItem(obj, index + 1);
 }
