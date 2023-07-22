@@ -1,6 +1,6 @@
 {
   "name": "elfin - browser automation tool",
-  "description": "Elfin is a tool that makes browser automation easy. It is designed in an intuitive and simple way, allowing you to easily customize your own browser scripts",
+  "description": "Elfin is a tool that makes browser automation simple. It allows you to easily customize your own browser scripts",
   "version": "1.0.0",
   "manifest_version": 3,
   "icons": {
@@ -13,7 +13,7 @@
     "default_title": "elfin",
     "default_popup": "index.html"
   },
-  "permissions": ["scripting", "activeTab", "storage", "tabs"],
+  "permissions": ["scripting", "activeTab"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

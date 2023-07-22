@@ -1,14 +1,13 @@
-import List from './List';
 import { useState } from 'react';
-
+// -----------------------------------------------
+import List from './List';
+// -----------------------------------------------
 import { PiHandTap } from 'react-icons/pi';
 import { TbLogout } from 'react-icons/tb';
+// -----------------------------------------------
 
 const Home = () => {
   const [userToken, setUserToken] = useState(localStorage.getItem('extensionKey') || '');
-
-  console.log('rerender');
-
   const goElfin = () => {
     window.open('https://elfin.vercel.app/');
   };
@@ -21,14 +20,12 @@ const Home = () => {
         func: () => {
           const newExtensionKey = localStorage.getItem('extensionKey');
           if (newExtensionKey) {
-            console.log('Current localStorage extensionKey:', newExtensionKey);
             chrome.runtime.sendMessage({
               command: 'setExtensionKey',
               data: { newExtensionKey },
             });
           } else {
-            alert('請先在網頁中登入');
-            console.log('Current localStorage does not have extensionKey');
+            alert('Please log in on the elfin page first');
           }
         },
         args: [],
