@@ -17,7 +17,7 @@ import {
 
 interface Store {
   nodes: Node[];
-  edges: any[];
+  edges: Edge[];
   viewport: object;
   isOpen: boolean;
   scriptName: string;
@@ -167,6 +167,8 @@ const useStore = create<Store>((set, get) => ({
           label: 'NewTab',
           disable: false,
           url: '',
+          isConnectable: true,
+          maxConnections: 1,
         };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
@@ -237,6 +239,8 @@ const useStore = create<Store>((set, get) => ({
           disable: false,
           XPath: '',
           description: '',
+          isConnectable: true,
+          maxConnections: 1,
         };
 
         set({ nodes: [...get().nodes, { id, type, data, position }] });
