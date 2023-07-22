@@ -1,5 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
+import CustomHandle from './utils/customHandle';
 
 import { LuSend } from 'react-icons/lu';
 
@@ -31,9 +32,9 @@ interface ClickEventProps {
   data: inputObj;
 }
 
-function EnterSubmitEvent({ id, isConnectable, data }: ClickEventProps) {
+function EnterSubmitEvent({ id, data }: ClickEventProps) {
   const { setXPath, setDescription } = useStore(selector(id), shallow);
-
+  const { isConnectable, maxConnections } = data;
   const [stashXpath, setStashXpath] = useState(data.XPath);
   const [stashDescription, setStashDescription] = useState(data.description);
 
@@ -52,10 +53,11 @@ function EnterSubmitEvent({ id, isConnectable, data }: ClickEventProps) {
           data.disable ? 'toggleOpacity' : ''
         }`}
       >
-        <Handle
+        <CustomHandle
           type='target'
           position={Position.Left}
           isConnectable={isConnectable}
+          maxConnections={maxConnections}
           className=' react-flow__handle-target after:border after:border-customDarkBlue-400'
           style={{ left: '-8px', top: '81px' }}
         />
