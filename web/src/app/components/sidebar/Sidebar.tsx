@@ -1,57 +1,37 @@
 'use client';
 import icon from './icon48.png';
 
-import { TbLogout } from 'react-icons/tb';
+import { IoLogOutOutline } from 'react-icons/io5';
 import { MdAccountCircle } from 'react-icons/md';
 // import { RxInfoCircled } from 'react-icons/rx';
 // import { IoSettingsOutline } from 'react-icons/io5';
 import { AiOutlineChrome } from 'react-icons/ai';
 
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import useStore from '@/app/user_store';
 
-import { auth, authProvider } from '@/app/lib/firebase';
-import { signInWithPopup, UserCredential, signOut } from 'firebase/auth';
+import { auth } from '@/app/lib/firebase';
+import { signOut } from 'firebase/auth';
 
-import asyncSetUser from '@/app/api/user/asyncSetUser';
 import { shallow } from 'zustand/shallow';
 
 const Sidebar = () => {
-  const [loginState, setLoginState] = useState(false);
+  // const [loginState, setLoginState] = useState(false);
 
   const userInfo = useStore((state) => state.userInfo, shallow);
   const logout = useStore((state) => state.logout, shallow);
-  const login = useStore((state) => state.login, shallow);
 
   const router = useRouter();
 
-  //解決hydration問題
-  useEffect(() => {
-    const storeLogin = userInfo.isLogin;
-    setLoginState(storeLogin);
-  }, [userInfo.isLogin]);
-
-  const userlogin = async () => {
-    const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
-    const extensionKey = crypto.randomUUID();
-    localStorage.setItem('extensionKey', extensionKey);
-
-    await asyncSetUser(
-      userInfoFirestore.user.uid,
-      userInfoFirestore.user.providerData[0].displayName,
-      extensionKey
-    );
-
-    login(
-      userInfoFirestore.user.providerData[0].displayName,
-      userInfoFirestore.user.uid,
-      userInfoFirestore.user.photoURL as string
-    );
-  };
+  // //解決hydration問題
+  // useEffect(() => {
+  //   const storeLogin = userInfo.isLogin;
+  //   setLoginState(storeLogin);
+  // }, [userInfo.isLogin]);
 
   const userLogout = async () => {
     await signOut(auth);
@@ -73,46 +53,43 @@ const Sidebar = () => {
           />
         </Link>
       </div>
-      {loginState ? (
-        <>
-          <div className=' flex flex-col items-center'>
-            <a
-              href='https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf'
-              target='_blank'
-            >
-              <button className=' mb-5 text-gray-400 hover:text-mainBlue-400'>
-                <AiOutlineChrome size='28px' />
-              </button>
-            </a>
-            {/* //TODO */}
-            {/* <button className=' mb-5 text-gray-400'>
+
+      <>
+        <div className=' flex flex-col items-center'>
+          <a
+            href='https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf'
+            target='_blank'
+          >
+            <button className=' mb-5 text-gray-400 hover:text-mainBlue-400'>
+              <AiOutlineChrome size='28px' />
+            </button>
+          </a>
+          {/* //TODO */}
+          {/* <button className=' mb-5 text-gray-400'>
               <RxInfoCircled size='26px' />
             </button>
             <button className=' mb-5 text-gray-400'>
               <IoSettingsOutline size='26px' />
             </button> */}
+          {userInfo.userImage !== '' ? (
             <Image
               src={userInfo.userImage}
               width={37}
               height={37}
               alt='image'
-              quality={85}
-              className=' mb-5 rounded-full border-2 border-blue-600 hover:animate-spin '
+              quality={90}
+              className=' mb-5 rounded-full border-2 border-blue-600'
             />
-            <button className=' mb-6 text-gray-400 hover:text-mainBlue-400' onClick={userLogout}>
-              <TbLogout size='30px' stroke-width='1px' />
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className=' flex flex-col items-center'>
-            <button className=' mb-6' onClick={userlogin}>
-              <MdAccountCircle size='37px' color='#c8c8c8' />
-            </button>
-          </div>
-        </>
-      )}
+          ) : (
+            <span className=' mb-5 rounded-full border-2 border-blue-400 text-mainBlue-300 '>
+              <MdAccountCircle size='36px' />
+            </span>
+          )}
+          <button className=' mb-6 text-gray-400 hover:text-mainBlue-400' onClick={userLogout}>
+            <IoLogOutOutline size='30px' />
+          </button>
+        </div>
+      </>
     </div>
   );
 };
