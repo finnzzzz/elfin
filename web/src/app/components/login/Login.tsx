@@ -1,4 +1,11 @@
 import { ReactNode, useState } from 'react';
+import { db } from '@/app/lib/firebase';
+import {
+  setDoc,
+  getDocs,
+  doc,
+  collection,
+} from 'firebase/firestore';
 
 import elfinIcon from './icon128.png';
 import googleIcon from './google.png';
@@ -22,6 +29,27 @@ const Login = ({ togglePop, seen }: LoginProps) => {
 
   const [isSignUp, setIsSignUp] = useState(true);
 
+  const copyTemplateData = async (uid: string) => {
+    try {
+      const docRef = collection(db, 'users','lsqfNOGOJpUhpAPWpmLC8KIvCay2','scripts');
+      const sourceSnapshot = await getDocs(docRef);
+
+      sourceSnapshot.forEach(async (templateDoc) => {
+        console.log(templateDoc.id, templateDoc.data());
+        const data = templateDoc.data();
+
+        const targetDocRef = collection(db, 'users', uid, 'scripts');
+        const templateList = await getDocs(targetDocRef);
+
+        if (!templateList.docs.length) {
+          await setDoc(doc(db, 'users', uid, 'scripts', templateDoc.id), data);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const googleLogin = async () => {
     const userInfoFirestore: UserCredential = await signInWithPopup(auth, authProvider);
     const extensionKey = crypto.randomUUID();
@@ -38,6 +66,8 @@ const Login = ({ togglePop, seen }: LoginProps) => {
       userInfoFirestore.user.uid,
       userInfoFirestore.user.photoURL as string
     );
+
+    copyTemplateData(userInfoFirestore.user.uid);
   };
 
   const signUp = () => {
