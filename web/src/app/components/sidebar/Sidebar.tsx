@@ -3,8 +3,8 @@ import icon from './icon48.png';
 
 import { TbLogout } from 'react-icons/tb';
 import { MdAccountCircle } from 'react-icons/md';
-import { RxInfoCircled } from 'react-icons/rx';
-import { IoSettingsOutline } from 'react-icons/io5';
+// import { RxInfoCircled } from 'react-icons/rx';
+// import { IoSettingsOutline } from 'react-icons/io5';
 import { AiOutlineChrome } from 'react-icons/ai';
 
 import { useState, useEffect } from 'react';
@@ -76,25 +76,31 @@ const Sidebar = () => {
       {loginState ? (
         <>
           <div className=' flex flex-col items-center'>
-            <button className=' mb-5'>
-              <AiOutlineChrome size='28px' color='#949494' />
+            <a
+              href='https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf'
+              target='_blank'
+            >
+              <button className=' mb-5 text-gray-400 hover:text-mainBlue-400'>
+                <AiOutlineChrome size='28px' />
+              </button>
+            </a>
+            {/* //TODO */}
+            {/* <button className=' mb-5 text-gray-400'>
+              <RxInfoCircled size='26px' />
             </button>
-            <button className=' mb-5'>
-              <RxInfoCircled size='26px' color='#949494' />
-            </button>
-            <button className=' mb-5'>
-              <IoSettingsOutline size='26px' color='#949494' />
-            </button>
+            <button className=' mb-5 text-gray-400'>
+              <IoSettingsOutline size='26px' />
+            </button> */}
             <Image
               src={userInfo.userImage}
               width={37}
               height={37}
               alt='image'
-              quality={65}
-              className=' mb-5 rounded-full border-2 border-blue-600'
+              quality={85}
+              className=' mb-5 rounded-full border-2 border-blue-600 hover:animate-spin '
             />
-            <button className=' mb-6' onClick={userLogout}>
-              <TbLogout size='30px' stroke-width='1px' color='#5f5f5f' />
+            <button className=' mb-6 text-gray-400 hover:text-mainBlue-400' onClick={userLogout}>
+              <TbLogout size='30px' stroke-width='1px' />
             </button>
           </div>
         </>
