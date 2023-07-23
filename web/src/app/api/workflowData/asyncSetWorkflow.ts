@@ -10,7 +10,7 @@ const asyncSetWorkflow = async (uid: string) => {
       nodes: [
         {
           id: 'start from this node',
-          position: { x: 100, y: 100 },
+          position: { x: 100, y: 450 },
           type: 'trigger',
           data: { label: 'Trigger', disable: false },
           deletable: false,

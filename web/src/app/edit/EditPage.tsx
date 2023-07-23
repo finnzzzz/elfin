@@ -130,8 +130,6 @@ const EditPage = ({ id }: EditPageProps) => {
   );
 
   const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
-    console.log('oldEdge', oldEdge);
-    console.log('newConnection', newConnection);
     const newConnectionWithStyle = {
       ...newConnection,
       markerEnd: {
@@ -163,7 +161,7 @@ const EditPage = ({ id }: EditPageProps) => {
     setEdges([]);
   };
 
-  //TEST_CODE
+  //TEST_CODE_FOR_DEV
   // const nodeClick = (some, node) => {
   //   console.log('node', node);
   //   let childnode = getOutgoers(node, store.nodes, store.edges);
@@ -174,7 +172,6 @@ const EditPage = ({ id }: EditPageProps) => {
 
   //   function traverse(node) {
   //     const nextNode = getOutgoers(node, store.nodes, store.edges);
-  //     // console.log('nextNodeeeee', nextNode);
   //     if (nextNode.length > 0) {
   //       successors.push(nextNode[0]);
   //       traverse(nextNode[0]);
@@ -182,14 +179,10 @@ const EditPage = ({ id }: EditPageProps) => {
   //   }
 
   // const trigger = allFlow.nodes.find((item) => item.type === 'trigger');
-  // console.log('trigger', trigger);
 
   // if (trigger) {
   //   traverse(trigger);
   // }
-
-  // console.log('successors', successors);
-  // };
 
   // const onNodeContextMenu = () => {
   //   setIsOpen(true);
