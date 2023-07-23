@@ -27,8 +27,6 @@ const TemplateScripts = () => {
   //   console.log('delete');
   // };
 
-  workflowSnapShots?.docs.forEach((item) => console.log(item.data()));
-
   const templateScripts = workflowSnapShots?.docs.filter((item) => item.data().isTemplate === true);
 
   return (
