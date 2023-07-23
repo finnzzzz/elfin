@@ -22,7 +22,6 @@ const useStore = create<Store>()(
           userName: 'none',
           userUid: '0000',
           userImage: '',
-          // userUid: '1DK9kKHiK3ZePLTo0x2Kyfx6Qut1', for dev
           isLogin: false,
         },
 
@@ -49,7 +48,7 @@ const useStore = create<Store>()(
           }));
         },
       }),
-      { name: 'food-storage', storage: createJSONStorage(() => sessionStorage) }
+      { name: 'user-storage', storage: createJSONStorage(() => sessionStorage) }
     )
   )
 );

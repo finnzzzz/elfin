@@ -1,11 +1,8 @@
+'use client';
+
 import { ReactNode, useState } from 'react';
 import { db } from '@/app/lib/firebase';
-import {
-  setDoc,
-  getDocs,
-  doc,
-  collection,
-} from 'firebase/firestore';
+import { setDoc, getDocs, doc, collection } from 'firebase/firestore';
 
 import elfinIcon from './icon128.png';
 import googleIcon from './google.png';
@@ -19,6 +16,12 @@ import asyncSetUser from '@/app/api/user/asyncSetUser';
 import { auth, authProvider } from '@/app/lib/firebase';
 import { signInWithPopup, UserCredential } from 'firebase/auth';
 
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
+  useUpdateProfile,
+} from 'react-firebase-hooks/auth';
+
 interface LoginProps {
   togglePop: () => void;
   seen: boolean;
@@ -29,9 +32,18 @@ const Login = ({ togglePop, seen }: LoginProps) => {
 
   const [isSignUp, setIsSignUp] = useState(true);
 
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [createUserWithEmailAndPassword, _createUser, createUserLoading, createUserError] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, _user, signInLoading, _error] = useSignInWithEmailAndPassword(auth);
+
+  const [updateProfile, _updating, _updateError] = useUpdateProfile(auth);
+
   const copyTemplateData = async (uid: string) => {
     try {
-      const docRef = collection(db, 'users','lsqfNOGOJpUhpAPWpmLC8KIvCay2','scripts');
+      const docRef = collection(db, 'users', 'lsqfNOGOJpUhpAPWpmLC8KIvCay2', 'scripts');
       const sourceSnapshot = await getDocs(docRef);
 
       sourceSnapshot.forEach(async (templateDoc) => {
@@ -70,8 +82,44 @@ const Login = ({ togglePop, seen }: LoginProps) => {
     copyTemplateData(userInfoFirestore.user.uid);
   };
 
-  const signUp = () => {
+  const toggleSignUp = () => {
     setIsSignUp(!isSignUp);
+  };
+
+  const signUp = async () => {
+    console.log('signup', email, password);
+    const userInfoFirestore = await createUserWithEmailAndPassword(email, password);
+    console.log(userInfoFirestore);
+    if (userInfoFirestore) {
+      await updateProfile({
+        displayName: name,
+      });
+
+      const extensionKey = crypto.randomUUID();
+      localStorage.setItem('extensionKey', extensionKey);
+
+      await asyncSetUser(userInfoFirestore.user.uid, name, extensionKey);
+      login(name, userInfoFirestore.user.uid, '');
+      copyTemplateData(userInfoFirestore.user.uid);
+    }
+  };
+
+  const signIn = async () => {
+    console.log('signIn', email, password);
+    const userInfoFirestore = await signInWithEmailAndPassword(email, password);
+    console.log(userInfoFirestore);
+    if (userInfoFirestore) {
+      const extensionKey = crypto.randomUUID();
+      localStorage.setItem('extensionKey', extensionKey);
+
+      await asyncSetUser(
+        userInfoFirestore.user.uid,
+        userInfoFirestore.user.providerData[0].displayName,
+        extensionKey
+      );
+      login(userInfoFirestore.user.providerData[0].displayName, userInfoFirestore.user.uid, '');
+      copyTemplateData(userInfoFirestore.user.uid);
+    }
   };
 
   return (
@@ -92,39 +140,76 @@ const Login = ({ togglePop, seen }: LoginProps) => {
           <div className=' flex flex-col gap-1'>
             {isSignUp && (
               <div className=' flex flex-col '>
-                <span className=' text-base'>name</span>
-                <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
+                <span className='  text-gray-800'>name</span>
+                <input
+                  placeholder='name'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type='text'
+                  className=' h-[35px] rounded-lg border border-gray-300 p-2'
+                />
               </div>
             )}
             <div className=' flex flex-col '>
-              <span className=''>email</span>
-              <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
+              <span className='text-gray-800'>email</span>
+              <input
+                placeholder='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type='text'
+                className=' h-[35px] rounded-lg border border-gray-300 p-2'
+              />
             </div>
             <div className=' flex flex-col '>
-              <span className=''>password</span>
-              <input type='text' className=' h-[35px] rounded-lg border border-gray-300' />
+              <span className='text-gray-800'>password</span>
+              <input
+                placeholder='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type='text'
+                className=' h-[35px] rounded-lg border border-gray-300 p-2'
+              />
             </div>
-            {isSignUp ? (
-              <div className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'>
-                <span className=' text-white '>Sign up</span>
+            {createUserError ? (
+              <div>
+                <p className=' mt-1 text-sm text-red-500'>Error: {createUserError.message}</p>
               </div>
             ) : (
+              <></>
+            )}
+            {isSignUp ? (
+              <button className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500 focus:bg-blue-700'>
+                {createUserLoading ? (
+                  <span className=' text-white '>Loading...</span>
+                ) : (
+                  <span className=' text-white ' onClick={signUp}>
+                    Sign up
+                  </span>
+                )}
+              </button>
+            ) : (
               <div className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'>
-                <span className=' text-white '>Sign in</span>
+                {signInLoading ? (
+                  <span className=' text-white '>Loading...</span>
+                ) : (
+                  <span onClick={signIn} className=' text-white '>
+                    Sign in
+                  </span>
+                )}
               </div>
             )}
             <span className='mt-1 text-end text-sm'>
               {isSignUp ? (
                 <>
                   <span>Already have an account?</span>
-                  <span className='ml-2 cursor-pointer underline' onClick={signUp}>
+                  <span className='ml-2 cursor-pointer underline' onClick={toggleSignUp}>
                     Sign in
                   </span>
                 </>
               ) : (
                 <>
                   <span>Don&apos;t have an account?</span>
-                  <span className='ml-2 cursor-pointer underline' onClick={signUp}>
+                  <span className='ml-2 cursor-pointer underline' onClick={toggleSignUp}>
                     Sign up
                   </span>
                 </>
