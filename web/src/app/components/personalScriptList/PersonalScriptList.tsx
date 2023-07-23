@@ -63,7 +63,7 @@ const PersonalScriptList = () => {
 
   return (
     <>
-      <div className=' background-image-blue flex h-[298px] flex-wrap justify-start gap-9 rounded-md p-11'>
+      <div className=' background-image-blue flex flex-wrap justify-start gap-9 rounded-md p-11'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
         {personalScripts?.map((item) => {
@@ -109,8 +109,8 @@ const PersonalScriptList = () => {
           );
         })}
         {personalScripts?.length == 0 && (
-          <div className='  flex w-full items-center justify-center'>
-            <span className='text-gray-600'>no script 📁</span>
+          <div className='  flex w-full items-center justify-center h-[210px]'>
+            <span className=' text-gray-600'>no script 📁</span>
           </div>
         )}
       </div>
