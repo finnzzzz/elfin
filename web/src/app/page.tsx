@@ -27,42 +27,38 @@ export default function Home() {
     asyncSetWorkflow(uid);
   };
 
+  if (!loginState) return <LandingPage />;
+
   return (
     <>
-      {loginState ? (
-        <div className='w-full p-5 pt-[60px]'>
-          <span className=' absolute right-[20px] top-[20px]'>
-            <div className=' flex flex-col items-end'>
-              <span className=' font-bold text-gray-400'>Browser automation tool</span>
-            </div>
-          </span>
-          <div className=' mb-7 text-2xl text-slate-800'>
-            👋🏻 Welcome !
-            <span className='ml-2 text-2xl font-semibold text-mainBlue-500'>
-              {userInfo.userName}
-            </span>
+      <div className='w-full p-5 pt-[60px]'>
+        <span className=' absolute right-[20px] top-[20px]'>
+          <div className=' flex flex-col items-end'>
+            <span className=' font-bold text-gray-400'>Browser automation tool</span>
           </div>
-          <div className=' mb-[20px] text-[24px] text-gray-700'>Template</div>
-          <TemplateScripts />
-          <hr className='mb-8 mt-[50px] w-full border-gray-300' />
-
-          <div className=' mb-7 text-[20px] text-gray-700'>{userInfo.userName}&#39;s scripts</div>
-          <button
-            onClick={() => {
-              addScript(userInfo.userUid);
-            }}
-            className=' mb-4 flex items-center rounded-md border border-blue-200 bg-[#68a6f8] p-3 text-white hover:bg-[#0d99ff]'
-          >
-            <span className=' leading-[15px]'>New script</span>
-            <span className=' ml-1'>
-              <HiPlus size='15px' />
-            </span>
-          </button>
-          <PersonalScriptList />
+        </span>
+        <div className=' mb-7 text-2xl text-slate-800'>
+          👋🏻 Welcome !
+          <span className='ml-2 text-2xl font-semibold text-mainBlue-500'>{userInfo.userName}</span>
         </div>
-      ) : (
-        <LandingPage />
-      )}
+        <div className=' mb-[20px] text-[24px] text-gray-700'>Template</div>
+        <TemplateScripts />
+        <hr className='mb-8 mt-[50px] w-full border-gray-300' />
+
+        <div className=' mb-7 text-[20px] text-gray-700'>{userInfo.userName}&#39;s scripts</div>
+        <button
+          onClick={() => {
+            addScript(userInfo.userUid);
+          }}
+          className=' mb-4 flex items-center rounded-md border border-blue-200 bg-[#68a6f8] p-3 text-white hover:bg-[#0d99ff]'
+        >
+          <span className=' leading-[15px]'>New script</span>
+          <span className=' ml-1'>
+            <HiPlus size='15px' />
+          </span>
+        </button>
+        <PersonalScriptList />
+      </div>
     </>
   );
 }
