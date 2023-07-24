@@ -37,7 +37,8 @@ const Login = ({ togglePop, seen }: LoginProps) => {
   const [password, setPassword] = useState('');
   const [createUserWithEmailAndPassword, _createUser, createUserLoading, createUserError] =
     useCreateUserWithEmailAndPassword(auth);
-  const [signInWithEmailAndPassword, _user, signInLoading, _error] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, _user, signInLoading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const [updateProfile, _updating, _updateError] = useUpdateProfile(auth);
 
@@ -47,7 +48,6 @@ const Login = ({ togglePop, seen }: LoginProps) => {
       const sourceSnapshot = await getDocs(docRef);
 
       sourceSnapshot.forEach(async (templateDoc) => {
-        console.log(templateDoc.id, templateDoc.data());
         const data = templateDoc.data();
 
         const targetDocRef = collection(db, 'users', uid, 'scripts');
@@ -84,12 +84,13 @@ const Login = ({ togglePop, seen }: LoginProps) => {
 
   const toggleSignUp = () => {
     setIsSignUp(!isSignUp);
+    setName('');
+    setPassword('');
+    setEmail('');
   };
 
   const signUp = async () => {
-    console.log('signup', email, password);
     const userInfoFirestore = await createUserWithEmailAndPassword(email, password);
-    console.log(userInfoFirestore);
     if (userInfoFirestore) {
       await updateProfile({
         displayName: name,
@@ -105,9 +106,7 @@ const Login = ({ togglePop, seen }: LoginProps) => {
   };
 
   const signIn = async () => {
-    console.log('signIn', email, password);
     const userInfoFirestore = await signInWithEmailAndPassword(email, password);
-    console.log(userInfoFirestore);
     if (userInfoFirestore) {
       const extensionKey = crypto.randomUUID();
       localStorage.setItem('extensionKey', extensionKey);
@@ -135,7 +134,11 @@ const Login = ({ togglePop, seen }: LoginProps) => {
             className=' mb-6'
           />
           <div className=' mb-3'>
-            <span className=' text-[28px] font-semibold leading-[28px]'>Get Started </span>
+            <span
+              className=' text-[28px] font-semibold leading-[28px]'
+            >
+              Get Started
+            </span>
           </div>
           <div className=' flex flex-col gap-1'>
             {isSignUp && (
@@ -170,33 +173,38 @@ const Login = ({ togglePop, seen }: LoginProps) => {
                 className=' h-[35px] rounded-lg border border-gray-300 p-2'
               />
             </div>
-            {createUserError ? (
+            {isSignUp && createUserError && (
               <div>
                 <p className=' mt-1 text-sm text-red-500'>Error: {createUserError.message}</p>
               </div>
-            ) : (
-              <></>
+            )}
+            {!isSignUp && error && (
+              <div>
+                <p className=' mt-1 text-sm text-red-500'>Error: {error.message}</p>
+              </div>
             )}
             {isSignUp ? (
-              <button className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500 focus:bg-blue-700'>
+              <button
+                onClick={signUp}
+                className=' mt-2 flex h-[40px] items-center justify-center gap-1 rounded-lg bg-mainBlue-500 active:bg-mainBlue-400'
+              >
                 {createUserLoading ? (
                   <span className=' text-white '>Loading...</span>
                 ) : (
-                  <span className=' text-white ' onClick={signUp}>
-                    Sign up
-                  </span>
+                  <span className=' text-white '>Sign up</span>
                 )}
               </button>
             ) : (
-              <div className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'>
+              <button
+                onClick={signIn}
+                className=' mt-2 flex h-[40px] cursor-pointer items-center justify-center gap-1 rounded-lg bg-mainBlue-500'
+              >
                 {signInLoading ? (
                   <span className=' text-white '>Loading...</span>
                 ) : (
-                  <span onClick={signIn} className=' text-white '>
-                    Sign in
-                  </span>
+                  <span className=' text-white '>Sign in</span>
                 )}
-              </div>
+              </button>
             )}
             <span className='mt-1 text-end text-sm'>
               {isSignUp ? (
@@ -279,7 +287,7 @@ const Modal = ({ togglePop, seen, children }: ModalProps) => {
                 },
               }}
               onClick={(e) => e.stopPropagation()}
-              className=' w-[410px] rounded-[20px] bg-white p-[40px]'
+              className=' h-[569px] w-[410px] rounded-[20px] bg-white p-[40px]'
             >
               {children}
             </motion.div>
