@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { devtools, persist, createJSONStorage } from 'zustand/middleware';
+import { devtools } from 'zustand/middleware';
 
 type UserInfo = {
   userName: string;
@@ -16,40 +16,40 @@ interface Store {
 
 const useStore = create<Store>()(
   devtools(
-    persist(
-      (set) => ({
-        userInfo: {
-          userName: 'none',
-          userUid: '0000',
-          userImage: '',
-          isLogin: false,
-        },
+    // persist(
+    (set) => ({
+      userInfo: {
+        userName: 'none',
+        userUid: '0000',
+        userImage: '',
+        isLogin: false,
+      },
 
-        login: (name, uid, url) => {
-          set({
-            userInfo: {
-              userName: name || 'none',
-              userUid: uid,
-              userImage: url,
-              isLogin: true,
-            },
-          });
-        },
+      login: (name, uid, url) => {
+        set({
+          userInfo: {
+            userName: name || 'none',
+            userUid: uid,
+            userImage: url,
+            isLogin: true,
+          },
+        });
+      },
 
-        logout: () => {
-          set((state) => ({
-            ...state,
-            userInfo: {
-              userName: 'none',
-              userUid: '0000',
-              userImage: '',
-              isLogin: false,
-            },
-          }));
-        },
-      }),
-      { name: 'user-storage', storage: createJSONStorage(() => sessionStorage) }
-    )
+      logout: () => {
+        set((state) => ({
+          ...state,
+          userInfo: {
+            userName: 'none',
+            userUid: '0000',
+            userImage: '',
+            isLogin: false,
+          },
+        }));
+      },
+    })
+    // ),
+    // { name: 'user-storage', storage: createJSONStorage(() => sessionStorage) }
   )
 );
 

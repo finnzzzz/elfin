@@ -15,7 +15,6 @@ const PersonalScriptList = () => {
   const userInfo = useUserStore((state) => state.userInfo);
 
   const uid = userInfo.userUid;
-
   const userRef = collection(db, 'users', uid, 'scripts');
   const q = query(userRef, orderBy('saveTime', 'desc'));
   const [workflowSnapShots, loading, error] = useCollection(q);
@@ -29,7 +28,6 @@ const PersonalScriptList = () => {
       const des: string = item.data().description;
       desObj[id] = des;
     });
-    console.log(desObj);
     setDescription(desObj);
   }, [workflowSnapShots]);
 
@@ -40,7 +38,6 @@ const PersonalScriptList = () => {
   ) => {
     e.preventDefault();
     asyncDeleteWorkflow(uid, id);
-    console.log('delete');
   };
 
   const personalScripts = workflowSnapShots?.docs.filter((item) => item.data().isTemplate !== true);
@@ -109,7 +106,7 @@ const PersonalScriptList = () => {
           );
         })}
         {personalScripts?.length == 0 && (
-          <div className='  flex w-full items-center justify-center h-[210px]'>
+          <div className='  flex h-[210px] w-full items-center justify-center'>
             <span className=' text-gray-600'>no script 📁</span>
           </div>
         )}

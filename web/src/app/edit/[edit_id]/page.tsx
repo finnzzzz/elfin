@@ -10,7 +10,8 @@ import EditPage from '../EditPage';
 // ---------------------------------------Zustand
 import useStore from '@/app/store';
 import user_useStore from '@/app/user_store';
-
+// ---------------------------------------
+import { useRouter } from 'next/navigation';
 // ---------------------------------------types
 interface EditProps {
   params: { edit_id: string };
@@ -34,6 +35,9 @@ const Edit = ({ params }: EditProps) => {
     name: '',
     saveTime: '',
   });
+  const [isFetchingGlobalState, setIsFetchingGlobalState] = useState<boolean>(true);
+
+  const router = useRouter();
 
   const scriptName = useStore((state) => state.scriptName);
   const saveTime = useStore((state) => state.saveTime);
@@ -46,9 +50,8 @@ const Edit = ({ params }: EditProps) => {
 
   const userInfo = user_useStore((state) => state.userInfo);
 
-  //用獲取到的id去獲取firestore上的資料，只在首次沒有資料的時候
   const data = async () => {
-    if (workflow.id == '') {
+    if (workflow?.id == '') {
       const docRef = doc(db, 'users', userInfo.userUid, 'scripts', edit_id);
 
       const docSnap = await getDoc(docRef);
@@ -65,26 +68,44 @@ const Edit = ({ params }: EditProps) => {
         );
         setLoading(false);
       } else {
-        alert('not yours');
+        if (userInfo.userUid !== 'no login') {
+          alert('not your script');
+          router.push('/');
+          return;
+        }
+        alert('login to start');
       }
     }
   };
 
-  useEffect(() => {
-    data();
-    console.log(workflow);
-    console.log(scriptName);
-  });
-
   const saveName = useCallback(
     async (uid: string, id: string, e: React.FocusEvent<HTMLInputElement>) => {
-      //儲存到firestore
       const name = e.target.value;
-      const addedRes = await asyncUpdateWorkflow(uid, id, { name });
-      console.log(addedRes);
+      await asyncUpdateWorkflow(uid, id, { name });
     },
     []
   );
+
+  useEffect(() => {
+    if (!isFetchingGlobalState) {
+      data();
+    }
+  }, [isFetchingGlobalState]);
+
+  useEffect(() => {
+    if (userInfo.userUid === '0000') {
+      setIsFetchingGlobalState(true);
+    } else {
+      setIsFetchingGlobalState(false);
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (isFetchingGlobalState) return;
+    if (userInfo?.isLogin === false) {
+      router.push('/');
+    }
+  }, [isFetchingGlobalState, userInfo]);
 
   return (
     <>
