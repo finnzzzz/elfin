@@ -108,33 +108,31 @@ const Edit = ({ params }: EditProps) => {
   }, [isFetchingGlobalState, userInfo]);
 
   return (
-    <>
-      <div className='flex h-full w-full flex-col'>
-        <div className='relative flex items-center justify-center border-b border-b-gray-300 p-3'>
-          <input
-            type='text'
-            value={scriptName}
-            onChange={(e) => {
-              setScriptName(e.target.value);
-            }}
-            onBlur={(e) => {
-              saveName(userInfo.userUid, workflow?.id, e);
-            }}
-            className=' w-[250px] text-center text-gray-700 outline-none focus:italic focus:underline'
-          />
-          <div className=' absolute bottom-1 right-4 text-sm'>
-            <span className=' mr-2 text-gray-500'>last saved</span>
-            <span className=' text-gray-500'>{saveTime}</span>
-          </div>
+    <div className='flex h-full w-full flex-col'>
+      <div className='relative flex flex-col items-center justify-center border-b border-b-gray-300 p-2 md:p-3'>
+        <input
+          type='text'
+          value={scriptName}
+          onChange={(e) => {
+            setScriptName(e.target.value);
+          }}
+          onBlur={(e) => {
+            saveName(userInfo.userUid, workflow?.id, e);
+          }}
+          className=' w-[250px] text-center text-gray-700 outline-none focus:italic focus:underline'
+        />
+        <div className=' bottom-1 right-4 text-sm md:absolute'>
+          <span className=' mr-2 text-gray-500'>last saved</span>
+          <span className=' text-gray-500'>{saveTime}</span>
         </div>
-        {loading && (
-          <div className=' absolute z-20 flex h-full w-full items-center justify-center bg-[#83838374]'>
-            <div className='text-3xl'>loading...</div>
-          </div>
-        )}
-        <EditPage id={workflow?.id} />
       </div>
-    </>
+      {loading && (
+        <div className=' absolute z-20 flex h-full w-full items-center justify-center bg-[#83838374]'>
+          <div className='text-3xl'>loading...</div>
+        </div>
+      )}
+      <EditPage id={workflow?.id} />
+    </div>
   );
 };
 
