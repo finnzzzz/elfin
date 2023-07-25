@@ -3,7 +3,6 @@ import { Handle, Position } from 'reactflow';
 import useStore from '../store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
-import CustomHandle from './utils/CustomHandle';
 
 import { PiBrowsersDuotone } from 'react-icons/pi';
 
@@ -30,7 +29,7 @@ interface NewTabProps {
 
 const NewTabEvent = ({ id, data }: NewTabProps) => {
   const { setURL, setDescription } = useStore(selector(id), shallow);
-  const { isConnectable, maxConnections } = data;
+  const { isConnectable } = data;
   const [stashUrl, setStashUrl] = useState(data.url);
   const [stashDescription, setStashDescription] = useState(data.description);
 
@@ -49,10 +48,10 @@ const NewTabEvent = ({ id, data }: NewTabProps) => {
           data.disable ? 'toggleOpacity' : ''
         } `}
       >
-        <CustomHandle
+        <Handle
+          type='target'
           position={Position.Left}
           isConnectable={isConnectable}
-          maxConnections={maxConnections}
           className=' react-flow__handle-target after:border after:border-customNileBlue-400'
           style={{ left: '-8px', top: '81px' }}
         />
@@ -91,7 +90,7 @@ const NewTabEvent = ({ id, data }: NewTabProps) => {
         <Handle
           type='source'
           position={Position.Right}
-          id='click'
+          id='newTab'
           isConnectable={isConnectable}
           className=' react-flow__handle-source after:border after:border-customNileBlue-400'
           style={{ right: '-8px', top: '140px' }}
