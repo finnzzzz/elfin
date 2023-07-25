@@ -36,7 +36,7 @@ const Toolbox = () => {
   };
 
   const ToolboxContainer: React.FC<ToolboxContainerProps> = ({ nodeDatas, onDragStart }) => (
-    <aside className='flex h-full w-[260px] flex-col items-center overflow-auto border-r border-b-gray-300 p-5'>
+    <aside className=' flex h-full w-[120px] flex-col items-center overflow-auto border-r border-b-gray-300 p-2 sm:w-[190px] md:w-[260px] md:p-5'>
       <div className='flex w-full flex-col gap-4'>
         {nodeDatas.map((nodeData) => (
           <ToolboxSection
@@ -52,7 +52,7 @@ const Toolbox = () => {
 
   const ToolboxSection: React.FC<ToolboxSectionProps> = ({ title, items, onDragStart }) => (
     <div>
-      <span className='text-lg text-gray-600'>{title}</span>
+      <span className=' text-base text-gray-600 sm:text-lg'>{title}</span>
       <div className='toolboxContainer'>
         {items.map((item) => (
           <ToolboxItem
@@ -70,23 +70,23 @@ const Toolbox = () => {
 
   const ToolboxItem: React.FC<ToolboxItemProps> = ({ icon, text, onDragStart, color, type }) => (
     <div
-      className={`toolboxItem hover:border-${color}-400 hover:text-${color}-400`}
+      className={`toolboxItem ${color}`}
       onDragStart={(event) => onDragStart(event, type)}
       draggable
     >
-      <span>{icon}</span>
-      <span>{text}</span>
+      <span className=' hidden sm:block'>{icon}</span>
+      <span className=' text-sm md:text-base'>{text}</span>
     </div>
   );
 
   return (
-    <div className=' flex flex-col bg-white'>
-      <div className='flex items-center justify-center gap-3  border-b border-r border-b-gray-300 border-r-gray-300 p-5 text-center text-lg font-bold text-blue-600 '>
-        <span>
+    <div className=' flex flex-col  bg-white'>
+      <div className='flex flex-col items-center justify-center gap-3 border-b  border-r border-b-gray-300 border-r-gray-300 p-2 text-center text-base font-bold text-blue-600 sm:flex-row md:p-5 md:text-lg '>
+        <span className='hidden sm:block'>
           <PiHandTap size='22px' />
         </span>
         <span>Drag to create</span>
-        <span>
+        <span className='hidden sm:block'>
           <PiHandSwipeRight size='22px' />
         </span>
       </div>

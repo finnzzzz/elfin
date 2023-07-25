@@ -20,18 +20,10 @@ import { signOut } from 'firebase/auth';
 import { shallow } from 'zustand/shallow';
 
 const Sidebar = () => {
-  // const [loginState, setLoginState] = useState(false);
-
   const userInfo = useStore((state) => state.userInfo, shallow);
   const logout = useStore((state) => state.logout, shallow);
 
   const router = useRouter();
-
-  // //解決hydration問題
-  // useEffect(() => {
-  //   const storeLogin = userInfo.isLogin;
-  //   setLoginState(storeLogin);
-  // }, [userInfo.isLogin]);
 
   const userLogout = async () => {
     await signOut(auth);
@@ -40,8 +32,8 @@ const Sidebar = () => {
     router.push('/');
   };
   return (
-    <div className='fixed flex h-full w-16 flex-col items-center justify-between gap-2 overflow-auto border  border-r-gray-300 bg-white'>
-      <div className=' pt-4'>
+    <div className='fixed z-40 flex h-14 w-full flex-row items-center justify-between gap-2 border border-r-gray-300 bg-white p-2  md:fixed md:h-full  md:w-16 md:flex-col'>
+      <div className='pl-3 md:pl-0 md:pt-4'>
         <Link href='/'>
           <Image
             src={icon}
@@ -53,43 +45,43 @@ const Sidebar = () => {
           />
         </Link>
       </div>
-
-      <>
-        <div className=' flex flex-col items-center'>
-          <a
-            href='https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf'
-            target='_blank'
-          >
-            <button className=' mb-5 text-gray-400 hover:text-mainBlue-400'>
-              <AiOutlineChrome size='28px' />
-            </button>
-          </a>
-          {/* //TODO */}
-          {/* <button className=' mb-5 text-gray-400'>
+      <div className=' flex flex-row items-center gap-3 md:flex-col md:gap-0'>
+        <a
+          href='https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf'
+          target='_blank'
+        >
+          <button className='hidden text-gray-400 hover:text-mainBlue-400 md:mb-5 md:block'>
+            <AiOutlineChrome className=' text-3xl' />
+          </button>
+        </a>
+        {/* //TODO */}
+        {/* <button className=' mb-5 text-gray-400'>
               <RxInfoCircled size='26px' />
             </button>
             <button className=' mb-5 text-gray-400'>
               <IoSettingsOutline size='26px' />
             </button> */}
-          {userInfo.userImage !== '' ? (
-            <Image
-              src={userInfo.userImage}
-              width={37}
-              height={37}
-              alt='image'
-              quality={90}
-              className=' mb-5 rounded-full border-2 border-blue-600'
-            />
-          ) : (
-            <span className=' mb-5 rounded-full border-2 border-blue-400 text-mainBlue-300 '>
-              <MdAccountCircle size='36px' />
-            </span>
-          )}
-          <button className=' mb-6 text-gray-400 hover:text-mainBlue-400' onClick={userLogout}>
-            <IoLogOutOutline size='30px' />
-          </button>
-        </div>
-      </>
+        {userInfo.userImage !== '' ? (
+          <Image
+            src={userInfo.userImage}
+            width={37}
+            height={37}
+            alt='image'
+            quality={93}
+            className=' rounded-full border-2 border-blue-600 md:mb-5 '
+          />
+        ) : (
+          <span className=' rounded-full border-2 border-blue-400 text-mainBlue-300 md:mb-5'>
+            <MdAccountCircle className=' h-8 w-8' />
+          </span>
+        )}
+        <button
+          className='pr-3 text-gray-400 hover:text-mainBlue-400 md:mb-6 md:pr-0'
+          onClick={userLogout}
+        >
+          <IoLogOutOutline className=' text-3xl ' />
+        </button>
+      </div>
     </div>
   );
 };

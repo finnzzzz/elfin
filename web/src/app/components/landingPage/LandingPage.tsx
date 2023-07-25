@@ -14,17 +14,17 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className=' fixed left-0 top-0 h-full w-full bg-white'>
+      <div className=' z-50 fixed left-0 top-0 h-full w-full bg-white'>
         <Login togglePop={togglePop} seen={seen} />
-        <div className='flex h-full w-full  flex-col items-center p-7'>
-          <span className=' self-end text-xl'>browser automation tool</span>
-          <div className=' mt-24 flex items-center gap-2 text-5xl font-bold 2xl:mt-48'>
+        <div className='flex h-full w-full  flex-col items-center p-9 lg:p-7'>
+          <span className=' self-end text-lg sm:text-xl'>browser automation tool</span>
+          <div className=' mt-24 flex flex-col items-center gap-2 text-3xl font-bold sm:flex-row lg:text-5xl 2xl:mt-48'>
             <span>make</span>
-            <span className=' title-browser-bg rounded-[10px]  p-2 pl-3 pr-3 text-mainBlue-500'>
+            <span className=' title-browser-bg rounded-[10px] p-1  pl-3 pr-3 text-mainBlue-500 sm:p-2'>
               browser
             </span>
             <span>automation</span>
-            <span className=' title-simple-bg rounded-full bg-orange-100 p-2 pl-5 pr-5 text-[#FF6914]'>
+            <span className=' title-simple-bg rounded-full bg-orange-100 p-1 pl-5 pr-5 text-[#FF6914] sm:p-2'>
               simple
             </span>
           </div>
@@ -38,16 +38,16 @@ const LandingPage = () => {
               alt='landing page picture'
             />
           </div>
-          <button className=' 2xl:mt-30 mt-20 text-xl hover:underline' onClick={togglePop}>
+          <button className=' 2xl:mt-30 mt-32 text-xl hover:underline' onClick={togglePop}>
             sign in to start
           </button>
-          <div className=' mr-5 mt-[5.5%] flex cursor-pointer items-center self-end rounded-full border border-black p-3 text-base'>
+          <div className=' mr-5 mt-[100px] flex cursor-pointer items-center rounded-full border border-black p-2 text-base sm:mt-[5.5%] sm:self-end sm:p-3'>
             <Image
               src={chromeIcon}
               width={41}
               height={40}
               quality={90}
-              className=' mr-2 w-[30px]'
+              className=' mr-2 w-[18px] sm:w-[30px]'
               alt='download for chrome'
             />
             Download for Chrome

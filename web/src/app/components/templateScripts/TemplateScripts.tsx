@@ -31,7 +31,7 @@ const TemplateScripts = () => {
 
   return (
     <>
-      <div className=' flex flex-wrap justify-start gap-7 rounded-md bg-[#f0f3ff] p-5'>
+      <div className=' flex flex-wrap justify-center gap-7 rounded-md bg-[#f0f3ff] p-4 sm:justify-start sm:p-5'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
         {templateScripts?.map((item) => {

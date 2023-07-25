@@ -202,15 +202,10 @@ const EditPage = ({ id }: EditPageProps) => {
   // }, [setConnectionInProgress]);
 
   return (
-    <div
-      className='flex flex-grow flex-row bg-gray-100 '
-      style={{
-        height: `calc(100% - 50px)`,
-      }}
-    >
+    <div className='flex h-flowContainer bg-gray-100 sm:h-smflowContainer md:h-mdflowContainer'>
       <ReactFlowProvider>
         <Toolbox />
-        <div className=' h-full flex-grow' ref={reactFlowWrapper}>
+        <div className=' h-full w-full ' ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -228,10 +223,10 @@ const EditPage = ({ id }: EditPageProps) => {
           >
             <Panel position='bottom-left'>
               <button
-                className='relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-2 pl-4 pr-4 text-sm text-gray-700 hover:bg-gray-50 hover:shadow-sm hover:shadow-blue-200'
+                className='ms:pr-4 relative flex items-center justify-center gap-2 rounded-xl border border-gray-400 bg-white p-1 pl-3 pr-3 text-sm text-gray-700 hover:bg-gray-50 hover:shadow-sm hover:shadow-blue-200 md:p-2 md:pl-4'
                 onClick={clearAllNodes}
               >
-                <span>
+                <span className='hidden md:block'>
                   <BiTrash size='18px' />
                 </span>
                 Clear all nodes
@@ -258,7 +253,7 @@ const EditPage = ({ id }: EditPageProps) => {
                 Save
               </button>
             </Panel>
-            <MiniMap zoomable pannable />
+            <MiniMap zoomable pannable className='h-[55px] w-[90px] md:h-[110px] md:w-[180px]' />
             <Background size={1} offset={2} />
           </ReactFlow>
         </div>

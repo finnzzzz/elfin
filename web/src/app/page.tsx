@@ -32,12 +32,12 @@ export default function Home() {
   return (
     <>
       <div className='w-full p-5 pt-[60px]'>
-        <span className=' absolute right-[20px] top-[20px]'>
+        <span className=' absolute right-[20px] top-[70px] md:top-[20px]'>
           <div className=' flex flex-col items-end'>
             <span className=' font-bold text-gray-400'>Browser automation tool</span>
           </div>
         </span>
-        <div className=' mb-7 text-2xl text-slate-800'>
+        <div className='mb-5 text-2xl text-slate-800 md:mb-7'>
           👋🏻 Welcome !
           <span className='ml-2 text-2xl font-semibold text-mainBlue-500'>{userInfo.userName}</span>
         </div>
