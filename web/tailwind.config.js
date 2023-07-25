@@ -65,6 +65,11 @@ module.exports = {
       borderRadius: {
         nodebase: '16px',
       },
+      height: {
+        mdflowContainer: 'calc(100% - 50px)',
+        smflowContainer: 'calc(100% - 80px)',
+        flowContainer: 'calc(100%)',
+      },
     },
   },
   plugins: [],
