@@ -14,10 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={font.className}>
+      <body className={`${font.className} flex flex-col bg-white md:flex-row`}>
         <AuthProvider />
         <Sidebar />
-        <div className=' ml-[64px] w-full'>{children}</div>
+        <div className='mt-[60px] w-full md:ml-[64px] md:mt-0'>{children}</div>
       </body>
     </html>
   );

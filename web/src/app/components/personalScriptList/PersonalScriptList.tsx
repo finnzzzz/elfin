@@ -60,7 +60,7 @@ const PersonalScriptList = () => {
 
   return (
     <>
-      <div className=' background-image-blue flex flex-wrap justify-start gap-9 rounded-md p-11'>
+      <div className=' background-image-blue flex flex-wrap justify-center gap-9 rounded-md p-4 sm:justify-start sm:p-11'>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Loading...</span>}
         {personalScripts?.map((item) => {
@@ -68,7 +68,7 @@ const PersonalScriptList = () => {
           const saveTime = new Date(saveTimeSeconds * 1000).toLocaleString();
           return (
             <div className='' key={item.id}>
-              <div className=' relative h-[210px] w-[290px]'>
+              <div className=' relative h-[180px] w-[250px] sm:h-[210px] sm:w-[290px]'>
                 <div className=' ml-auto h-[70px] w-[70%] rounded-[20px] border border-gray-300 bg-white '></div>
                 <span
                   className='  absolute right-4 top-2 cursor-pointer text-gray-400 hover:text-gray-700'
@@ -78,7 +78,7 @@ const PersonalScriptList = () => {
                 >
                   <IoIosClose size='20px' />
                 </span>
-                <div className=' scriptListShadow absolute bottom-0 h-[180px] w-[290px] rounded-[20px] border border-gray-300 bg-white p-4'>
+                <div className=' scriptListShadow absolute bottom-0 h-[150px] w-[250px] rounded-[20px] border border-gray-300 bg-white p-4 sm:h-[180px] sm:w-[290px]'>
                   <div className=' scriptList-block-bg  mb-4 h-[30px] w-[100px] rounded-[10px] '></div>
                   <div className=' flex h-[70%] flex-col justify-between'>
                     <div className=' flex flex-col'>
