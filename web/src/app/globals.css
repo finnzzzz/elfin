@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.background-image-blue {
+  background: #fff;
+  background: linear-gradient(
+    25deg,
+    rgb(208, 225, 255, 0.8) 0%,
+    rgba(214, 235, 255, 0.5) 10%,
+    rgba(148, 180, 255, 0.2) 55%,
+    rgba(218, 232, 255, 0.3) 70%,
+    rgba(192, 216, 255, 0.5) 100%
+  );
+}
+
+.title-browser-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(200, 227, 251, 0.7) 40%,
+    rgba(169, 216, 255, 0.9) 100%
+  );
+}
+
+.title-simple-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 245, 240, 0.7) 0%,
+    rgba(255, 242, 230, 1) 25%,
+    rgba(255, 194, 141, 1) 100%
+  );
+}
+
+.scriptList-block-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.8603816526610644) 0%,
+    rgba(154, 182, 255, 1) 100%
+  );
+}
+
+.templateScriptList-block-bg {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgb(255, 215, 177, 0) 0%, rgba(255, 178, 168, 1) 100%);
+}
+
+.toolboxItemShadow {
+  box-shadow: 4px 5px 5px -3px rgba(131, 131, 131, 0.5);
+}
+
+.scriptListShadow {
+  box-shadow: 1px 2px 5px 0px rgba(166, 166, 166, 0.4);
+}
+
+/* ---------------------------------------------------------------------reactflow */
+.node {
+  @apply mb-3 flex h-[20px] w-[150px] cursor-grab items-center justify-center rounded-xl border bg-white p-5;
+}
+
+.toggleOpacity {
+  @apply opacity-50;
+}
+
+.toolboxContainer {
+  @apply flex w-full flex-col gap-4 rounded-md bg-[#f1f7ff] p-1 sm:p-4;
+}
+
+.toolboxItem {
+  @apply toolboxItemShadow flex h-[50px]  cursor-grab items-center justify-center gap-3 rounded-lg border border-gray-400 bg-white text-mainBlue-400 md:h-[60px];
+}
+
+/* ---------------------------------------------------------------------scroll-bar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f0f0f0;
+  border-radius: 5px;
+}
+
+.animate-bounce-custom {
+  animation: bounce 1s infinite;
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateX(25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateX(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+}
