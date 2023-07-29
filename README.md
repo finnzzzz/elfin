@@ -30,8 +30,6 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 - Integrated Chrome extension API to inject transformed scripts into targeted browsers for seamless execution.
 - Complete email registration login and Google account login with Firebase Auth.
 - Utilized Zustand for global state management.
-## Built with
-
 
 ## Flow chart
 <h3 align='center'>
