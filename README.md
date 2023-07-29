@@ -17,7 +17,7 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 
 ## Flow chart
 <h3 align='center'>
-  <img width="800" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/4d0eb02a-b5aa-485a-91ef-b857d5165932">
+  <img width="800" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/032fb08e-b10d-4a94-887f-a85a1e180ae6">
 </h3>
 
 ## Demo
