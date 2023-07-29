@@ -39,10 +39,18 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 
 ## Demo
 <div align='center' >
+  
+*Add and edit a script*<br>
+![demo1](https://github.com/finnzzzz/elfin/assets/110927910/f4de48f6-9c54-44ca-a1dc-ff40eb92c70d) 
 
-![demo1](https://github.com/finnzzzz/elfin/assets/110927910/f4de48f6-9c54-44ca-a1dc-ff40eb92c70d)
+*Youtube search with extension variable*<br>
 ![demo2](https://github.com/finnzzzz/elfin/assets/110927910/8b6634b5-8688-46c0-9848-716adbb8dbd5)
+
+*Google search with specified content*<br>
 ![demo3](https://github.com/finnzzzz/elfin/assets/110927910/d8c57538-f5e9-4f74-bac1-fec230203454)
+
+*Auto-complete google form*<br>
+![demo4](https://github.com/finnzzzz/elfin/assets/110927910/2bbc3d96-9a6a-41b7-86a6-d51fd243a19b)
 
 
 </div>
