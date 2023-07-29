@@ -19,8 +19,6 @@
 
 </div>
 
-<img width="764" alt="image" src="">
-
 ## elfin
 elfin is a tool that makes `browser automation simple`, designed in an intuitively simple way that allows you to easily customize your own browser scripts, and execute the scripts in extension anytime and anywhere.
 
