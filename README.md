@@ -69,5 +69,5 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 
 ## Contact
 
-<a href="mailto:finndev0303@gmail.com">![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)</a>
-<a href="https://discordapp.com/users/361719252404928513">![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)</a>
+<a href="mailto:finndev0303@gmail.com" target='_blank'>![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)</a>
+<a href="https://discordapp.com/users/361719252404928513" target='_blank'>![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)</a>
