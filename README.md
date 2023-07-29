@@ -4,7 +4,7 @@
 <br>
 <div align='center' >
   
-  [<img height="24" alt="image" src="https://img.shields.io/badge/✨ Website-8729FF">](http://localhost/) [<img height="24" alt="image" src="https://img.shields.io/badge/⚙️ Chrome_extension-FF8F27">](http://localhost/)  
+  [<img height="24" alt="image" src="https://img.shields.io/badge/✨ Website-8729FF">](https://elfin.vercel.app/) [<img height="24" alt="image" src="https://img.shields.io/badge/⚙️ Chrome_extension-FF8F27">](https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf)  
   
 </div>
 <br>
@@ -51,7 +51,22 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 
 *Auto-complete google form*<br>
 ![demo4](https://github.com/finnzzzz/elfin/assets/110927910/2bbc3d96-9a6a-41b7-86a6-d51fd243a19b)
+</div>
+<br>
 
+<div align='center'>
+  
+  <img width="300" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/976ff10d-d211-43be-8306-12dec5da0c32">
 
 </div>
 
+## Future Features
+
+- [ ] Record the execution of the script, displayed as a log
+- [ ] Pin Script Function
+- [ ] Limit and optimise node connections
+- [ ] Add Select Element functionality to the extension
+
+## Contact
+![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
+![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
