@@ -4,7 +4,7 @@
 <br>
 <div align='center' >
   
-  [<img height="24" alt="image" src="https://img.shields.io/badge/✨ Website-8729FF">](https://elfin.vercel.app/) [<img height="24" alt="image" src="https://img.shields.io/badge/⚙️ Chrome_extension-FF8F27">](https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf)  
+  [<img height="26" alt="image" src="https://img.shields.io/badge/✨_Website-8729FF">](https://elfin.vercel.app/) [<img height="26" alt="image" src="https://img.shields.io/badge/⚙️_Chrome_extension-FF8F27">](https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf)  
   
 </div>
 <br>
