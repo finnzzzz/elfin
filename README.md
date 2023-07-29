@@ -14,6 +14,7 @@
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 <img height="28" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/6efe97d7-6e83-41a2-bb96-a2049e4cd0b3">
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
 <img height="28" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/0bcc3427-caeb-45d1-a7dc-e0bf7553f741">
 
@@ -57,7 +58,6 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 <div align='center'>
   
   <img width="300" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/976ff10d-d211-43be-8306-12dec5da0c32">
-
 </div>
 
 ## Future Features
