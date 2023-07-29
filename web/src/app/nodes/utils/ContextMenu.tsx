@@ -9,7 +9,7 @@ import useStore from '../../store';
 
 interface ContextMenuProps {
   id: string;
-  children: any;
+  children: React.ReactNode;
   color: string;
 }
 
@@ -24,14 +24,11 @@ const ContextMenu = ({ id, children, color }: ContextMenuProps) => {
   const disable = nodes?.filter((item) => item.id == id)[0]?.data?.disable;
 
   const handleDelete = () => {
-    console.log('delete');
-    console.log(id);
     deleteNodeById(id);
     deleteEdgeById(id);
   };
 
   const toggle = () => {
-    console.log('toggle');
     handleToggle(id);
   };
 
