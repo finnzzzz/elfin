@@ -68,8 +68,9 @@ const List = ({ setUserToken }: ListProps) => {
 
   const traverseNodes = (node: Node, nodes: Node[], edges: Edge[], executionOrder: Node[]) => {
     const nextNode = getOutgoers(node, nodes, edges);
-    if (nextNode.length === 1) {
+    if (nextNode.length === 1 && !nextNode[0].data.disable) {
       executionOrder.push(nextNode[0]);
+
       traverseNodes(nextNode[0], nodes, edges, executionOrder);
     } else {
       nextNode.map((_item, index) => {
@@ -119,10 +120,14 @@ const List = ({ setUserToken }: ListProps) => {
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
       const activeTabId = tabs[0].id as number;
-      chrome.tabs.sendMessage(activeTabId, {
-        command: 'firstRunCommands',
-        data: commandsArr,
-      });
+      chrome.tabs
+        .sendMessage(activeTabId, {
+          command: 'firstRunCommands',
+          data: commandsArr,
+        })
+        .catch(() => {
+          alert('Extension is not connected to the window, please reload the page.');
+        });
     });
   };
 

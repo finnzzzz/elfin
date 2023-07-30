@@ -7,8 +7,6 @@ import { MdAccountCircle } from 'react-icons/md';
 // import { IoSettingsOutline } from 'react-icons/io5';
 import { AiOutlineChrome } from 'react-icons/ai';
 
-// import { useState, useEffect } from 'react';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

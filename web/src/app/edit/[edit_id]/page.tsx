@@ -1,6 +1,6 @@
 'use client';
 // ---------------------------------------React
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 // ---------------------------------------firebase
 import { db } from '@/app/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -10,7 +10,7 @@ import EditPage from '../EditPage';
 // ---------------------------------------Zustand
 import useStore from '@/app/store';
 import user_useStore from '@/app/user_store';
-// ---------------------------------------
+// ---------------------------------------Next
 import { useRouter } from 'next/navigation';
 // ---------------------------------------types
 interface EditProps {
@@ -78,13 +78,14 @@ const Edit = ({ params }: EditProps) => {
     }
   };
 
-  const saveName = useCallback(
-    async (uid: string, id: string, e: React.FocusEvent<HTMLInputElement>) => {
-      const name = e.target.value;
-      await asyncUpdateWorkflow(uid, id, { name });
-    },
-    []
-  );
+  const saveName = async (uid: string, id: string, e: React.FocusEvent<HTMLInputElement>) => {
+    let name = e.target.value;
+    if (name === '') {
+      setScriptName('NaN');
+      name = 'NaN';
+    }
+    await asyncUpdateWorkflow(uid, id, { name });
+  };
 
   useEffect(() => {
     if (!isFetchingGlobalState) {
@@ -127,8 +128,8 @@ const Edit = ({ params }: EditProps) => {
         </div>
       </div>
       {loading && (
-        <div className=' absolute z-20 flex h-full w-full items-center justify-center bg-[#83838374]'>
-          <div className='text-3xl'>loading...</div>
+        <div className=' absolute z-20 flex h-full w-full items-center justify-center bg-[#838383a2]'>
+          <div className='text-3xl font-medium text-blue-600'>loading......</div>
         </div>
       )}
       <EditPage id={workflow?.id} />
