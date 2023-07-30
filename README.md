@@ -38,7 +38,7 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 </h3>
 
 ## 📋 How to use
-### First use of elfin 
+ 
 1. Login with your Google Account or create a new account if you don't have one.
 2. After signing in, you will see three templates in the upper part of the page.
 3. If you haven't installed the elfin extension, download it from the Chrome Web Store.
