@@ -28,6 +28,33 @@ type message = {
   data: NodeObj | Array<NodeData>;
 };
 
+type EventType =
+  | 'click'
+  | 'delay'
+  | 'inputText'
+  | 'inputSelect'
+  | 'inputRadio'
+  | 'inputCheckbox'
+  | 'newTab'
+  | 'getContent'
+  | 'enterSubmit';
+
+type EventHandlers = {
+  [key in EventType]: (obj: Array<NodeData>, index: number) => void;
+};
+
+const eventHandlers: EventHandlers = {
+  click: clickEvent,
+  delay: delayEvent,
+  inputText: enterEvent,
+  inputSelect: enterEvent,
+  inputRadio: enterEvent,
+  inputCheckbox: enterEvent,
+  newTab: newTabEvent,
+  getContent: getContentEvent,
+  enterSubmit: enterSubmitEvent,
+};
+
 chrome.runtime.onMessage.addListener(
   (
     msg: message,
@@ -66,44 +93,32 @@ function setNativeValue(
 }
 
 function getNextItem(obj: Array<NodeData>, index: number) {
-  if (typeof obj[index] !== 'undefined') {
-    if (obj[index].type == 'click') {
-      clickEvent(obj, index);
-      console.log('click, order of execution:', index);
-    }
+  const item = obj[index];
+  const eventType: EventType = item.type as EventType;
+  const eventHandler = eventHandlers[eventType];
 
-    if (obj[index].type == 'delay') {
-      delayEvent(obj, index);
-      console.log('delay, order of execution:', index);
-    }
-    if (
-      obj[index].type == 'inputText' ||
-      obj[index].type == 'inputSelect' ||
-      obj[index].type == 'inputRadio' ||
-      obj[index].type == 'inputCheckbox'
-    ) {
-      enterEvent(obj, index);
-      console.log('inputCustom, order of execution:', index);
-    }
-    if (obj[index].type == 'newTab') {
-      newTabEvent(obj, index);
-      console.log('newTab, order of execution:', index);
-    }
-    if (obj[index].type == 'getContent') {
-      getContentEvent(obj, index);
-      console.log('getContent, order of execution:', index);
-    }
-    if (obj[index].type == 'enterSubmit') {
-      enterSubmit(obj, index);
-      console.log('enterSubmit, order of execution:', index);
-    }
+  if (eventHandler) {
+    eventHandler(obj, index);
+    console.log(`${eventType}, order of execution:`, index);
   } else {
-    console.log('run complete');
+    console.log('complete script');
     chrome.runtime.sendMessage({
       command: 'run-complete',
     });
   }
 }
+
+function getNodeByXPath(XPath: string, type: string) {
+  try {
+    return document.evaluate(XPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+      .singleNodeValue as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+  } catch (error) {
+    alert(`${type}'s XPath is wrong format`);
+    return null;
+  }
+}
+
+// -----------------------------------------event function
 
 function delayEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
@@ -115,21 +130,17 @@ function delayEvent(obj: Array<NodeData>, index: number) {
 
 function clickEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
-  const XPath = document.evaluate(
-    `${item.data.XPath}`,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue as HTMLElement | null;
-  console.log(XPath, index);
-  if (XPath) {
-    //TODO A link logic
-    if (XPath instanceof HTMLAnchorElement) {
+  const XPath = item.data.XPath;
+  const type = item.type;
+  const element = getNodeByXPath(XPath, type);
+
+  if (element) {
+    if (element instanceof HTMLAnchorElement) {
       // event.preventDefault();
       // const href = XPath.href;
       // XPath.click();
-      window.open(XPath.href, '_blank');
+      //TODO A link logic
+      window.open(element.href, '_blank');
       chrome.runtime.sendMessage({
         command: 'newtab',
         data: 'Alink',
@@ -137,26 +148,23 @@ function clickEvent(obj: Array<NodeData>, index: number) {
       // getNextItem(obj, index + 1);
       return;
     } else {
-      XPath.click();
+      element.click();
       getNextItem(obj, index + 1);
       return;
     }
+  } else {
+    alert('no element');
   }
-  alert(`no ${item.data.XPath} element`);
 }
 
 function getContentEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
-  const XPath = document.evaluate(
-    `${item.data.XPath}`,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue as HTMLElement | null;
-  console.log(XPath, index);
-  if (XPath) {
-    const content = XPath.innerHTML;
+  const XPath = item.data.XPath;
+  const type = item.type;
+  const element = getNodeByXPath(XPath, type);
+
+  if (element) {
+    const content = element.innerHTML;
     alert(content);
   } else {
     alert('no element');
@@ -166,17 +174,12 @@ function getContentEvent(obj: Array<NodeData>, index: number) {
 
 function enterEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
-  console.log('item', item);
-  const XPath = document.evaluate(
-    `${item.data.XPath}`,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue as HTMLInputElement | HTMLSelectElement | null;
-  console.log(XPath, index);
-  if (XPath) {
-    setNativeValue(XPath, item.data.value);
+  const XPath = item.data.XPath;
+  const type = item.type;
+  const element = getNodeByXPath(XPath, type);
+
+  if (element) {
+    setNativeValue(element, item.data.value);
   } else {
     alert('no element');
   }
@@ -193,19 +196,14 @@ function newTabEvent(obj: Array<NodeData>, index: number) {
   });
 }
 
-function enterSubmit(obj: Array<NodeData>, index: number) {
+function enterSubmitEvent(obj: Array<NodeData>, index: number) {
   const item = obj[index];
-  console.log('item', item);
-  const XPath = document.evaluate(
-    `${item.data.XPath}`,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue as HTMLInputElement | HTMLSelectElement | null;
-  console.log(XPath, index);
-  if (XPath) {
-    XPath.form?.submit();
+  const XPath = item.data.XPath;
+  const type = item.type;
+  const element = getNodeByXPath(XPath, type);
+
+  if (element) {
+    element.form?.submit();
   } else {
     alert('no element');
   }
