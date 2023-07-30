@@ -24,19 +24,36 @@
 elfin is a tool that makes `browser automation simple`, designed in an intuitively simple way that allows you to easily customize your own browser scripts, and execute the scripts in extension anytime and anywhere.
 
 ## About elfin
-- Implemented the editing interface of the drag and drop node mode with React-flow.
-- Designed intuitive node interfaces and established data storage formats.
-- Leveraged Firestore for script data storage, enabling synchronization of content between the web application and extension, ensuring consistent displays across platforms.
-- Transformed scripts data formats into specified script execution sequences, determined node linking order through a recursive function.
-- Integrated Chrome extension API to inject transformed scripts into targeted browsers for seamless execution.
-- Complete email registration login and Google account login with Firebase Auth.
-- Utilized Zustand for global state management.
+- Implemented the editing interface of the drag and drop node mode with `React-flow`.
+- Designed intuitive `node interfaces` and established `data storage formats`.
+- Leveraged `Firestore` for script data storage, enabling `synchronization` of content between the `web application` and `extension`, ensuring consistent displays across platforms.
+- Integrated `Chrome extension API` to inject transformed scripts into targeted browsers for seamless execution.
+- Complete email registration login and Google account login with `Firebase Auth`.
+- Utilized `Zustand` for global state management.
 
 ## Flow chart
 <h3 align='center'>
   
   <img width="800" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/032fb08e-b10d-4a94-887f-a85a1e180ae6">
 </h3>
+
+## 📋 How to use
+### First use of elfin 
+1. Login with your Google Account or create a new account if you don't have one.
+2. After signing in, you will see three templates in the upper part of the page.
+3. If you haven't installed the Elfin extension, download it from the Chrome Web Store.
+4. Once the extension is installed, go back to the page of elfin, open the extension, and click on "connect", you will see three templates on the extension synchronously.
+5. Try to click the trigger of google search script in extension, it should start a google search automatically, if it doesn't respond, please reload the page once to connect the extension with window.
+6. If you want to change the content of the search, click on the google search script and change the content of the input text to the keyword you want to search, or you can use the extension variable and fill it in the extension directly.
+
+### Create your own script
+1. Click on "Add script" in the bottom half of the page.
+2. Click on script name to enter the editing page.
+3. Change the name of the script to what you want.
+4. Drag the nodes from the left side and connect them in the order you want.
+5. Fill in the nodes with XPath and the required content.
+6. Press the Save button in the upper right.
+7. Open the extension and trigger it!
 
 ## Demo
 <div align='center' >
