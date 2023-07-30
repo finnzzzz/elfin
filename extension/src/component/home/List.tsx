@@ -120,10 +120,14 @@ const List = ({ setUserToken }: ListProps) => {
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
       const activeTabId = tabs[0].id as number;
-      chrome.tabs.sendMessage(activeTabId, {
-        command: 'firstRunCommands',
-        data: commandsArr,
-      });
+      chrome.tabs
+        .sendMessage(activeTabId, {
+          command: 'firstRunCommands',
+          data: commandsArr,
+        })
+        .catch(() => {
+          alert('Extension is not connected to the window, please reload the page.');
+        });
     });
   };
 
