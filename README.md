@@ -59,6 +59,7 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
   
   <img width="300" alt="image" src="https://github.com/finnzzzz/elfin/assets/110927910/976ff10d-d211-43be-8306-12dec5da0c32">
 </div>
+<br>
 
 ## Troubleshooting👨🏻‍🔧
 1. If the extension does not respond when triggered, try `reload the page` to re-establish the connection between the extension and the window.
