@@ -18,7 +18,7 @@ const LandingPage = () => {
         <Login togglePop={togglePop} seen={seen} />
         <div className='flex h-full w-full  flex-col items-center p-9 lg:p-7'>
           <span className=' self-end text-lg sm:text-xl'>browser automation tool</span>
-          <div className=' mt-24 flex flex-col items-center gap-2 text-3xl font-bold sm:flex-row lg:text-5xl 2xl:mt-48'>
+          <div className=' mt-16 flex flex-col items-center gap-2 text-3xl font-bold sm:flex-row lg:text-5xl 2xl:mt-48'>
             <span>make</span>
             <span className=' title-browser-bg rounded-[10px] p-1  pl-3 pr-3 text-mainBlue-500 sm:p-2'>
               browser
@@ -28,12 +28,12 @@ const LandingPage = () => {
               simple
             </span>
           </div>
-          <div className=' mt-12 2xl:mt-20'>
+          <div className=' mt-10 2xl:mt-20'>
             <Image
               src={mainPic}
               width={1236}
               height={316}
-              quality={95}
+              quality={97}
               className=' w-[1050px]'
               alt='landing page picture'
             />
@@ -47,7 +47,7 @@ const LandingPage = () => {
               src={chromeIcon}
               width={41}
               height={40}
-              quality={85}
+              quality={87}
               className=' mr-2 w-[18px] sm:w-[30px]'
               alt='download for chrome'
             />
