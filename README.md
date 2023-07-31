@@ -25,7 +25,6 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 
 ## About elfin
 - Implemented the editing interface of the drag and drop node mode with `React-flow`.
-- Designed intuitive `node interfaces` and established `data storage formats`.
 - Leveraged `Firestore` for script data storage, enabling `synchronization` of content between the `web application` and `extension`, ensuring consistent displays across platforms.
 - Integrated `Chrome extension API` to inject transformed scripts into targeted browsers for seamless execution.
 - Complete email registration login and Google account login with `Firebase Auth`.
