@@ -40,8 +40,8 @@ elfin is a tool that makes `browser automation simple`, designed in an intuitive
 ## 📋 How to use
  
 1. Login with your Google Account or create a new account if you don't have one.
-2. After signing in, you will see three templates in the upper part of the page.
-3. If you haven't installed the elfin extension, download it from the Chrome Web Store.
+2. After login there will be three templates at the top of the page.
+3. If you haven't installed the elfin extension, download it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf).
 4. Once the extension is installed, go back to the page of elfin, open the extension, and click on "connect", you will see three templates on the extension synchronously.
 5. Try to click the trigger of google search script in extension, it should start a google search automatically, if it doesn't respond, please reload the page once to connect the extension with window.
 6. If you want to change the content of the search, click on the google search script and change the content of the input text to the keyword you want to search, or you can use the extension variable and fill it in the extension directly.
