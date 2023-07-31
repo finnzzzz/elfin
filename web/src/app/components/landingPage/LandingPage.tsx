@@ -14,7 +14,7 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className=' z-50 fixed left-0 top-0 h-full w-full bg-white'>
+      <div className=' fixed left-0 top-0 z-50 h-full w-full bg-white'>
         <Login togglePop={togglePop} seen={seen} />
         <div className='flex h-full w-full  flex-col items-center p-9 lg:p-7'>
           <span className=' self-end text-lg sm:text-xl'>browser automation tool</span>
@@ -33,24 +33,31 @@ const LandingPage = () => {
               src={mainPic}
               width={1236}
               height={316}
-              quality={90}
+              quality={95}
               className=' w-[1050px]'
               alt='landing page picture'
             />
           </div>
-          <button className=' 2xl:mt-30 mt-32 text-xl hover:underline' onClick={togglePop}>
+          <button className=' mt-28 text-xl hover:underline sm:mt-32' onClick={togglePop}>
             sign in to start
           </button>
-          <div className=' mr-5 mt-[100px] flex cursor-pointer items-center rounded-full border border-black p-2 text-base sm:mt-[5.5%] sm:self-end sm:p-3'>
+
+          <div className=' mr-5 mt-[15px] flex items-center rounded-full border border-black p-2 text-base sm:mt-[5.5%] sm:self-end sm:p-3'>
             <Image
               src={chromeIcon}
               width={41}
               height={40}
-              quality={90}
+              quality={85}
               className=' mr-2 w-[18px] sm:w-[30px]'
               alt='download for chrome'
             />
-            Download for Chrome
+            <a
+              className=' hover:underline'
+              href='https://chrome.google.com/webstore/detail/elfin-browser-automation/ojjgkgnnebfjcocfceidjnekcdamfjbf'
+              target='_blank'
+            >
+              Download for Chrome
+            </a>
           </div>
         </div>
       </div>
