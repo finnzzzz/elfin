@@ -24,3 +24,6 @@ dist
 *.sw?
 
 ._**
+
+# local env files
+.env*

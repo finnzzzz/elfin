@@ -4,7 +4,7 @@ import { collection, getFirestore } from 'firebase/firestore';
 export const WORKFLOW_COLLECTION_NAME = 'workflowtest';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBIUKY_6VUG5IqEEUaMmkQOWcAOCpGPWFg',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: 'project-1397079608692204932.firebaseapp.com',
   projectId: 'project-1397079608692204932',
   storageBucket: 'project-1397079608692204932.appspot.com',
