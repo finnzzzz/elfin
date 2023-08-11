@@ -2,14 +2,14 @@
 // ---------------------------------------React
 import { useEffect, useState } from 'react';
 // ---------------------------------------firebase
-import { db } from '@/app/lib/firebase';
+import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import asyncUpdateWorkflow from '../../api/workflowData/asyncUpdateWorkflow';
 // ---------------------------------------Components
-import EditPage from '../EditPage';
+import EditPage from '../../../components/editPage/EditPage';
 // ---------------------------------------Zustand
-import useStore from '@/app/store';
-import user_useStore from '@/app/user_store';
+import useStore from '@/store';
+import user_useStore from '@/user_store';
 // ---------------------------------------Next
 import { useRouter } from 'next/navigation';
 // ---------------------------------------types

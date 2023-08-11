@@ -1,5 +1,5 @@
 import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from '@/app/lib/firebase';
+import { db } from '@/lib/firebase';
 
 const asyncDeleteWorkflow = async (uid = '', id: string) => {
   const workflowDoc = doc(db, 'users', uid, 'scripts', id);
