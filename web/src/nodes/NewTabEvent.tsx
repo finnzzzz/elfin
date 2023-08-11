@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 import { Handle, Position } from 'reactflow';
-import useStore from '../store';
+import useStore from '@/store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 

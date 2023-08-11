@@ -4,7 +4,7 @@ import { Handle, Position } from 'reactflow';
 import { PiTimerBold } from 'react-icons/pi';
 import './utils/style/style.css';
 
-import useStore from '../store';
+import useStore from '@/store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 
@@ -34,11 +34,11 @@ const DelayEvent = ({ id, isConnectable, data }: DelayEventProps) => {
   const [stashTime, setStashTime] = useState(data.delayTime);
   const [stashDescription, setStashDescription] = useState(data.description);
 
-  const timeChange = (e:inputEvent) => {
+  const timeChange = (e: inputEvent) => {
     setStashTime(e.target.value);
   };
 
-  const descriptionChange = (e:inputEvent) => {
+  const descriptionChange = (e: inputEvent) => {
     setStashDescription(e.target.value);
   };
 

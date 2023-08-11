@@ -1,8 +1,8 @@
 'use client';
 import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/app/lib/firebase';
-import useStore from '@/app/user_store';
+import { auth } from '@/lib/firebase';
+import useStore from '@/user_store';
 
 const AuthProvider = () => {
   const [user, loading, _error] = useAuthState(auth);

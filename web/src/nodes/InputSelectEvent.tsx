@@ -3,7 +3,7 @@ import { Handle, Position } from 'reactflow';
 
 import { IoList } from 'react-icons/io5';
 
-import useStore from '../store';
+import useStore from '@/store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 

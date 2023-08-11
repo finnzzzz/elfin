@@ -1,5 +1,5 @@
 import { addDoc, serverTimestamp } from 'firebase/firestore';
-import { workflowCollectionDocRef } from '@/app/lib/firebase';
+import { workflowCollectionDocRef } from '@/lib/firebase';
 
 const asyncAddWorkflow = async ({ flow }: { flow: Flow }) => {
   const docRef = await addDoc(workflowCollectionDocRef, {

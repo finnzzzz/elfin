@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
-import { MdOutlineRadioButtonChecked } from 'react-icons/md';
+import { IoMdCheckboxOutline } from 'react-icons/io';
 
-import useStore from '../store';
+import useStore from '@/store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
 
@@ -29,7 +29,7 @@ interface ClickEventProps {
   data: inputObj;
 }
 
-function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
+function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
   const { setXPath, setDescription } = useStore(selector(id), shallow);
 
   const [stashXpath, setStashXpath] = useState(data.XPath);
@@ -44,9 +44,9 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
   };
 
   return (
-    <ContextMenu id={id} color={'text-customDarkYellow-400'}>
+    <ContextMenu id={id} color={'text-customPink-400'}>
       <div
-        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customDarkYellow-400 bg-white ${
+        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customPink-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
         } `}
       >
@@ -54,15 +54,15 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
           type='target'
           position={Position.Left}
           isConnectable={isConnectable}
-          className=' react-flow__handle-target after:border after:border-customDarkYellow-400'
+          className=' react-flow__handle-target after:border after:border-customPink-400'
           style={{ left: '-8px', top: '81px' }}
         />
-        <div className=' flex h-[33%] items-center justify-center border border-b-customDarkYellow-400 bg-customDarkYellow-50'>
+        <div className=' flex h-[33%] items-center justify-center border border-b-customPink-400 bg-customPink-50'>
           <div className=' flex items-center gap-2'>
-            <span className=' text-customDarkYellow-400'>
-              <MdOutlineRadioButtonChecked size='24px' />
+            <span className=' text-customPink-400'>
+              <IoMdCheckboxOutline size='24px' />
             </span>
-            <div className=' text-2xl font-medium text-customDarkYellow-400'>{data.label}</div>
+            <div className=' text-2xl font-medium text-customPink-400'>{data.label}</div>
           </div>
         </div>
         <div className=' flex flex-col pl-5 pr-5'>
@@ -73,10 +73,10 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
             value={stashDescription}
             onBlur={setDescription}
             maxLength={21}
-            placeholder='radio for.....'
+            placeholder='checkbox for.....'
             className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:italic focus:underline '
           />
-          <label htmlFor='text' className=' mb-1 text-customDarkYellow-500'>
+          <label htmlFor='text' className=' mb-1 text-customPink-500'>
             XPath：
           </label>
           <input
@@ -85,7 +85,7 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
             value={stashXpath}
             onChange={xpathChange}
             onBlur={setXPath}
-            className='nodrag rounded-md border border-customDarkYellow-500 p-1 outline-none'
+            className='nodrag rounded-md border border-customPink-500 p-1 outline-none'
             placeholder='xpath.....'
           />
         </div>
@@ -94,7 +94,7 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
           position={Position.Right}
           id='click'
           isConnectable={isConnectable}
-          className=' react-flow__handle-source after:border after:border-customDarkYellow-400'
+          className=' react-flow__handle-source after:border after:border-customPink-400'
           style={{ right: '-8px', top: '140px' }}
         />
       </div>
@@ -102,4 +102,4 @@ function InputRadioEvent({ id, isConnectable, data }: ClickEventProps) {
   );
 }
 
-export default InputRadioEvent;
+export default InputCheckboxEvent;
