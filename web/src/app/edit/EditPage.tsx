@@ -161,7 +161,7 @@ const EditPage = ({ id }: EditPageProps) => {
     setEdges([]);
   };
 
-  //TEST_CODE_FOR_DEV
+  //-------------------------TEST_CODE_FOR_EXTENSION_DEVELOPMENT
   // const nodeClick = (some, node) => {
   //   console.log('node', node);
   //   let childnode = getOutgoers(node, store.nodes, store.edges);
@@ -200,6 +200,7 @@ const EditPage = ({ id }: EditPageProps) => {
   // const onConnectEnd: OnConnectEnd = useCallback(() => {
   //   setConnectionInProgress(false);
   // }, [setConnectionInProgress]);
+  
 
   return (
     <div className='flex h-flowContainer bg-gray-100 sm:h-smflowContainer md:h-mdflowContainer'>
