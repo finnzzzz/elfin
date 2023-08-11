@@ -1,7 +1,7 @@
 {
   "name": "elfin - browser automation tool",
   "description": "Elfin is a tool that makes browser automation simple. It allows you to easily customize your own browser scripts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 3,
   "icons": {
     "16": "icon16.png",

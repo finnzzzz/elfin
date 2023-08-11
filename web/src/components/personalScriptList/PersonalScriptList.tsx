@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useCallback, useState, useEffect } from 'react';
-import { db } from '@/app/lib/firebase';
+import { db } from '@/lib/firebase';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
@@ -9,7 +9,7 @@ import { IoIosClose } from 'react-icons/io';
 import asyncDeleteWorkflow from '@/app/api/workflowData/asyncDeleteWorkflow';
 import asyncUpdateWorkflow from '@/app/api/workflowData/asyncUpdateWorkflow';
 
-import useUserStore from '@/app/user_store';
+import useUserStore from '@/user_store';
 
 const PersonalScriptList = () => {
   const userInfo = useUserStore((state) => state.userInfo);

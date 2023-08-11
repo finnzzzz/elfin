@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
-
-import { IoMdCheckboxOutline } from 'react-icons/io';
-
-import useStore from '../store';
+import useStore from '@/store';
 import { shallow } from 'zustand/shallow';
 import ContextMenu from './utils/ContextMenu';
+
+import { TbTextRecognition } from 'react-icons/tb';
 
 type inputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -14,39 +13,37 @@ const selector = (id: string) => (store: Store) => ({
   setDescription: (e: inputEvent) => store.updateNode(id, { description: e.target.value }),
 });
 
-type inputObj = {
-  label: 'Input';
+type getContentObj = {
+  label: 'GetContent';
   disable: boolean;
-  value: boolean;
   XPath: string;
   description: string;
-  inputType: string;
 };
 
-interface ClickEventProps {
+interface DelayEventProps {
   id: string;
   isConnectable: boolean;
-  data: inputObj;
+  data: getContentObj;
 }
 
-function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
+const GetContentEvent = ({ id, isConnectable, data }: DelayEventProps) => {
   const { setXPath, setDescription } = useStore(selector(id), shallow);
 
   const [stashXpath, setStashXpath] = useState(data.XPath);
   const [stashDescription, setStashDescription] = useState(data.description);
 
-  const xpathChange = (e:inputEvent) => {
+  const xpathChange = (e: inputEvent) => {
     setStashXpath(e.target.value);
   };
 
-  const descriptionChange = (e:inputEvent) => {
+  const descriptionChange = (e: inputEvent) => {
     setStashDescription(e.target.value);
   };
 
   return (
-    <ContextMenu id={id} color={'text-customPink-400'}>
+    <ContextMenu id={id} color={'text-customDarkGreen-400'}>
       <div
-        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customPink-400 bg-white ${
+        className={`overflow-hidde h-[174px] w-[228px] overflow-hidden rounded-nodebase border border-customDarkGreen-400 bg-white ${
           data.disable ? 'toggleOpacity' : ''
         } `}
       >
@@ -54,15 +51,15 @@ function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
           type='target'
           position={Position.Left}
           isConnectable={isConnectable}
-          className=' react-flow__handle-target after:border after:border-customPink-400'
+          className=' react-flow__handle-target after:border after:border-customDarkGreen-400'
           style={{ left: '-8px', top: '81px' }}
         />
-        <div className=' flex h-[33%] items-center justify-center border border-b-customPink-400 bg-customPink-50'>
+        <div className=' flex h-[33%] items-center justify-center border border-b-customDarkGreen-400 bg-customDarkGreen-50'>
           <div className=' flex items-center gap-2'>
-            <span className=' text-customPink-400'>
-              <IoMdCheckboxOutline size='24px' />
+            <span className=' text-customDarkGreen-400'>
+              <TbTextRecognition size='24px' />
             </span>
-            <div className=' text-2xl font-medium text-customPink-400'>{data.label}</div>
+            <div className=' text-2xl font-medium text-customDarkGreen-400'>{data.label}</div>
           </div>
         </div>
         <div className=' flex flex-col pl-5 pr-5'>
@@ -73,11 +70,11 @@ function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
             value={stashDescription}
             onBlur={setDescription}
             maxLength={21}
-            placeholder='checkbox for.....'
-            className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:italic focus:underline '
+            placeholder='getContent for.....'
+            className='nodrag mt-3 rounded-sm text-center text-gray-400 outline-none focus:underline'
           />
-          <label htmlFor='text' className=' mb-1 text-customPink-500'>
-            XPath：
+          <label htmlFor='text' className=' mb-1 text-customDarkGreen-500'>
+            URL：
           </label>
           <input
             id='text'
@@ -85,7 +82,7 @@ function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
             value={stashXpath}
             onChange={xpathChange}
             onBlur={setXPath}
-            className='nodrag rounded-md border border-customPink-500 p-1 outline-none'
+            className='nodrag rounded-md border border-customDarkGreen-500 p-1 outline-none'
             placeholder='xpath.....'
           />
         </div>
@@ -94,12 +91,12 @@ function InputCheckboxEvent({ id, isConnectable, data }: ClickEventProps) {
           position={Position.Right}
           id='click'
           isConnectable={isConnectable}
-          className=' react-flow__handle-source after:border after:border-customPink-400'
+          className=' react-flow__handle-source after:border after:border-customDarkGreen-400'
           style={{ right: '-8px', top: '140px' }}
         />
       </div>
     </ContextMenu>
   );
-}
+};
 
-export default InputCheckboxEvent;
+export default GetContentEvent;

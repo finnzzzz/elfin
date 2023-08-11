@@ -1,5 +1,5 @@
 import React from 'react';
-import nodeDatas from './nodeDatas';
+import nodeDatas from '../../lib/nodeDatas';
 
 import { PiHandTap } from 'react-icons/pi';
 import { PiHandSwipeRight } from 'react-icons/pi';

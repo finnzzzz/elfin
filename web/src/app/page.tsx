@@ -6,11 +6,11 @@ import asyncSetWorkflow from './api/workflowData/asyncSetWorkflow';
 
 import { HiPlus } from 'react-icons/hi';
 
-import user_useStore from '@/app/user_store';
+import user_useStore from '@/user_store';
 import { shallow } from 'zustand/shallow';
-import PersonalScriptList from './components/personalScriptList/PersonalScriptList';
-import LandingPage from './components/landingPage/LandingPage';
-import TemplateScripts from './components/templateScripts/TemplateScripts';
+import PersonalScriptList from '@/components/personalScriptList/PersonalScriptList';
+import LandingPage from '@/components/landingPage/LandingPage';
+import TemplateScripts from '@/components/templateScripts/TemplateScripts';
 
 export default function Home() {
   const userInfo = user_useStore((state) => state.userInfo, shallow);

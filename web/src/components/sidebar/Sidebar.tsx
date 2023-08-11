@@ -10,9 +10,9 @@ import { AiOutlineChrome } from 'react-icons/ai';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import useStore from '@/app/user_store';
+import useStore from '@/user_store';
 
-import { auth } from '@/app/lib/firebase';
+import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 
 import { shallow } from 'zustand/shallow';

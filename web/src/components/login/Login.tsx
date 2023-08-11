@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import { db } from '@/app/lib/firebase';
+import { db, auth, authProvider } from '@/lib/firebase';
 import { setDoc, getDocs, doc, collection } from 'firebase/firestore';
 
 import elfinIcon from './icon128.png';
@@ -10,10 +10,9 @@ import Image from 'next/image';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-import useStore from '@/app/user_store';
+import useStore from '@/user_store';
 
 import asyncSetUser from '@/app/api/user/asyncSetUser';
-import { auth, authProvider } from '@/app/lib/firebase';
 import { signInWithPopup, UserCredential } from 'firebase/auth';
 
 import {
@@ -134,11 +133,7 @@ const Login = ({ togglePop, seen }: LoginProps) => {
             className=' mb-6'
           />
           <div className=' mb-3'>
-            <span
-              className=' text-[28px] font-semibold leading-[28px]'
-            >
-              Get Started
-            </span>
+            <span className=' text-[28px] font-semibold leading-[28px]'>Get Started</span>
           </div>
           <div className=' flex flex-col gap-1'>
             {isSignUp && (

@@ -1,9 +1,10 @@
+//TEST: verify the functionality of API routes.
+
 // import { NextResponse } from 'next/server';
 // import { collection, getDocs } from 'firebase/firestore';
 // import { db } from '@/app/lib/firebase';
 
 // interface DocumentData {
-
 // }
 // export async function GET() {
 //   const allData = [];

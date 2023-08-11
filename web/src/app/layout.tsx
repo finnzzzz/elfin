@@ -1,8 +1,8 @@
 import React from 'react';
 import './globals.css';
 import { Nunito_Sans } from 'next/font/google';
-import Sidebar from './components/sidebar/Sidebar';
-import AuthProvider from './components/auth/AuthProvider';
+import Sidebar from '@/components/sidebar/Sidebar';
+import AuthProvider from '@/components/auth/AuthProvider';
 
 const font = Nunito_Sans({ subsets: ['latin'] });
 

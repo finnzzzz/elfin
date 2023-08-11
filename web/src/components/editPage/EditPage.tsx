@@ -18,24 +18,24 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 // ---------------------------------------Zustand
-import useStore from '../store';
-import user_useStore from '../user_store';
+import useStore from '@/store';
+import user_useStore from '@/user_store';
 // ---------------------------------------Components
 import Toolbox from './Toolbox';
 // ---------------------------------------NodesInterface
-import ClickEvent from '../nodes/ClickEvent';
-import DelayEvent from '../nodes/DelayEvent';
-import TriggerEvent from '../nodes/TriggerEvent';
-import NewTabEvent from '../nodes/NewTabEvent';
-import GetContentEvent from '../nodes/GetContentEvent';
-import InputTextEvent from '../nodes/InputTextEvent';
-import InputSelectEvent from '../nodes/InputSelectEvent';
-import InputRadioEvent from '../nodes/InputRadioEvent';
-import InputCheckboxEvent from '../nodes/InputCheckboxEvent';
-import EnterSubmitEvent from '../nodes/EnterSubmitEvent';
+import ClickEvent from '@/nodes/ClickEvent';
+import DelayEvent from '@/nodes/DelayEvent';
+import TriggerEvent from '@/nodes/TriggerEvent';
+import NewTabEvent from '@/nodes/NewTabEvent';
+import GetContentEvent from '@/nodes/GetContentEvent';
+import InputTextEvent from '@/nodes/InputTextEvent';
+import InputSelectEvent from '@/nodes/InputSelectEvent';
+import InputRadioEvent from '@/nodes/InputRadioEvent';
+import InputCheckboxEvent from '@/nodes/InputCheckboxEvent';
+import EnterSubmitEvent from '@/nodes/EnterSubmitEvent';
 // ---------------------------------------FirebaseFunction
-import asyncUpdateWorkflow from '../api/workflowData/asyncUpdateWorkflow';
-import { db } from '@/app/lib/firebase';
+import asyncUpdateWorkflow from '../../app/api/workflowData/asyncUpdateWorkflow';
+import { db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 // ----------------------------------------------------------
 
@@ -161,7 +161,7 @@ const EditPage = ({ id }: EditPageProps) => {
     setEdges([]);
   };
 
-  //TEST_CODE_FOR_DEV
+  //-------------------------TEST_CODE_FOR_EXTENSION_DEVELOPMENT
   // const nodeClick = (some, node) => {
   //   console.log('node', node);
   //   let childnode = getOutgoers(node, store.nodes, store.edges);

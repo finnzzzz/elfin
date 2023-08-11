@@ -5,7 +5,7 @@ import { LiaToggleOffSolid } from 'react-icons/lia';
 import { LiaToggleOnSolid } from 'react-icons/lia';
 
 import { Position, NodeToolbar } from 'reactflow';
-import useStore from '../../store';
+import useStore from '@/store';
 
 interface ContextMenuProps {
   id: string;

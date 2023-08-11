@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { db } from '@/app/lib/firebase';
+import { db } from '@/lib/firebase';
 import { collection, orderBy, query } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 // import { IoIosClose } from 'react-icons/io';
 // import asyncDeleteWorkflow from '@/app/api/workflowData/asyncDeleteWorkflow';
 
-import useStore from '@/app/user_store';
+import useStore from '@/user_store';
 
 const TemplateScripts = () => {
   const userInfo = useStore((state) => state.userInfo);
@@ -17,6 +17,7 @@ const TemplateScripts = () => {
   const q = query(userRef, orderBy('saveTime', 'desc'));
   const [workflowSnapShots, loading, error] = useCollection(q);
 
+  // Disable delete functionality of template scripts
   // const deleteScript = (
   //   uid: string,
   //   id: string,

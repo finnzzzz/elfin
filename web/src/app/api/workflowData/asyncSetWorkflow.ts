@@ -1,5 +1,5 @@
 import { setDoc, addDoc, doc, serverTimestamp, collection } from 'firebase/firestore';
-import { db } from '@/app/lib/firebase';
+import { db } from '@/lib/firebase';
 
 const asyncSetWorkflow = async (uid: string) => {
   const workflowDoc = collection(db, 'users', uid, 'scripts');
