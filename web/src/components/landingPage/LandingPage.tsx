@@ -33,7 +33,7 @@ const LandingPage = () => {
               src={mainPic}
               width={1236}
               height={316}
-              quality={97}
+              quality={90}
               className=' w-[1050px]'
               alt='landing page picture'
             />
@@ -42,12 +42,12 @@ const LandingPage = () => {
             sign in to start
           </button>
 
-          <div className=' mr-5 mt-[15px] flex items-center rounded-full border border-black p-2 text-base sm:mt-[5.5%] sm:self-end sm:p-3'>
+          <div className=' mr-5 mt-[15px] flex items-center rounded-full border border-black p-2 text-base sm:mt-[4%] sm:self-end sm:p-3'>
             <Image
               src={chromeIcon}
               width={41}
               height={40}
-              quality={87}
+              quality={80}
               className=' mr-2 w-[18px] sm:w-[30px]'
               alt='download for chrome'
             />
